@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import store from './store/store';
+import store from './store';
 // import { verifyAuthentication } from './store/auth/auth';
 // import { verifyAdminAuthentication } from './store/auth/admin_auth';
 // import GuardRoute from './views/routes/GuardRoute';
@@ -19,8 +19,7 @@ import { connect } from 'react-redux';
 // import AdminManageBoard from './views/pages/Admin/AdminManage';
 // import AdminLanding from './views/pages/AdminLanding/Landing';
 // import AdminGuardRoute from './views/routes/AdminGuardRoute';
-import Button from 'components/Button';
-import 'index.css';
+import './index.css';
 const App = (props) => {
   // const mount = async () => {
   //   await store.dispatch(
@@ -49,7 +48,6 @@ const App = (props) => {
 
   return (
     <Router basename="/">
-      <Button />
       <Switch>
         {/* <Route exact path={paths.BASE} component={Landing} />
         <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />

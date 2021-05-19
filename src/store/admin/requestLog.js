@@ -1,6 +1,6 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import endpoints from "../../configs/endpoints";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import endpoints from '../../configs/endpoints';
 
 const initialState = {
   isLoading: false,
@@ -8,20 +8,20 @@ const initialState = {
   err: null,
   requestLogList: [
     {
-      type: "",
-      at: "",
-      method: "",
-      req: "",
-      source_ip: "",
-      from: "",
-    },
+      type: '',
+      at: '',
+      method: '',
+      req: '',
+      source_ip: '',
+      from: ''
+    }
   ],
   reqCount: 0,
-  message: "",
+  message: ''
 };
 
 export const getAuthLog = createAsyncThunk(
-  "adminManage/getAuthLog",
+  'adminManage/getAuthLog',
   async (data, api) => {
     try {
       api.dispatch(requestLogManageSlice.actions.loading());
@@ -30,8 +30,8 @@ export const getAuthLog = createAsyncThunk(
           `?limit=${data.limit}&offset=${data.offset}&from=${data.fromDate}&to=${data.toDate}&uid=${data.uid}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       let generalizedData = [];
@@ -42,7 +42,7 @@ export const getAuthLog = createAsyncThunk(
           method: element.method,
           req: element.req,
           source_ip: element.source_ip,
-          from: element.user_id,
+          from: element.user_id
         });
       });
 
@@ -54,18 +54,18 @@ export const getAuthLog = createAsyncThunk(
 );
 
 export const getAccessKeyLog = createAsyncThunk(
-  "adminManage/getAccessKeyLog",
+  'adminManage/getAccessKeyLog',
   async (data, api) => {
     try {
       api.dispatch(requestLogManageSlice.actions.loading());
-      console.log(data.key)
+      console.log(data.key);
       const response = await axios.get(
         endpoints.GET_ACCESS_KEY_REQ_LOG +
           `?limit=${data.limit}&offset=${data.offset}&from=${data.fromDate}&to=${data.toDate}&key=${data.key}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       let generalizedData = [];
@@ -76,7 +76,7 @@ export const getAccessKeyLog = createAsyncThunk(
           method: element.method,
           req: element.req,
           source_ip: element.source_ip,
-          from: element.key,
+          from: element.key
         });
       });
 
@@ -88,17 +88,17 @@ export const getAccessKeyLog = createAsyncThunk(
 );
 
 export const getSignedKeyLog = createAsyncThunk(
-  "adminManage/getSignedKeyLog",
+  'adminManage/getSignedKeyLog',
   async (data, api) => {
     try {
-      api.dispatch(requestLogManageSlice.actions.loading()); 
+      api.dispatch(requestLogManageSlice.actions.loading());
       const response = await axios.get(
         endpoints.GET_SIGNED_KEY_REQ_LOG +
           `?limit=${data.limit}&offset=${data.offset}&from=${data.fromDate}&to=${data.toDate}&public=${data.public}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
 
@@ -110,7 +110,7 @@ export const getSignedKeyLog = createAsyncThunk(
           method: element.method,
           req: element.req,
           source_ip: element.source_ip,
-          from: element.public,
+          from: element.public
         });
       });
 
@@ -122,17 +122,17 @@ export const getSignedKeyLog = createAsyncThunk(
 );
 
 export const getAccessKeyReqCountAdmin = createAsyncThunk(
-  "adminManage/getAccessKeyReqCount",
+  'adminManage/getAccessKeyReqCount',
   async (data, api) => {
     try {
-      api.dispatch(requestLogManageSlice.actions.loading()); 
+      api.dispatch(requestLogManageSlice.actions.loading());
       const response = await axios.get(
         endpoints.COUNT_ALL_ACCESS_KEY_REQ +
           `?limit=${data.limit}&offset=${data.offset}&from=${data.fromDate}&to=${data.toDate}&public=${data.key}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
 
@@ -144,17 +144,17 @@ export const getAccessKeyReqCountAdmin = createAsyncThunk(
 );
 
 export const getSignedKeyReqCountAdmin = createAsyncThunk(
-  "adminManage/getSignedKeyReqCount",
+  'adminManage/getSignedKeyReqCount',
   async (data, api) => {
     try {
-      api.dispatch(requestLogManageSlice.actions.loading()); 
+      api.dispatch(requestLogManageSlice.actions.loading());
       const response = await axios.get(
         endpoints.COUNT_ALL_SIGNED_KEY_REQ +
           `?limit=${data.limit}&offset=${data.offset}&from=${data.fromDate}&to=${data.toDate}&public=${data.public}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
 
@@ -166,7 +166,7 @@ export const getSignedKeyReqCountAdmin = createAsyncThunk(
 );
 
 export const resetLog = createAsyncThunk(
-  "adminManage/resetLog",
+  'adminManage/resetLog',
   async (data, api) => {
     try {
       api.dispatch(requestLogManageSlice.actions.loading());
@@ -180,12 +180,12 @@ export const resetLog = createAsyncThunk(
 );
 
 export const requestLogManageSlice = createSlice({
-  name: "logRequest",
+  name: 'logRequest',
   initialState: initialState,
   reducers: {
     loading: (state, action) => {
       state = { ...state, isLoading: action.payload };
-    },
+    }
   },
   extraReducers: {
     [getAuthLog.fulfilled]: (state, action) => {
@@ -228,7 +228,7 @@ export const requestLogManageSlice = createSlice({
       state.isLoading = false;
       state.err = action.payload;
     },
-    
+
     [resetLog.fulfilled]: (state, action) => {
       state.requestLogList = action.payload;
       state = { ...state, isLoading: false };
@@ -238,6 +238,6 @@ export const requestLogManageSlice = createSlice({
     [resetLog.rejected]: (state, action) => {
       state.isLoading = false;
       state.err = action.payload;
-    },
-  },
+    }
+  }
 });

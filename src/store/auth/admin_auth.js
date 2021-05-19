@@ -1,7 +1,7 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import endpoints from "../../configs/endpoints";
-import localStorageKeys from "../../configs/localStorageKeys";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import endpoints from '../../configs/endpoints';
+import localStorageKeys from '../../configs/localStorageKeys';
 
 const initialState = {
   isValidating: false,
@@ -9,11 +9,11 @@ const initialState = {
   adminToken: localStorage.getItem(localStorageKeys.TOKEN_ADMIN) || null,
   rfToken: null,
   isLoggingIn: false,
-  err: null,
+  err: null
 };
 
 export const adminLogin = createAsyncThunk(
-  "adminAuthen/adminLogin",
+  'adminAuthen/adminLogin',
   async (data, api) => {
     // if (data) return data;
     // else return api.rejectWithValue(data);
@@ -21,7 +21,7 @@ export const adminLogin = createAsyncThunk(
       api.dispatch(adminAuthenSlice.actions.loggingIn());
       const response = await axios.post(endpoints.LOGIN_ADMIN, {
         username: data.username,
-        password: data.password,
+        password: data.password
       });
       return response.data;
     } catch (err) {
@@ -31,7 +31,7 @@ export const adminLogin = createAsyncThunk(
 );
 
 export const verifyAdminAuthentication = createAsyncThunk(
-  "adminAuthen/verifyAdminAuthentication",
+  'adminAuthen/verifyAdminAuthentication',
   async (data, api) => {
     try {
       api.dispatch(adminAuthenSlice.actions.validating());
@@ -47,7 +47,7 @@ export const verifyAdminAuthentication = createAsyncThunk(
 );
 
 export const clearAuthentication = createAsyncThunk(
-  "adminAuthen/clearAuthentication",
+  'adminAuthen/clearAuthentication',
   async (data, api) => {
     try {
       const response = {};
@@ -64,7 +64,7 @@ export const clearAuthentication = createAsyncThunk(
 );
 
 export const adminAuthenSlice = createSlice({
-  name: "adminAuthen",
+  name: 'adminAuthen',
   initialState: initialState,
   reducers: {
     validating: (state, action) => {
@@ -80,7 +80,7 @@ export const adminAuthenSlice = createSlice({
       state.rfToken = null;
       state.isLoggingIn = false;
       state.err = null;
-    },
+    }
   },
   extraReducers: {
     [adminLogin.fulfilled]: (state, action) => {
@@ -128,6 +128,6 @@ export const adminAuthenSlice = createSlice({
       state.adminToken = null;
       state.rfToken = null;
       state.err = action.payload;
-    },
-  },
+    }
+  }
 });

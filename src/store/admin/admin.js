@@ -1,17 +1,17 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import endpoints from "../../configs/endpoints";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import endpoints from '../../configs/endpoints';
 
 const initialState = {
   isLoading: false,
   done: false,
   err: null,
   adminList: [],
-  message: "",
+  message: ''
 };
 
 export const getAdminList = createAsyncThunk(
-  "adminManage/getAdminList",
+  'adminManage/getAdminList',
   async (data, api) => {
     try {
       api.dispatch(adminManageSlice.actions.loading());
@@ -19,8 +19,8 @@ export const getAdminList = createAsyncThunk(
         endpoints.GET_ALL_ADMIN + `?limit=${data.limit}&offset=${data.offset}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
 
@@ -32,7 +32,7 @@ export const getAdminList = createAsyncThunk(
 );
 
 export const addMod = createAsyncThunk(
-  "adminManage/addMod",
+  'adminManage/addMod',
   async (data, api) => {
     try {
       api.dispatch(adminManageSlice.actions.loading(true));
@@ -40,12 +40,12 @@ export const addMod = createAsyncThunk(
         endpoints.ADD_MOD,
         {
           username: data.username,
-          password: data.password,
+          password: data.password
         },
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -56,7 +56,7 @@ export const addMod = createAsyncThunk(
 );
 
 export const disableMod = createAsyncThunk(
-  "adminManage/disableMod",
+  'adminManage/disableMod',
   async (data, api) => {
     try {
       api.dispatch(adminManageSlice.actions.loading(true));
@@ -64,12 +64,12 @@ export const disableMod = createAsyncThunk(
         endpoints.BAN_MOD,
         {
           username: data.username,
-          disable: true,
+          disable: true
         },
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -80,12 +80,12 @@ export const disableMod = createAsyncThunk(
 );
 
 export const adminManageSlice = createSlice({
-  name: "adminManage",
+  name: 'adminManage',
   initialState: initialState,
   reducers: {
     loading: (state, action) => {
       state = { ...state, isLoading: action.payload };
-    },
+    }
   },
   extraReducers: {
     [getAdminList.fulfilled]: (state, action) => {
@@ -114,6 +114,6 @@ export const adminManageSlice = createSlice({
     [disableMod.rejected]: (state, action) => {
       state.isLoading = false;
       state.err = action.payload;
-    },
-  },
+    }
+  }
 });

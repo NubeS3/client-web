@@ -1,21 +1,21 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import endpoints from "../../configs/endpoints";
-import { adminManageSlice } from "./admin";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import endpoints from '../../configs/endpoints';
+import { adminManageSlice } from './admin';
 
 const initialState = {
   isLoading: false,
   done: false,
   err: null,
   userList: [],
-  message: "",
+  message: '',
   userBucketList: [],
   accessKeyList: [],
-  signedKeyList: [],
+  signedKeyList: []
 };
 
 export const getUserList = createAsyncThunk(
-  "adminManage/getUserList",
+  'adminManage/getUserList',
   async (data, api) => {
     try {
       api.dispatch(userManageSlice.actions.loading());
@@ -23,8 +23,8 @@ export const getUserList = createAsyncThunk(
         endpoints.GET_ALL_USER + `?limit=${data.limit}&offset=${data.offset}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
 
@@ -36,7 +36,7 @@ export const getUserList = createAsyncThunk(
 );
 
 export const disableUser = createAsyncThunk(
-  "adminManage/disableMod",
+  'adminManage/disableMod',
   async (data, api) => {
     try {
       api.dispatch(adminManageSlice.actions.loading(true));
@@ -44,12 +44,12 @@ export const disableUser = createAsyncThunk(
         endpoints.BAN_USER,
         {
           username: data.username,
-          is_ban: true,
+          is_ban: true
         },
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -60,7 +60,7 @@ export const disableUser = createAsyncThunk(
 );
 
 export const adminGetUserBucketList = createAsyncThunk(
-  "adminManage/adminGetUserBucketList",
+  'adminManage/adminGetUserBucketList',
   async (data, api) => {
     try {
       api.dispatch(userManageSlice.actions.loading());
@@ -68,8 +68,8 @@ export const adminGetUserBucketList = createAsyncThunk(
         endpoints.ADMIN_GET_USER_BUCKET + `/${data.uid}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       // const response = await [
@@ -96,7 +96,7 @@ export const adminGetUserBucketList = createAsyncThunk(
 );
 
 export const adminGetBucketAccessKey = createAsyncThunk(
-  "adminManage/adminGetBucketAccessKey",
+  'adminManage/adminGetBucketAccessKey',
   async (data, api) => {
     try {
       api.dispatch(userManageSlice.actions.loading());
@@ -104,8 +104,8 @@ export const adminGetBucketAccessKey = createAsyncThunk(
         endpoints.ADMIN_GET_BUCKET_ACCESS_KEY + `/${data.bucketId}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -116,7 +116,7 @@ export const adminGetBucketAccessKey = createAsyncThunk(
 );
 
 export const adminGetBucketSignedKey = createAsyncThunk(
-  "adminManage/adminGetBucketSignedKey",
+  'adminManage/adminGetBucketSignedKey',
   async (data, api) => {
     try {
       api.dispatch(userManageSlice.actions.loading());
@@ -124,8 +124,8 @@ export const adminGetBucketSignedKey = createAsyncThunk(
         endpoints.ADMIN_GET_BUCKET_SIGNED_KEY + `/${data.bucketId}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -136,12 +136,12 @@ export const adminGetBucketSignedKey = createAsyncThunk(
 );
 
 export const userManageSlice = createSlice({
-  name: "userManage",
+  name: 'userManage',
   initialState: initialState,
   reducers: {
     loading: (state, action) => {
       state.isLoading = true;
-    },
+    }
   },
   extraReducers: {
     [getUserList.fulfilled]: (state, action) => {
@@ -193,6 +193,6 @@ export const userManageSlice = createSlice({
     [disableUser.rejected]: (state, action) => {
       state.isLoading = false;
       state.err = action.payload;
-    },
-  },
+    }
+  }
 });

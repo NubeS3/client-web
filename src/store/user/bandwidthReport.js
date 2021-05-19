@@ -1,16 +1,16 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import endpoints from "../../configs/endpoints";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import endpoints from '../../configs/endpoints';
 
 const initialState = {
   loading: false,
   err: null,
   data: [],
-  total: 0.0,
+  total: 0.0
 };
 
 export const getMonthUsageBandwidth = createAsyncThunk(
-  "bandwidthReport/getMonthUsageBandwidth",
+  'bandwidthReport/getMonthUsageBandwidth',
   async (data, api) => {
     let temp = [];
     let curDate = new Date();
@@ -27,14 +27,14 @@ export const getMonthUsageBandwidth = createAsyncThunk(
             }`,
           {
             headers: {
-              Authorization: `Bearer ${data.authToken}`,
-            },
+              Authorization: `Bearer ${data.authToken}`
+            }
           }
         );
         temp.push({
           day: i.toString(),
-          unit: "KB",
-          bandwidth: Math.round((response.data * 100) / 8 / 1024 / 1024) / 100,
+          unit: 'KB',
+          bandwidth: Math.round((response.data * 100) / 8 / 1024 / 1024) / 100
         });
       }
       return temp;
@@ -45,7 +45,7 @@ export const getMonthUsageBandwidth = createAsyncThunk(
 );
 
 export const getTotalUsageBandwidth = createAsyncThunk(
-  "bandwidthReport/getTotalUsageBandwidth",
+  'bandwidthReport/getTotalUsageBandwidth',
   async (data, api) => {
     let curDate = new Date();
     let firstDate = new Date(curDate.getFullYear(), curDate.getMonth(), 1);
@@ -58,8 +58,8 @@ export const getTotalUsageBandwidth = createAsyncThunk(
           )}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return Math.round((response.data * 100) / 8 / 1024 / 1024) / 100;
@@ -70,7 +70,7 @@ export const getTotalUsageBandwidth = createAsyncThunk(
 );
 
 export const bandwidthReportSlice = createSlice({
-  name: "bandwidthReport",
+  name: 'bandwidthReport',
   initialState: initialState,
   reducers: {
     loading: (state, action) => {
@@ -80,7 +80,7 @@ export const bandwidthReportSlice = createSlice({
       state.loading = false;
       state.err = null;
       state.data = 0;
-    },
+    }
   },
   extraReducers: {
     [getMonthUsageBandwidth.fulfilled]: (state, action) => {
@@ -102,6 +102,6 @@ export const bandwidthReportSlice = createSlice({
       state.loading = false;
       state.err = action.payload;
       state.total = 0.0;
-    },
-  },
+    }
+  }
 });

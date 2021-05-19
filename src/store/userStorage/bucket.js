@@ -1,6 +1,6 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import endpoints from "../../configs/endpoints";
+import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import endpoints from '../../configs/endpoints';
 
 const initialState = {
   selectedBucket: {},
@@ -13,12 +13,12 @@ const initialState = {
   accessKeyReqCount: 0,
   signedKeyReqCount: 0,
   isLoading: false,
-  err: null,
+  err: null
 };
 
 //data payload: authToken, limit, offset
 export const getAllBucket = createAsyncThunk(
-  "bucket/getAllBucket",
+  'bucket/getAllBucket',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -26,8 +26,8 @@ export const getAllBucket = createAsyncThunk(
         endpoints.GET_BUCKET + `?limit=${data.limit}&offset=${data.offset}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -39,7 +39,7 @@ export const getAllBucket = createAsyncThunk(
 
 //data payload: authToken, name, region
 export const createBucket = createAsyncThunk(
-  "bucket/createBucket",
+  'bucket/createBucket',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -48,12 +48,12 @@ export const createBucket = createAsyncThunk(
         endpoints.CREATE_BUCKET,
         {
           name: data.name,
-          region: data.region.name,
+          region: data.region.name
         },
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -65,7 +65,7 @@ export const createBucket = createAsyncThunk(
 
 //data payload: authToken, limit, offset
 export const deleteBucket = createAsyncThunk(
-  "bucket/deleteBucket",
+  'bucket/deleteBucket',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -73,8 +73,8 @@ export const deleteBucket = createAsyncThunk(
         endpoints.DELETE_BUCKET + `${data.bucketId}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       response.data.id = await data.bucketId;
@@ -87,7 +87,7 @@ export const deleteBucket = createAsyncThunk(
 
 //data payload: authToken, limit, offset, bucketId
 export const getBucketFiles = createAsyncThunk(
-  "bucket/getBucketFiles",
+  'bucket/getBucketFiles',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -96,8 +96,8 @@ export const getBucketFiles = createAsyncThunk(
           `?limit=${data.limit}&offset=${data.offset}&bucketId=${data.bucketId}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -109,7 +109,7 @@ export const getBucketFiles = createAsyncThunk(
 
 //data payload: authToken, limit, offset, bucketId
 export const getBucketFolders = createAsyncThunk(
-  "bucket/getBucketFolders",
+  'bucket/getBucketFolders',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -118,8 +118,8 @@ export const getBucketFolders = createAsyncThunk(
           `?limit=${data.limit}&offset=${data.offset}&bucketId=${data.bucketId}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -130,7 +130,7 @@ export const getBucketFolders = createAsyncThunk(
 );
 
 export const getChildrenByPath = createAsyncThunk(
-  "bucket/getChildrenByPath",
+  'bucket/getChildrenByPath',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -138,8 +138,8 @@ export const getChildrenByPath = createAsyncThunk(
         endpoints.GET_CHILDREN_BY_PATH + `${data.full_path}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -151,7 +151,7 @@ export const getChildrenByPath = createAsyncThunk(
 
 //data payload: authToken, limit, offset, bucketId
 export const createBucketFolder = createAsyncThunk(
-  "bucket/createBucketFolder",
+  'bucket/createBucketFolder',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -159,12 +159,12 @@ export const createBucketFolder = createAsyncThunk(
         endpoints.CREATE_BUCKET_FOLDER,
         {
           name: data.name,
-          parent_path: data.parent_path,
+          parent_path: data.parent_path
         },
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -175,7 +175,7 @@ export const createBucketFolder = createAsyncThunk(
 );
 
 export const getBucketAccessKey = createAsyncThunk(
-  "bucket/getAllBucketKey",
+  'bucket/getAllBucketKey',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -184,8 +184,8 @@ export const getBucketAccessKey = createAsyncThunk(
           `${data.bucketId}?limit=${data.limit}&offset=${data.offset}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -197,7 +197,7 @@ export const getBucketAccessKey = createAsyncThunk(
 
 //data payload: authToken, name, region
 export const createBucketKey = createAsyncThunk(
-  "bucket/createBucketKey",
+  'bucket/createBucketKey',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -206,19 +206,19 @@ export const createBucketKey = createAsyncThunk(
         {
           bucket_id: data.bucketId,
           expired_date: data.expiringDate,
-          permissions: data.permissions,
+          permissions: data.permissions
         },
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       const responseData = await {
         key: response.data,
         bucket_id: data.bucketId,
         expired_date: data.expiringDate,
-        permissions: data.permissions,
+        permissions: data.permissions
       };
       return responseData;
     } catch (error) {
@@ -229,7 +229,7 @@ export const createBucketKey = createAsyncThunk(
 
 //data payload: authToken, limit, offset
 export const deleteBucketKey = createAsyncThunk(
-  "bucket/deleteBucketKey",
+  'bucket/deleteBucketKey',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -237,12 +237,12 @@ export const deleteBucketKey = createAsyncThunk(
         endpoints.DELETE_ACCESS_KEY + `/${data.bucketId}/${data.accessKey}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       const responseData = await {
-        key: response.data,
+        key: response.data
       };
       return responseData;
     } catch (err) {
@@ -252,7 +252,7 @@ export const deleteBucketKey = createAsyncThunk(
 );
 
 export const getSignedKey = createAsyncThunk(
-  "bucket/getSignedKey",
+  'bucket/getSignedKey',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -261,8 +261,8 @@ export const getSignedKey = createAsyncThunk(
           `${data.bucketId}?limit=${data.limit}&offset=${data.offset}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       return response.data;
@@ -274,7 +274,7 @@ export const getSignedKey = createAsyncThunk(
 
 //data payload: authToken, name, region
 export const createSignedKey = createAsyncThunk(
-  "bucket/createSignedKey",
+  'bucket/createSignedKey',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -283,12 +283,12 @@ export const createSignedKey = createAsyncThunk(
         {
           bucket_id: data.bucketId,
           expired_date: data.expiringDate,
-          permissions: data.permissions,
+          permissions: data.permissions
         },
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       response.data = {
@@ -296,8 +296,8 @@ export const createSignedKey = createAsyncThunk(
         ...{
           bucket_id: data.bucketId,
           expired_date: data.expiringDate,
-          permissions: data.permissions,
-        },
+          permissions: data.permissions
+        }
       };
       return response.data;
     } catch (error) {
@@ -308,7 +308,7 @@ export const createSignedKey = createAsyncThunk(
 
 //data payload: authToken, limit, offset
 export const deleteSignedKey = createAsyncThunk(
-  "bucket/deleteSignedKey",
+  'bucket/deleteSignedKey',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
@@ -316,12 +316,12 @@ export const deleteSignedKey = createAsyncThunk(
         endpoints.DELETE_SIGNED_KEY + `/${data.bucketId}/${data.publicKey}`,
         {
           headers: {
-            Authorization: `Bearer ${data.authToken}`,
-          },
+            Authorization: `Bearer ${data.authToken}`
+          }
         }
       );
       const responseData = await {
-        public: response.data,
+        public: response.data
       };
       return responseData;
     } catch (err) {
@@ -331,7 +331,7 @@ export const deleteSignedKey = createAsyncThunk(
 );
 
 export const bucketSlice = createSlice({
-  name: "bucket",
+  name: 'bucket',
   initialState: initialState,
   reducers: {
     loading: (state, action) => {
@@ -339,7 +339,7 @@ export const bucketSlice = createSlice({
     },
     getBucketList: (state, action) => {
       state.bucketList = action.payload;
-    },
+    }
   },
 
   extraReducers: {
@@ -353,19 +353,19 @@ export const bucketSlice = createSlice({
     },
     [createBucket.fulfilled]: (state, action) => {
       state.bucketList = [...state.bucketList, action.payload];
-      alert("Bucket added!")
+      alert('Bucket added!');
       state.isLoading = false;
     },
     [createBucket.rejected]: (state, action) => {
       state.isLoading = false;
-      alert("Failed to add bucket!")
+      alert('Failed to add bucket!');
       state.err = action.payload;
     },
     [deleteBucket.fulfilled]: (state, action) => {
       state.bucketList = state.bucketList.filter(
         (bucket) => bucket.id !== action.payload.id
       );
-      alert("Bucket deleted!")
+      alert('Bucket deleted!');
       state.loading = false;
     },
     [deleteBucket.rejected]: (state, action) => {
@@ -417,7 +417,7 @@ export const bucketSlice = createSlice({
       state.err = action.payload;
     },
     [createBucketKey.fulfilled]: (state, action) => {
-      console.log(action.payload)
+      console.log(action.payload);
       state.accessKeyList = [...state.accessKeyList, action.payload];
       state.isLoading = false;
     },
@@ -462,6 +462,6 @@ export const bucketSlice = createSlice({
     [deleteSignedKey.rejected]: (state, action) => {
       state.loading = false;
       state.err = action.payload;
-    },
-  },
+    }
+  }
 });
