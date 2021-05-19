@@ -1,19 +1,19 @@
-import React from "react";
-import Box from "@material-ui/core/Box";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import AdminDrawer from "../../components/AdminDrawer";
+import React from 'react';
+import Box from '@material-ui/core/Box';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import AdminDrawer from '../../components/AdminDrawer';
 import {
   LineChart,
   Line,
   CartesianGrid,
   XAxis,
   YAxis,
-  Tooltip,
-} from "recharts";
-import LogTable from "../../components/LogTable/LogTable";
+  Tooltip
+} from 'recharts';
+import LogTable from '../../components/LogTable/LogTable';
 
 const AdminDashboard = (props) => {
   const [value, setValue] = React.useState(0);
@@ -49,11 +49,11 @@ const AdminDashboard = (props) => {
     <AdminDrawer title="Dashboard">
       <AppBar
         position="static"
-        style={{ backgroundColor: "white", color: "black" }}
+        style={{ backgroundColor: 'white', color: 'black' }}
       >
         <Tabs value={value} onChange={handleChange}>
           <Tab
-            style={{ outline: "none" }}
+            style={{ outline: 'none' }}
             className="outline-none"
             label="Monitor Request Log"
             {...a11yProps(0)}
@@ -98,7 +98,7 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
   };
 }
 

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import store from "../../../store/store";
-import { clearAuthentication } from "../../../store/auth/auth";
-import paths from "../../../configs/paths";
-import localStorageKeys from "../../../configs/localStorageKeys";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import store from '../../../store/store';
+import { clearAuthentication } from '../../../store/auth/admin_auth';
+import paths from '../../../configs/paths';
+import localStorageKeys from '../../../configs/localStorageKeys';
 
 import {
   AppBar,
@@ -11,11 +11,11 @@ import {
   Button,
   IconButton,
   Menu,
-  MenuItem,
-} from "@material-ui/core";
-import { AccountCircle } from "@material-ui/icons";
-import LogoHeader from "./LogoHeader";
-import "./style.css";
+  MenuItem
+} from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
+import LogoHeader from './LogoHeader';
+import './style.css';
 
 const AuthHeader = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,18 +25,18 @@ const AuthHeader = (props) => {
   const handleSignOut = () => {
     store.dispatch(
       clearAuthentication({
-        authToken: localStorage.getItem(localStorageKeys.TOKEN),
-        rfToken: localStorage.getItem(localStorageKeys.RFTOKEN),
+        adminToken: localStorage.getItem(localStorageKeys.TOKEN_ADMIN),
+        rfToken: localStorage.getItem(localStorageKeys.RFTOKEN)
       })
     );
-    history.push(paths.BASE);
+    history.push(paths.BASE_ADMIN);
   };
 
   return (
-    <AppBar position="sticky" style={{ backgroundColor: "#004383" }}>
+    <AppBar position="sticky" style={{ backgroundColor: '#004383' }}>
       <Toolbar variant="dense">
         <LogoHeader />
-        <div style={{ flexGrow: "1" }} />
+        <div style={{ flexGrow: '1' }} />
         {/* <button onClick={() => {history.push(paths.DASHBOARD)}}
           variant="contained"
           className="bg-light-blue text-white active:bg-light-blue font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1">
@@ -56,18 +56,18 @@ const AuthHeader = (props) => {
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
+              vertical: 'top',
+              horizontal: 'right'
             }}
             keepMounted
             transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
+              vertical: 'top',
+              horizontal: 'right'
             }}
             open={open}
             onClose={() => setAnchorEl(null)}
           >
-            <MenuItem onClick={() => alert("Profile clicked!")}>
+            <MenuItem onClick={() => alert('Profile clicked!')}>
               Profile
             </MenuItem>
             <MenuItem onClick={handleSignOut}>Sign out</MenuItem>

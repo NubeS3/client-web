@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import AdminHeader from "../components/AdminHeader";
+import AdminHeader from '../components/AdminHeader';
 
 const PageFrameAdmin = (props) => {
   return (

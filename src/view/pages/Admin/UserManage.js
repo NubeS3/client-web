@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef, useRef } from "react";
+import React, { useState, useEffect, createRef, useRef } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -21,24 +21,24 @@ import {
   InputAdornment,
   Box,
   Typography,
-  Slide,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
-import "./style.css";
-import { connect } from "react-redux";
-import store from "../../../store/store";
+  Slide
+} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+import './style.css';
+import { connect } from 'react-redux';
+import store from '../../../store/store';
 import {
   adminGetUserBucketList,
   disableUser,
-  getUserList,
-} from "../../../store/admin/user";
-import AdminDrawer from "../../components/AdminDrawer";
-import BucketKeyContainer from "./AdminBucketDetail";
+  getUserList
+} from '../../../store/admin/user';
+import AdminDrawer from '../../components/AdminDrawer';
+import BucketKeyContainer from './AdminBucketDetail';
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -51,7 +51,7 @@ const descendingComparator = (a, b, orderBy) => {
 };
 
 const getComparator = (order, orderBy) => {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 };
@@ -68,64 +68,64 @@ const stableSort = (array, comparator) => {
 
 const userManageHeadCells = [
   {
-    id: "uid",
+    id: 'uid',
     numeric: false,
     disablePadding: false,
-    label: "ID",
+    label: 'ID'
   },
   {
-    id: "name",
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: "Name",
+    label: 'Name'
   },
   {
-    id: "created_at",
+    id: 'created_at',
     numeric: false,
     disablePadding: false,
-    label: "Date Created",
+    label: 'Date Created'
   },
   {
-    id: "empty",
+    id: 'empty',
     numeric: false,
     disablePadding: false,
-    label: "",
-  },
+    label: ''
+  }
 ];
 
 const bucketHeadCells = [
-  { id: "id", numeric: false, disablePadding: true, label: "ID" },
+  { id: 'id', numeric: false, disablePadding: true, label: 'ID' },
   {
-    id: "name",
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: "Name",
+    label: 'Name'
   },
   {
-    id: "uid",
+    id: 'uid',
     numeric: false,
     disablePadding: false,
-    label: "User",
+    label: 'User'
   },
 
   {
-    id: "region",
+    id: 'region',
     numeric: false,
     disablePadding: false,
-    label: "Region",
+    label: 'Region'
   },
   {
-    id: "created_at",
+    id: 'created_at',
     numeric: false,
     disablePadding: false,
-    label: "Date Created",
+    label: 'Date Created'
   },
   {
-    id: "empty",
+    id: 'empty',
     numeric: false,
     disablePadding: false,
-    label: "",
-  },
+    label: ''
+  }
 ];
 
 const EnhancedTableHead = (props) => {
@@ -136,7 +136,7 @@ const EnhancedTableHead = (props) => {
     numSelected,
     rowCount,
     onRequestSort,
-    headCells,
+    headCells
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -150,7 +150,7 @@ const EnhancedTableHead = (props) => {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectedAllClick}
-            inputProps={{ "aria-label": "select all buckets" }}
+            inputProps={{ 'aria-label': 'select all buckets' }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -158,12 +158,12 @@ const EnhancedTableHead = (props) => {
             key={headCell.id}
             style={headCell.style}
             align="left"
-            padding={headCell.disablePadding ? "none" : "default"}
+            padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
@@ -189,12 +189,12 @@ const NoCheckBoxTableHead = (props) => {
             key={headCell.id}
             style={headCell.style}
             align="left"
-            padding={headCell.disablePadding ? "none" : "default"}
+            padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
@@ -255,13 +255,13 @@ const UserContainer = ({
     setOpenAddDialog(false);
   };
 
-  const menuId = "mobile-menu";
+  const menuId = 'mobile-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={() => {
         setAnchorEl(null);
@@ -296,7 +296,7 @@ const UserContainer = ({
               <label>Username</label>
               <TextField
                 style={{
-                  width: "100%",
+                  width: '100%'
                 }}
                 type="text"
                 value={newUsername}
@@ -308,9 +308,9 @@ const UserContainer = ({
               <label>Password</label>
               <TextField
                 style={{
-                  width: "100%",
+                  width: '100%'
                 }}
-                type={isVisiblePass ? "text" : "password"}
+                type={isVisiblePass ? 'text' : 'password'}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 InputProps={{
@@ -324,7 +324,7 @@ const UserContainer = ({
                         {isVisiblePass ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
-                  ),
+                  )
                 }}
               />
             </div>
@@ -333,7 +333,7 @@ const UserContainer = ({
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                style={{ transition: "all .15s ease" }}
+                style={{ transition: 'all .15s ease' }}
                 onClick={() => setOpenAddDialog(false)}
               >
                 Cancel
@@ -341,7 +341,7 @@ const UserContainer = ({
               <button
                 className="bg-light-blue text-white active:bg-light-blue font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                style={{ transition: "all .15s ease" }}
+                style={{ transition: 'all .15s ease' }}
                 onClick={handleAddUser}
               >
                 Add
@@ -359,22 +359,22 @@ const UserContainer = ({
   return (
     <Paper
       style={{
-        position: "relative",
-        width: "100%",
+        position: 'relative',
+        width: '100%'
       }}
       visibility={visibility}
     >
       <AppBar
         position="static"
-        style={{ backgroundColor: "white", color: "black" }}
+        style={{ backgroundColor: 'white', color: 'black' }}
       >
         <Toolbar variant="dense">
-          <h3 style={{ marginRight: "20px" }}>MANAGE USER</h3>
+          <h3 style={{ marginRight: '20px' }}>MANAGE USER</h3>
           <div className="browser-appbar-button-group">
             {/* <Button startIcon={<AddIcon />} onClick={() => setOpenAddDialog(true)}>Add new user</Button> */}
             <Button
               startIcon={<AddIcon />}
-              style={{ outline: "none" }}
+              style={{ outline: 'none' }}
               onClick={() => setOpenDisableDialog(true)}
             >
               Disable a user
@@ -418,16 +418,16 @@ const UserTable = ({
   items,
   onItemClick,
   setAnchorEl,
-  bucketList,
+  bucketList
 }) => {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("name");
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -450,7 +450,7 @@ const UserTable = ({
   };
 
   const handleItemCheckboxClick = (event, fileItem) => {
-    const selectedIndex = findWithProperty(selected, "id", fileItem.id);
+    const selectedIndex = findWithProperty(selected, 'id', fileItem.id);
     let newSelected = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, fileItem);
@@ -476,7 +476,7 @@ const UserTable = ({
     setPage(0);
   };
 
-  const isSelected = (id) => findWithProperty(selected, "id", id) !== -1;
+  const isSelected = (id) => findWithProperty(selected, 'id', id) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, items.length - page * rowsPerPage);
@@ -514,7 +514,7 @@ const UserTable = ({
                         <Checkbox
                           checked={isItemSelected}
                           onChange={(e) => handleItemCheckboxClick(e, row)}
-                          inputProps={{ "aria-labelledby": labelId }}
+                          inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
                       <TableCell
@@ -545,7 +545,7 @@ const UserTable = ({
                             setSelected([row]);
                           }}
                           color="inherit"
-                          style={{ outline: "none" }}
+                          style={{ outline: 'none' }}
                         >
                           <MoreIcon />
                         </IconButton>
@@ -597,7 +597,7 @@ const BucketContainer = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const menuId = "mobile-menu";
+  const menuId = 'mobile-menu';
   const [bucketSelected, setBucketSelected] = useState(null);
   const [bucketName, setBucketName] = useState();
   const [showBucketKeyTable, setShowBucketKeyTable] = useState(false);
@@ -621,17 +621,24 @@ const BucketContainer = ({
       mountOnEnter
       unmountOnExit
     >
-      <Paper style={{ position: "absolute", width: "inherit", top: "0", height: '155%' }}>
+      <Paper
+        style={{
+          position: 'absolute',
+          width: 'inherit',
+          top: '0',
+          height: '155%'
+        }}
+      >
         <AppBar
           position="static"
-          style={{ backgroundColor: "white", color: "black" }}
+          style={{ backgroundColor: 'white', color: 'black' }}
         >
           <Toolbar variant="dense">
             <IconButton onClick={() => onBack(null)}>
               <ArrowBackIcon />
             </IconButton>
-            <h3 style={{ marginRight: "20px" }}>{username}'s buckets</h3>
-            <div style={{ flexGrow: "1" }}></div>
+            <h3 style={{ marginRight: '20px' }}>{username}'s buckets</h3>
+            <div style={{ flexGrow: '1' }}></div>
             <div className="browser-appbar-mobile-menu">
               <IconButton
                 aria-label="show more"
@@ -675,16 +682,16 @@ const BucketTable = ({
   setSelected,
   headCells,
   items,
-  onItemClick,
+  onItemClick
 }) => {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("name");
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -781,7 +788,7 @@ const BucketTable = ({
 };
 
 const ConfirmDialog = ({ open, handleClose, authToken }) => {
-  const [disableUsername, setDisableUsername] = useState("");
+  const [disableUsername, setDisableUsername] = useState('');
   const handleConfirmDisable = () => {
     store.dispatch(
       disableUser({ authToken: authToken, username: disableUsername })
@@ -814,7 +821,7 @@ const ConfirmDialog = ({ open, handleClose, authToken }) => {
                   <label>Username</label>
                   <TextField
                     style={{
-                      width: "100%",
+                      width: '100%'
                     }}
                     type="text"
                     value={disableUsername}
@@ -827,7 +834,7 @@ const ConfirmDialog = ({ open, handleClose, authToken }) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={handleClose}
                   >
                     Cancel
@@ -835,7 +842,7 @@ const ConfirmDialog = ({ open, handleClose, authToken }) => {
                   <button
                     className="bg-light-blue text-white active:bg-light-blue font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={handleConfirmDisable}
                   >
                     OK
@@ -1057,7 +1064,7 @@ const UserManageBoard = ({
       <UserContainer
         items={userList}
         onItemClick={(name, userId) => handleSelectedUser(name, userId)}
-        visibility={userSelected !== null ? "hidden" : "visible"}
+        visibility={userSelected !== null ? 'hidden' : 'visible'}
         authToken={authToken}
         isLoading={isLoading}
         bucketList={userBucketList}

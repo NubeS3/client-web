@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef, useRef } from "react";
+import React, { useState, useEffect, createRef, useRef } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -18,26 +18,26 @@ import {
   FormControl,
   InputLabel,
   TextField,
-  Grid,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import DateFnsUtils from "@date-io/date-fns";
+  Grid
+} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import "./style.css";
-import { connect } from "react-redux";
-import store from "../../../store/store";
+  KeyboardDatePicker
+} from '@material-ui/pickers';
+import './style.css';
+import { connect } from 'react-redux';
+import store from '../../../store/store';
 import {
   getAccessKeyLog,
   getAccessKeyReqCountAdmin,
   getAuthLog,
   getSignedKeyLog,
   getSignedKeyReqCountAdmin,
-  resetLog,
-} from "../../../store/admin/requestLog";
+  resetLog
+} from '../../../store/admin/requestLog';
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -50,7 +50,7 @@ const descendingComparator = (a, b, orderBy) => {
 };
 
 const getComparator = (order, orderBy) => {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 };
@@ -67,117 +67,117 @@ const stableSort = (array, comparator) => {
 
 const authLogHeadCells = [
   {
-    id: "uid",
+    id: 'uid',
     numeric: false,
     disablePadding: false,
-    label: "UID",
+    label: 'UID'
   },
   {
-    id: "method",
+    id: 'method',
     numeric: false,
     disablePadding: false,
-    label: "Method",
+    label: 'Method'
   },
   {
-    id: "req",
+    id: 'req',
     numeric: false,
     disablePadding: false,
-    label: "Request Content",
+    label: 'Request Content'
   },
   {
-    id: "at",
+    id: 'at',
     numeric: false,
     disablePadding: false,
-    label: "Requested at",
+    label: 'Requested at'
   },
   {
-    id: "source_ip",
+    id: 'source_ip',
     numeric: false,
     disablePadding: false,
-    label: "Source IP",
+    label: 'Source IP'
   },
   {
-    id: "empty",
+    id: 'empty',
     numeric: false,
     disablePadding: false,
-    label: "",
-  },
+    label: ''
+  }
 ];
 const accessLogHeadCells = [
   {
-    id: "key",
+    id: 'key',
     numeric: false,
     disablePadding: false,
-    label: "Access Key",
+    label: 'Access Key'
   },
   {
-    id: "method",
+    id: 'method',
     numeric: false,
     disablePadding: false,
-    label: "Method",
+    label: 'Method'
   },
   {
-    id: "req",
+    id: 'req',
     numeric: false,
     disablePadding: false,
-    label: "Request Content",
+    label: 'Request Content'
   },
   {
-    id: "at",
+    id: 'at',
     numeric: false,
     disablePadding: false,
-    label: "Requested at",
+    label: 'Requested at'
   },
   {
-    id: "source_ip",
+    id: 'source_ip',
     numeric: false,
     disablePadding: false,
-    label: "Source IP",
+    label: 'Source IP'
   },
   {
-    id: "empty",
+    id: 'empty',
     numeric: false,
     disablePadding: false,
-    label: "",
-  },
+    label: ''
+  }
 ];
 const signedLogHeadCells = [
   {
-    id: "public",
+    id: 'public',
     numeric: false,
     disablePadding: false,
-    label: "Public Key",
+    label: 'Public Key'
   },
   {
-    id: "method",
+    id: 'method',
     numeric: false,
     disablePadding: false,
-    label: "Method",
+    label: 'Method'
   },
   {
-    id: "req",
+    id: 'req',
     numeric: false,
     disablePadding: false,
-    label: "Request Content",
+    label: 'Request Content'
   },
   {
-    id: "at",
+    id: 'at',
     numeric: false,
     disablePadding: false,
-    label: "Requested at",
+    label: 'Requested at'
   },
   {
-    id: "source_ip",
+    id: 'source_ip',
     numeric: false,
     disablePadding: false,
-    label: "Source IP",
+    label: 'Source IP'
   },
   {
-    id: "empty",
+    id: 'empty',
     numeric: false,
     disablePadding: false,
-    label: "",
-  },
+    label: ''
+  }
 ];
 
 const EnhancedTableHead = (props) => {
@@ -188,7 +188,7 @@ const EnhancedTableHead = (props) => {
     numSelected,
     rowCount,
     onRequestSort,
-    headCells,
+    headCells
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -202,7 +202,7 @@ const EnhancedTableHead = (props) => {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectedAllClick}
-            inputProps={{ "aria-label": "select all buckets" }}
+            inputProps={{ 'aria-label': 'select all buckets' }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -210,12 +210,12 @@ const EnhancedTableHead = (props) => {
             key={headCell.id}
             style={headCell.style}
             align="left"
-            padding={headCell.disablePadding ? "none" : "default"}
+            padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
@@ -242,13 +242,13 @@ const LogContainer = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [selected, setSelected] = useState([]);
   const [headCells, setHeadCells] = useState(authLogHeadCells);
-  const menuId = "mobile-menu";
+  const menuId = 'mobile-menu';
 
-  const [logType, setLogType] = useState("auth");
-  const [requestBy, setRequestBy] = useState("");
+  const [logType, setLogType] = useState('auth');
+  const [requestBy, setRequestBy] = useState('');
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
-  const [inputLabel, setInputLabel] = useState("UID");
+  const [inputLabel, setInputLabel] = useState('UID');
 
   const onLogTypeSelected = (e) => {
     setLogType(e.target.value);
@@ -256,7 +256,7 @@ const LogContainer = ({
 
   const handleFromDateChange = (date) => {
     if (date > toDate) {
-      alert("From Date must be before To Date");
+      alert('From Date must be before To Date');
       return;
     }
     setFromDate(date);
@@ -264,7 +264,7 @@ const LogContainer = ({
 
   const handleToDateChange = (date) => {
     if (date < fromDate) {
-      alert("To Date must be after From Date");
+      alert('To Date must be after From Date');
       return;
     }
     setToDate(date);
@@ -272,7 +272,7 @@ const LogContainer = ({
 
   const handleLogRequest = () => {
     switch (logType) {
-      case "auth":
+      case 'auth':
         store.dispatch(
           getAuthLog({
             authToken: authToken,
@@ -280,11 +280,11 @@ const LogContainer = ({
             offset: 0,
             fromDate: Math.round(fromDate.getTime() / 1000),
             toDate: Math.round(toDate.getTime() / 1000),
-            uid: requestBy,
+            uid: requestBy
           })
         );
         break;
-      case "signed":
+      case 'signed':
         console.log(requestBy);
         store.dispatch(
           getSignedKeyLog({
@@ -293,7 +293,7 @@ const LogContainer = ({
             offset: 0,
             fromDate: Math.round(fromDate.getTime() / 1000),
             toDate: Math.round(toDate.getTime() / 1000),
-            public: requestBy,
+            public: requestBy
           })
         );
         store.dispatch(
@@ -303,11 +303,11 @@ const LogContainer = ({
             offset: 0,
             fromDate: Math.round(fromDate.getTime() / 1000),
             toDate: Math.round(toDate.getTime() / 1000),
-            public: requestBy,
+            public: requestBy
           })
         );
         break;
-      case "access":
+      case 'access':
         store.dispatch(
           getAccessKeyLog({
             authToken: authToken,
@@ -315,7 +315,7 @@ const LogContainer = ({
             offset: 0,
             fromDate: Math.round(fromDate.getTime() / 1000),
             toDate: Math.round(toDate.getTime() / 1000),
-            key: requestBy,
+            key: requestBy
           })
         );
         store.dispatch(
@@ -325,7 +325,7 @@ const LogContainer = ({
             offset: 0,
             fromDate: Math.round(fromDate.getTime() / 1000),
             toDate: Math.round(toDate.getTime() / 1000),
-            key: requestBy,
+            key: requestBy
           })
         );
     }
@@ -334,19 +334,19 @@ const LogContainer = ({
   useEffect(
     (_) => {
       switch (logType) {
-        case "auth":
+        case 'auth':
           setHeadCells(authLogHeadCells);
-          setInputLabel("UID:");
+          setInputLabel('UID:');
           store.dispatch(resetLog());
           break;
-        case "signed":
+        case 'signed':
           setHeadCells(signedLogHeadCells);
-          setInputLabel("Public Key:");
+          setInputLabel('Public Key:');
           store.dispatch(resetLog());
           break;
-        case "access":
+        case 'access':
           setHeadCells(accessLogHeadCells);
-          setInputLabel("Access Key:");
+          setInputLabel('Access Key:');
           store.dispatch(resetLog());
       }
     },
@@ -356,14 +356,14 @@ const LogContainer = ({
   return (
     <Paper
       style={{
-        position: "relative",
-        width: "100%",
+        position: 'relative',
+        width: '100%'
       }}
       visibility={visibility}
     >
       <AppBar
         position="static"
-        style={{ backgroundColor: "white", color: "black" }}
+        style={{ backgroundColor: 'white', color: 'black' }}
       >
         <Toolbar variant="dense">
           <FormControl className="mr-20px">
@@ -371,16 +371,16 @@ const LogContainer = ({
               native
               disableUnderline
               value={logType}
-              style={{ borderColor: "transparent" }}
+              style={{ borderColor: 'transparent' }}
               onChange={onLogTypeSelected}
               inputProps={{
-                name: "logType",
-                id: "logType",
+                name: 'logType',
+                id: 'logType'
               }}
             >
-              <option value={"auth"}>Authenticated Request Log</option>
-              <option value={"access"}>Access Key Request Log</option>
-              <option value={"signed"}>Key Pairs Request Log</option>
+              <option value={'auth'}>Authenticated Request Log</option>
+              <option value={'access'}>Access Key Request Log</option>
+              <option value={'signed'}>Key Pairs Request Log</option>
             </Select>
           </FormControl>
           <div className="w-2/4">
@@ -389,7 +389,7 @@ const LogContainer = ({
                 <div className="pt-2">
                   <TextField
                     label={inputLabel}
-                    id={"requestedBy-input" + logType}
+                    id={'requestedBy-input' + logType}
                     defaultValue={requestBy}
                     size="small"
                     onChange={(e) => {
@@ -408,7 +408,7 @@ const LogContainer = ({
                   value={fromDate}
                   onChange={handleFromDateChange}
                   KeyboardButtonProps={{
-                    "aria-label": "change date",
+                    'aria-label': 'change date'
                   }}
                 />
                 <KeyboardDatePicker
@@ -421,7 +421,7 @@ const LogContainer = ({
                   value={toDate}
                   onChange={handleToDateChange}
                   KeyboardButtonProps={{
-                    "aria-label": "change date",
+                    'aria-label': 'change date'
                   }}
                 />
               </Grid>
@@ -466,16 +466,16 @@ const AdminTable = ({
   headCells,
   items,
   onItemClick,
-  setAnchorEl,
+  setAnchorEl
 }) => {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("name");
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -498,7 +498,7 @@ const AdminTable = ({
   };
 
   const handleItemCheckboxClick = (event, fileItem) => {
-    const selectedIndex = findWithProperty(selected, "id", fileItem.id);
+    const selectedIndex = findWithProperty(selected, 'id', fileItem.id);
     let newSelected = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, fileItem);
@@ -524,7 +524,7 @@ const AdminTable = ({
     setPage(0);
   };
 
-  const isSelected = (id) => findWithProperty(selected, "id", id) !== -1;
+  const isSelected = (id) => findWithProperty(selected, 'id', id) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, items.length - page * rowsPerPage);
@@ -589,7 +589,7 @@ const LogTableRow = ({
   setSelected,
   labelId,
   onItemClick,
-  setAnchorEl,
+  setAnchorEl
 }) => {
   return (
     <TableRow
@@ -603,7 +603,7 @@ const LogTableRow = ({
         <Checkbox
           checked={isItemSelected}
           onChange={(e) => handleItemCheckboxClick(e, row)}
-          inputProps={{ "aria-labelledby": labelId }}
+          inputProps={{ 'aria-labelledby': labelId }}
         />
       </TableCell>
       <TableCell
@@ -670,7 +670,7 @@ const LogTable = ({
       <LogContainer
         items={requestLogList}
         onItemClick={(name, adminId) => handleSelectedAdmin(name, adminId)}
-        visibility={adminSelected !== null ? "hidden" : "visible"}
+        visibility={adminSelected !== null ? 'hidden' : 'visible'}
         authToken={authToken}
         isLoading={isLoading}
         reqCount={reqCount}

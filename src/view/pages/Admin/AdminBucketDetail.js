@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -14,70 +14,70 @@ import {
   TablePagination,
   Checkbox,
   TableSortLabel,
-  Slide,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AddBoxIcon from "@material-ui/icons/AddBox";
+  Slide
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 // import DateFnsUtils from "@date-io/date-fns";
 // import {
 //   MuiPickersUtilsProvider,
 //   KeyboardDatePicker,
 // } from "@material-ui/pickers";
-import "./style.css";
-import "react-toastify/dist/ReactToastify.css";
-import { connect } from "react-redux";
-import store from "../../../store/store";
+import './style.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { connect } from 'react-redux';
+import store from '../../../store/store';
 import {
   adminGetBucketAccessKey,
-  adminGetBucketSignedKey,
-} from "../../../store/admin/user";
+  adminGetBucketSignedKey
+} from '../../../store/admin/user';
 
 const accessKeyHeadCells = [
-  { id: "key", numeric: false, disablePadding: false, label: "Key" },
+  { id: 'key', numeric: false, disablePadding: false, label: 'Key' },
   {
-    id: "expiringDate",
+    id: 'expiringDate',
     numeric: false,
     disablePadding: false,
-    label: "Expiring date",
+    label: 'Expiring date'
   },
   {
-    id: "permission",
+    id: 'permission',
     numeric: false,
     disablePadding: false,
-    label: "Permission",
+    label: 'Permission'
   },
 
   {
-    id: "empty",
+    id: 'empty',
     numeric: false,
     disablePadding: false,
-    label: "",
-  },
+    label: ''
+  }
 ];
 
 const signedKeyHeadCells = [
-  { id: "key", numeric: false, disablePadding: false, label: "Key" },
+  { id: 'key', numeric: false, disablePadding: false, label: 'Key' },
   {
-    id: "expiringDate",
+    id: 'expiringDate',
     numeric: false,
     disablePadding: false,
-    label: "Expiring date",
+    label: 'Expiring date'
   },
   {
-    id: "permission",
+    id: 'permission',
     numeric: false,
     disablePadding: false,
-    label: "Permission",
+    label: 'Permission'
   },
 
   {
-    id: "empty",
+    id: 'empty',
     numeric: false,
     disablePadding: false,
-    label: "",
-  },
+    label: ''
+  }
 ];
 
 const descendingComparator = (a, b, orderBy) => {
@@ -91,7 +91,7 @@ const descendingComparator = (a, b, orderBy) => {
 };
 
 const getComparator = (order, orderBy) => {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 };
@@ -116,7 +116,7 @@ const BucketKeyContainer = ({
   accessKeyList,
   signedKeyList,
   accessKeyReqCount,
-  signedKeyReqCount,
+  signedKeyReqCount
 }) => {
   const [selectedAccessKey, setSelectedAccessKey] = useState([]);
   const [selectedSignedKey, setSelectedSignedKey] = useState([]);
@@ -125,13 +125,13 @@ const BucketKeyContainer = ({
     store.dispatch(
       adminGetBucketAccessKey({
         authToken: authToken,
-        bucketId: bucketId,
+        bucketId: bucketId
       })
     );
     store.dispatch(
       adminGetBucketSignedKey({
         authToken: authToken,
-        bucketId: bucketId,
+        bucketId: bucketId
       })
     );
   }, []);
@@ -139,7 +139,7 @@ const BucketKeyContainer = ({
   return (
     <Slide in={show} direction="left" mountOnEnter unmountOnExit>
       <Paper
-        style={{ position: "absolute", width: "inherit", top: "0" }}
+        style={{ position: 'absolute', width: 'inherit', top: '0' }}
         className="flex flex-col"
         elevation={0}
       >
@@ -150,7 +150,7 @@ const BucketKeyContainer = ({
           <IconButton onClick={() => onBack(null)}>
             <ArrowBackIcon />
           </IconButton>
-          <h3 style={{ marginRight: "20px" }}>{title}</h3>
+          <h3 style={{ marginRight: '20px' }}>{title}</h3>
         </Toolbar>
         {/* </AppBar> */}
         <AccessKeyTable
@@ -192,12 +192,12 @@ const NoCheckBoxTableHead = (props) => {
             key={headCell.id}
             style={headCell.style}
             align="left"
-            padding={headCell.disablePadding ? "none" : "default"}
+            padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
@@ -217,17 +217,17 @@ const AccessKeyTable = ({
   onItemClick,
   bucketId,
   authToken,
-  reqCount,
+  reqCount
 }) => {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("name");
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
-  const [requestKey, setRequestKey] = useState({ key: "" });
+  const [requestKey, setRequestKey] = useState({ key: '' });
   const isFirstRender = useRef(true);
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -267,11 +267,11 @@ const AccessKeyTable = ({
           <AppBar
             elevation={0}
             position="static"
-            style={{ backgroundColor: "white", color: "black" }}
+            style={{ backgroundColor: 'white', color: 'black' }}
           >
             <Toolbar variant="regular">
-              <h3 style={{ marginRight: "20px" }}>Access Key</h3>
-              <div style={{ flexGrow: "1" }}></div>
+              <h3 style={{ marginRight: '20px' }}>Access Key</h3>
+              <div style={{ flexGrow: '1' }}></div>
               <div className="browser-appbar-button-group"></div>
             </Toolbar>
           </AppBar>
@@ -300,7 +300,7 @@ const AccessKeyTable = ({
                       </TableCell>
                       <TableCell align="left">{row.expired_date}</TableCell>
                       <TableCell align="left">
-                        {row.permissions.join(", ").toString()}
+                        {row.permissions.join(', ').toString()}
                       </TableCell>
                       <TableCell align="right">
                         <IconButton>
@@ -335,19 +335,19 @@ const SignedKeyTable = ({
   onItemClick,
   bucketId,
   authToken,
-  reqCount,
+  reqCount
 }) => {
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("name");
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openStatsDialog, setOpenStatsDialog] = useState(false);
-  const [requestKey, setRequestKey] = useState("");
+  const [requestKey, setRequestKey] = useState('');
   const isFirstRender = useRef(true);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -387,11 +387,11 @@ const SignedKeyTable = ({
           <AppBar
             elevation={0}
             position="static"
-            style={{ backgroundColor: "white", color: "black" }}
+            style={{ backgroundColor: 'white', color: 'black' }}
           >
             <Toolbar variant="regular">
-              <h3 style={{ marginRight: "20px" }}>Signed Key Pairs</h3>
-              <div style={{ flexGrow: "1" }}></div>
+              <h3 style={{ marginRight: '20px' }}>Signed Key Pairs</h3>
+              <div style={{ flexGrow: '1' }}></div>
               <div className="browser-appbar-button-group"></div>
               {/* <div className="flex">
                             <IconButton
@@ -431,7 +431,7 @@ const SignedKeyTable = ({
                       </TableCell>
                       <TableCell align="left">{row.expired_date}</TableCell>
                       <TableCell align="left">
-                        {row.permissions.join(", ").toString()}
+                        {row.permissions.join(', ').toString()}
                       </TableCell>
                       <TableCell align="right">
                         <IconButton>
@@ -465,7 +465,7 @@ const mapStateToProps = (state) => {
   return {
     isLoading,
     accessKeyList,
-    signedKeyList,
+    signedKeyList
   };
 };
 

@@ -1,8 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import AuthHeader from "./Header/AuthHeader";
-import UnauthHeader from "./Header/UnauthHeader";
+import AuthHeader from './Header/AuthHeader';
+import UnauthHeader from './Header/UnauthHeader';
 
 const Header = (props) => {
   if (props.isValidAuthentication) {
@@ -13,7 +13,7 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isValidAuthentication: state.authen.isValidAuthentication,
+  isValidAuthentication: state.authen.isValidAuthentication
 });
 
 export default connect(mapStateToProps)(Header);

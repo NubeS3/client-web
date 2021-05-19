@@ -1,10 +1,10 @@
-import React from "react";
-import PageFrameAdmin from "../../components/PageFrameAdmin";
-import { connect } from "react-redux";
+import React from 'react';
+import PageFrameAdmin from '../../components/PageFrameAdmin';
+import { connect } from 'react-redux';
 
-import paths from "../../../configs/paths";
-import "./style.css";
-import { Typography } from "@material-ui/core";
+import paths from 'config/path';
+import './style.css';
+import { Typography } from '@material-ui/core';
 
 const AdminLanding = (props) => {
   return (
@@ -31,7 +31,7 @@ const AdminLanding = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isValidAuthentication: state.adminAuthen.isAdminValidAuthentication,
+  isValidAuthentication: state.adminAuthen.isAdminValidAuthentication
 });
 
 export default connect(mapStateToProps)(AdminLanding);
