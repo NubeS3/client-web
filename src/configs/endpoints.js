@@ -35,14 +35,14 @@ const endpoints = {
   ADD_MOD: `${BASE}/admin/auth/mod`,
   BAN_USER: `${BASE}/admin/auth/ban-user`,
   BAN_MOD: `${BASE}/admin/auth/disable-mod`,
-  GET_AUTH_REQ_LOG: `${BASE}/admin/auth/req-log/auth`, //?limit=10&offset=0&from=0&to=1619958070&uid=1av3
-  GET_ACCESS_KEY_REQ_LOG: `${BASE}/admin/auth/req-log/accessKey`, //?limit=10&offset=0&from=0&to=1619958070&key=1av3
-  GET_SIGNED_KEY_REQ_LOG: `${BASE}/admin/auth/req-log/signed`, //?limit=10&offset=0&from=0&to=1619958070&public=1av3
-  ADMIN_COUNT_ACCESS_KEY_REQ: `${BASE}/admin/auth/req-log/count/accessKey`, //?limit=10&offset=0&from=0&to=1619958070&key=1av3
-  ADMIN_COUNT_SIGNED_KEY_REQ: `${BASE}/admin/auth/req-log/count/signed`, //?limit=10&offset=0&from=0&to=1619958070&public=1av3
+  GET_AUTH_REQ_LOG: `${BASE}/admin/auth/req-log/auth`, // ?limit=10&offset=0&from=0&to=1619958070&uid=1av3
+  GET_ACCESS_KEY_REQ_LOG: `${BASE}/admin/auth/req-log/accessKey`, // ?limit=10&offset=0&from=0&to=1619958070&key=1av3
+  GET_SIGNED_KEY_REQ_LOG: `${BASE}/admin/auth/req-log/signed`, // ?limit=10&offset=0&from=0&to=1619958070&public=1av3
+  ADMIN_COUNT_ACCESS_KEY_REQ: `${BASE}/admin/auth/req-log/count/accessKey`, // ?limit=10&offset=0&from=0&to=1619958070&key=1av3
+  ADMIN_COUNT_SIGNED_KEY_REQ: `${BASE}/admin/auth/req-log/count/signed`, // ?limit=10&offset=0&from=0&to=1619958070&public=1av3
   ADMIN_GET_USER_BUCKET: `${BASE}/admin/auth/buckets`,
   ADMIN_GET_BUCKET_ACCESS_KEY: `${BASE}/admin/auth/accessKey`,
-  ADMIN_GET_BUCKET_SIGNED_KEY: `${BASE}/admin/auth/keyPair`,
+  ADMIN_GET_BUCKET_SIGNED_KEY: `${BASE}/admin/auth/keyPair`
 };
 
 export default endpoints;
