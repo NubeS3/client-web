@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Register = (props) => {
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto flex items-center justify-center max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
       <div className="max-w-md w-full space-y-8 bg-white">
         <div>
           <img
