@@ -22,7 +22,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "recharts": "^2.0.9",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "cruip-js-toolkit": "^1.0.3",
+    "node-sass": "^5.0.0"
   },
   "scripts": {
     "start": "craco start",

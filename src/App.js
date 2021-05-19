@@ -5,7 +5,6 @@ import store from './store';
 // import { verifyAuthentication } from './store/auth/auth';
 // import { verifyAdminAuthentication } from './store/auth/admin_auth';
 // import GuardRoute from './views/routes/GuardRoute';
-// import Landing from './views/pages/Landing/Landing';
 // import Dashboard from './views/pages/Dashboard/Dashboard';
 // import Storage from './views/pages/Storage/Storage';
 // import SignUp from './views/pages/Register/Register';
@@ -20,6 +19,8 @@ import store from './store';
 // import AdminLanding from './views/pages/AdminLanding/Landing';
 // import AdminGuardRoute from './views/routes/AdminGuardRoute';
 import './index.css';
+import paths from './configs/paths';
+import Landing from './view/pages/Landing/Landing';
 const App = (props) => {
   // const mount = async () => {
   //   await store.dispatch(
@@ -49,7 +50,8 @@ const App = (props) => {
   return (
     <Router basename="/">
       <Switch>
-        {/* <Route exact path={paths.BASE} component={Landing} />
+        <Route exact path={paths.BASE} component={Landing} />
+        {/*
         <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         <Route exact path={paths.LOGIN} component={SignIn} />
