@@ -108,7 +108,7 @@ const RequiredEmailVerification = () => {
 const VerifyEmail = ({ email = 'thesplendore@gmail.com' }) => {
   return (
     <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
-      <h1 className="pt-6 pb-8 text-2xl text-center">Verify Phone Number</h1>
+      <h1 className="pt-6 pb-8 text-2xl text-center">Verify Your Email</h1>
       <hr className="w-11/12 pt-4 pb-12" />
       <form method="POST" className="pt-4 w-full">
         <div class="flex flex-col relative text-gray-400 mb-2">
