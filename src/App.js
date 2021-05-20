@@ -22,6 +22,7 @@ import './index.css';
 import paths from './configs/paths';
 import Landing from './view/pages/Landing/Landing';
 import Register from './view/pages/Register/Register';
+import Login from './view/pages/Login/Login';
 const App = (props) => {
   // const mount = async () => {
   //   await store.dispatch(
@@ -53,6 +54,7 @@ const App = (props) => {
       <Switch>
         <Route exact path={paths.BASE} component={Landing} />
         <Route exact path={paths.REGISTER} component={Register} />
+        <Route exact path={paths.LOGIN} component={Login} />
         {/*
         <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
