@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
-
+import { signUp } from '../../../store/user/signUp';
+import store from '../../../store';
 const Register = (props) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignUpSubmit = () => {
+    store.dispatch(signUp({ email: email, password: password }));
+  };
   return (
     <div className="mx-auto flex items-center justify-center max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
       <div className="max-w-md w-full space-y-8 bg-white">
@@ -14,7 +21,7 @@ const Register = (props) => {
             Sign Up NubeS3 Cloud
           </h2>
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleSignUpSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
