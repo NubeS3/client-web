@@ -88,11 +88,11 @@ const PasswordCard = ({ email = 'thesplendore@gmail.com' }) => {
   );
 };
 
-const RequirePhoneNumberCard = () => {
+const RequiredEmailVerification = () => {
   return (
     <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
       <h1 className="pt-6 pb-8 text-2xl text-center">
-        NubeS3 Requires Your Account To Have A Phone Number
+        NubeS3 Requires Your Account To Have An Email Verification
       </h1>
       <hr className="w-11/12 py-4" />
       <p className="pb-6">
@@ -175,4 +175,4 @@ const VerifyEmail = ({ email = 'thesplendore@gmail.com' }) => {
   );
 };
 
-export { EmailCard, PasswordCard, RequirePhoneNumberCard, VerifyEmail };
+export { EmailCard, PasswordCard, RequiredEmailVerification, VerifyEmail };

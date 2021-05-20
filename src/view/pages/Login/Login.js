@@ -184,7 +184,7 @@ import React from 'react';
 import {
   EmailCard,
   PasswordCard,
-  RequirePhoneNumberCard,
+  RequiredEmailVerification,
   VerifyEmail
 } from '../../../components/Login';
 
@@ -193,8 +193,8 @@ const Login = () => {
     <div>
       {/* <EmailCard /> */}
       {/* <PasswordCard /> */}
-      {/* <RequirePhoneNumberCard /> */}
-      <VerifyEmail />
+      <RequiredEmailVerification />
+      {/* <VerifyEmail /> */}
     </div>
   );
 };
