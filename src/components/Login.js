@@ -96,7 +96,7 @@ const RequiredEmailVerification = () => {
       </h1>
       <hr className="w-11/12 py-4" />
       <p className="pb-6">
-        Please go to your My Settings Page to add a phone number.
+        Please go to your My Settings Page to verify your email.
       </p>
       <button className="relative mb-8 my-2 rounded-sm flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Go to My Settings
