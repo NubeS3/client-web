@@ -1,345 +1,70 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-
-import PageFrame from "../../components/PageFrame";
-import paths from "../../../configs/paths";
-
-import {
-  Button,
-  Card,
-  CardHeader,
-  FormControlLabel,
-  Checkbox,
-  MenuItem,
-  Select,
-} from "@material-ui/core";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import TextField from "../../components/Textfield";
-import "./style.css";
-import store from "../../../store/store";
-import { signUp } from "../../../store/user/signUp";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React, { useState } from 'react';
 
 const Register = (props) => {
-  const formik = useFormik({
-    initialValues: {
-      firstname: "",
-      lastname: "",
-      gender: true,
-      username: "",
-      email: "",
-      company: "",
-      dob: new Date(),
-      password: "",
-      confirm_password: "",
-    },
-    validationSchema: Yup.object({
-      username: Yup.string()
-        .min(8, "Minimum 8 characters")
-        .max(24, "Maximum 24 characters")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/,
-          "Does not begin or end with '_' or '.' Does not have __. .., ._, .."
-        ),
-      firstname: Yup.string()
-        .min(2, "Mininum 2 characters")
-        .max(16, "Maximum 16 characters")
-        .required("Required!"),
-      lastname: Yup.string()
-        .min(2, "Mininum 2 characters")
-        .max(16, "Maximum 16 characters")
-        .required("Required!"),
-      email: Yup.string()
-        .email("Invalid email format")
-        .matches(/^[^\s@]+@[^\s@]+$/, "Invalid email format")
-        .required("Required!"),
-      password: Yup.string()
-        .min(8, "Minimum 8 characters")
-        .max(32, "Maximum 32 characters")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/,
-          "Must contain at least One Uppercase, One Lowercase, One Number and one special case Character (8-32 characters)"
-        )
-        .required("Required!"),
-      confirm_password: Yup.string()
-        .oneOf([Yup.ref("password")], "Password does not match")
-        .required("Required!"),
-    }),
-    onSubmit: (values) => {
-      // const error = preValidateRegisterData(values);
-      // // if (error) {
-      // //   return setError(error);
-      // // }
-      // setError("");
-      store.dispatch(
-        signUp({
-          firstname: values.firstname,
-          lastname: values.lastname,
-          username: values.username,
-          password: values.password,
-          email: values.email,
-          dob: values.dob,
-          company: values.company,
-          gender: values.gender,
-        })
-      );
-      console.log(from.pathname);
-      props.history.push(paths.OTP);
-    },
-  });
-
-  const [isVisiblePass, setVisiblePass] = useState(false);
-  // const [error, setError] = useState();
-  const { from } = props.location.state || { from: { pathname: paths.BASE } };
-
-  if (props.isValidAuthentication) {
-    return <Redirect to={paths.BASE} />;
-  }
   return (
-    <PageFrame className="register-container">
-      <Card className="register-card">
-        <CardHeader
-          className="bg-light-blue"
-          style={{
-            textAlign: "center",
-            width: "100%",
-            color: "#ffffff",
-          }}
-          title="Sign Up"
-          titleTypographyProps={{
-            style: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <form className="register-form" onSubmit={formik.handleSubmit}>
-          <div className="register-form-field">
-            <label>Username</label>
-            <TextField
-              id="username"
-              name="username"
-              style={{
-                width: "100%",
-              }}
-              type="text"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-              autoFocus
-            />
-          </div>
-          <div className="register-form-field">
-            <label>Firstname</label>
-            <TextField
-              id="firstname"
-              name="firstname"
-              style={{
-                width: "100%",
-              }}
-              type="text"
-              value={formik.values.firstname}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.firstname && Boolean(formik.errors.firstname)
-              }
-              helperText={formik.touched.firstname && formik.errors.firstname}
-            />
-          </div>
-          <div className="register-form-field">
-            <label>Lastname</label>
-            <TextField
-              id="lastname"
-              name="lastname"
-              style={{
-                width: "100%",
-              }}
-              type="text"
-              value={formik.values.lastname}
-              onChange={formik.handleChange}
-              nBlur={formik.handleBlur}
-              error={formik.touched.lastname && Boolean(formik.errors.lastname)}
-              helperText={formik.touched.lastname && formik.errors.lastname}
-            />
-          </div>
-          <div className="register-form-field">
-            <label>Email</label>
-            <TextField
-              id="email"
-              name="email"
-              style={{
-                width: "100%",
-              }}
-              type="text"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              nBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-          </div>
-          <div className="register-fields-inline">
-            <div
-              className="register-form-field"
-              style={{ width: "40%", justifyContent: "flex-start" }}
-            >
-              <label
-                style={{
-                  width: "fit-content",
-                  minWidth: "fit-content",
-                  marginRight: "22%",
-                }}
-              >
-                Gender
+    <div className="mx-auto flex items-center justify-center max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
+      <div className="max-w-md w-full space-y-8 bg-white">
+        <div>
+          <img
+            className="mx-auto h-12 w-auto"
+            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+            alt="Workflow"
+          />
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign Up NubeS3 Cloud
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" action="#" method="POST">
+          <input type="hidden" name="remember" value="true" />
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email-address" className="sr-only">
+                Email address
               </label>
-              <Select
-                id="gender"
-                name="gender"
-                select
-                value={formik.values.gender}
-                onChange={formik.handleChange}
-              >
-                <MenuItem value={true}>Male</MenuItem>
-                <MenuItem value={false}>Female</MenuItem>
-              </Select>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+              />
             </div>
-            <div
-              className="register-form-field"
-              style={{ width: "50%", justifyContent: "flex-end" }}
-            >
-              <label
-                style={{
-                  width: "fit-content",
-                  minWidth: "fit-content",
-                  textAlign: "right",
-                  marginRight: "10px",
-                }}
-              >
-                DOB
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
               </label>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  style={{ margin: "5px 0", width: "calc(" }}
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  value={formik.values.dob}
-                  onChange={(date) => {
-                    formik.setFieldValue("dob", date);
-                  }}
-                  inputProps={{
-                    width: "fit-content",
-                  }}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </MuiPickersUtilsProvider>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+              />
             </div>
           </div>
-          <div className="register-form-field">
-            <label>Company</label>
-            <TextField
-              id="company"
-              name="company"
-              style={{
-                width: "100%",
-              }}
-              type="text"
-              value={formik.values.company}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.company && Boolean(formik.errors.company)}
-              helperText={formik.touched.company && formik.errors.company}
-            />
-          </div>
-          <div className="register-form-field">
-            <label>Password</label>
-            <TextField
-              id="password"
-              name="password"
-              style={{
-                width: "100%",
-              }}
-              type={isVisiblePass ? "text" : "password"}
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-          </div>
-          <div className="register-form-field">
-            <label>Confirm</label>
-            <TextField
-              id="confirm_password"
-              name="confirm_password"
-              style={{
-                width: "100%",
-              }}
-              type={isVisiblePass ? "text" : "password"}
-              value={formik.values.confirm_password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.confirm_password &&
-                Boolean(formik.errors.confirm_password)
-              }
-              helperText={
-                formik.touched.confirm_password &&
-                formik.errors.confirm_password
-              }
-            />
-          </div>
-          <div style={{ width: "100%" }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  color="default"
-                  inputProps={{
-                    "aria-label": "checkbox with default color",
-                  }}
-                  checked={isVisiblePass}
-                  onChange={() => setVisiblePass(!isVisiblePass)}
-                />
-              }
-              label="Show password"
-            />
-          </div>
-          <div className="register-form-control register-form-control-button">
-            <Button
-              variant="outlined"
-              className="register-buttons"
-              onClick={() => props.history.push(paths.BASE)}
-            >
-              BACK
-            </Button>
+
+          <div>
             <button
-              variant="contained"
-              className="bg-light-blue text-white active:bg-light-blue font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
               type="submit"
-              onClick={formik.handleSubmit}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              CREATE ACCOUNT
+              Sign Up
             </button>
           </div>
         </form>
-      </Card>
-    </PageFrame>
+        <div>
+          <p className="text-gray-500">
+            By pressing the button above you will create a NubeS3 Cloud account
+            and agree to our terms of service.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  isValidAuthentication: state.authen.isValidAuthentication,
-});
-
-export default connect(mapStateToProps)(Register);
+export default Register;
