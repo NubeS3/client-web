@@ -8,7 +8,11 @@ const GeneralAppBar = (props) => {
         <div class="flex items-center justify-between h-16">
           <div class="w-full justify-between flex items-center">
             <a class="flex-shrink-0" href="/">
-              <img class="h-8 w-8" src="/icons/rocket.svg" alt="Workflow" />
+              <img
+                class="h-8 w-8"
+                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                alt="Workflow"
+              />
             </a>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">

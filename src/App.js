@@ -21,9 +21,10 @@ import store from './store';
 import './index.css';
 import paths from './configs/paths';
 import Landing from './view/pages/Landing/Landing';
-import UITest from './view/pages/UI-Test';
 import Register from './view/pages/Register/Register';
 import Login from './view/pages/Login/Login';
+import GeneralAppBar from './components/Header/GeneralAppBar';
+
 const App = (props) => {
   // const mount = async () => {
   //   await store.dispatch(
@@ -51,13 +52,14 @@ const App = (props) => {
   }
 
   return (
-    <Router basename="/">
-      <Switch>
-        <Route exact path={paths.BASE} component={Landing} />
-        <Route exact path={paths.TEST} component={UITest} />
-        <Route exact path={paths.REGISTER} component={Register} />
-        <Route exact path={paths.LOGIN} component={Login} />
-        {/*
+    <>
+      <GeneralAppBar />
+      <Router basename="/">
+        <Switch>
+          <Route exact path={paths.BASE} component={Landing} />
+          <Route exact path={paths.REGISTER} component={Register} />
+          <Route exact path={paths.LOGIN} component={Login} />
+          {/*
         <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         
@@ -80,8 +82,9 @@ const App = (props) => {
           path={paths.ADMIN_MANAGE}
           component={AdminManageBoard}
         /> */}
-      </Switch>
-    </Router>
+        </Switch>
+      </Router>
+    </>
   );
 };
 
