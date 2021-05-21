@@ -1,13 +1,48 @@
 import React, { useState } from 'react';
 import { signUp } from '../../../store/user/signUp';
 import store from '../../../store';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 const Register = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email('Invalid email format')
+        .matches(/^[^\s@]+@[^\s@]+$/, 'Invalid email format')
+        .required('Required!'),
+      password: Yup.string()
+        .min(8, 'Minimum 8 characters')
+        .max(32, 'Maximum 32 characters')
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/,
+          'Must contain at least One Uppercase, One Lowercase, One Number and one special case Character (8-32 characters)'
+        )
+        .required('Required!')
+    }),
+    onSubmit: (values) => {
+      // const error = preValidateRegisterData(values);
+      // // if (error) {
+      // //   return setError(error);
+      // // }
+      // setError("");
+      console.log(values.password);
+      store.dispatch(
+        signUp({
+          password: values.password,
+          email: values.email
+        })
+      );
+      props.history.push('/#');
+    }
+  });
 
-  const handleSignUpSubmit = () => {
-    store.dispatch(signUp({ email: email, password: password }));
-  };
   return (
     <div className="mx-auto flex items-center justify-center max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
       <div className="max-w-md w-full space-y-8 bg-white">
@@ -21,7 +56,7 @@ const Register = (props) => {
             Sign Up NubeS3 Cloud
           </h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSignUpSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={formik.handleSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -36,7 +71,11 @@ const Register = (props) => {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.email ? <div>{formik.errors.email}</div> : null}
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
@@ -50,7 +89,13 @@ const Register = (props) => {
                 required
                 className="mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.password ? (
+                <div>{formik.errors.password}</div>
+              ) : null}
             </div>
           </div>
 

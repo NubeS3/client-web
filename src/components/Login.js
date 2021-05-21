@@ -5,10 +5,10 @@ const EmailCard = () => {
     <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
       <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1>
       <form method="POST" className="pb-16 pt-4 w-5/6">
-        <div class="relative text-gray-600">
+        <div className="relative text-gray-600">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <svg
-              class="h-6 w-6 text-gray-400"
+              className="h-6 w-6 text-gray-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -24,7 +24,7 @@ const EmailCard = () => {
           <input
             type="text"
             name="q"
-            class="w-full py-2 text-sm text-white rounded-sm pl-10 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500"
+            className="w-full py-2 text-sm text-white rounded-sm pl-10 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500"
             placeholder="Email address"
             autocomplete="off"
           />
@@ -51,8 +51,8 @@ const PasswordCard = ({ email = 'thesplendore@gmail.com' }) => {
         </a>
       </div>
       <form method="POST" className="pt-4 w-5/6">
-        <div class="relative text-gray-400">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+        <div className="relative text-gray-400">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -69,7 +69,7 @@ const PasswordCard = ({ email = 'thesplendore@gmail.com' }) => {
           <input
             type="password"
             name="q"
-            class="w-full py-2 text-sm text-white rounded-sm pl-10 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500"
+            className="w-full py-2 text-sm text-white rounded-sm pl-10 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500"
             placeholder="Password"
             autocomplete="off"
           />
@@ -116,7 +116,7 @@ const VerifyEmail = ({ email = 'thesplendore@gmail.com' }) => {
           <input
             type="password"
             name="q"
-            class="w-2/3 py-2 text-sm text-white rounded-sm px-4 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500"
+            className="w-2/3 py-2 text-sm text-white rounded-sm px-4 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500"
             autocomplete="off"
           />
         </div>

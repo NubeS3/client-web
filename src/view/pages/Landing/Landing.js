@@ -18,13 +18,13 @@ const Landing = (props) => {
             </h2>
             <div className="flex items-center justify-center mt-4">
               <a
-                href="#"
+                href="/"
                 className="uppercase py-2 px-4 bg-gray-800 border-2 border-transparent text-white text-md mr-4 hover:bg-gray-900"
               >
                 Get started
               </a>
               <a
-                href="#"
+                href="/"
                 className="uppercase py-2 px-4 bg-transparent border-2 border-gray-800 text-gray-800 dark:text-white hover:bg-gray-800 hover:text-white text-md"
               >
                 Documentation

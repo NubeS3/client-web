@@ -13,6 +13,7 @@ const initialState = {
 export const signUp = createAsyncThunk('signUp/signUp', async (data, api) => {
   try {
     api.dispatch(signUpSlice.actions.loading());
+    console.log('SignUp');
     const response = await axios.post(endpoints.REGISTER, {
       password: data.password,
       email: data.email
