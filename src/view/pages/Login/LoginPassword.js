@@ -30,7 +30,11 @@ const LoginPassword = (props) => {
       <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1>
       <div className="flex flex-col justify-center items-center">
         <p>{props.loginEmail}</p>
-        <a href="#" className="text-blue-600">
+        <a
+          href=""
+          className="text-blue-600"
+          onClick={() => props.history.push(paths.LOGIN_EMAIL)}
+        >
           {'(Change)'}
         </a>
       </div>
