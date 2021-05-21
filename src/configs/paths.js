@@ -4,6 +4,8 @@ const paths = {
   LOGIN_EMAIL: '/sign-in-email',
   LOGIN_PASSWORD: '/sign-in-password',
 
+  TEST: '/ui-test',
+
   REGISTER: '/sign-up',
   LOGOUT: '/sign-out',
   CONFIRM_OTP: '/confirm-otp',

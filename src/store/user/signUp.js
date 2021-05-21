@@ -14,14 +14,8 @@ export const signUp = createAsyncThunk('signUp/signUp', async (data, api) => {
   try {
     api.dispatch(signUpSlice.actions.loading());
     const response = await axios.post(endpoints.REGISTER, {
-      firstname: data.firstname,
-      lastname: data.lastname,
-      username: data.username,
       password: data.password,
-      email: data.email,
-      dob: data.dob,
-      company: data.company,
-      gender: data.gender
+      email: data.email
     });
 
     if (response) {
@@ -96,7 +90,7 @@ export const signUpSlice = createSlice({
     },
 
     [resendOTP.fulfilled]: (state, action) => {
-      state.message = action.payload.message;
+      state.message = action.payload;
       state.loading = false;
       state.done = true;
       state.err = null;

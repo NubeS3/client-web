@@ -24,6 +24,8 @@ import Landing from './view/pages/Landing/Landing';
 import Register from './view/pages/Register/Register';
 import LoginEmail from './view/pages/Login/LoginEmail';
 import LoginPassword from './view/pages/Login/LoginPassword';
+import GeneralAppBar from './components/Header/GeneralAppBar';
+
 const App = (props) => {
   // const mount = async () => {
   //   await store.dispatch(
@@ -51,13 +53,15 @@ const App = (props) => {
   }
 
   return (
-    <Router basename="/">
-      <Switch>
-        <Route exact path={paths.BASE} component={Landing} />
-        <Route exact path={paths.REGISTER} component={Register} />
-        <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} />
-        <Route exact path={paths.LOGIN_PASSWORD} component={LoginPassword} />
-        {/*
+    <>
+      <GeneralAppBar />
+      <Router basename="/">
+        <Switch>
+          <Route exact path={paths.BASE} component={Landing} />
+          <Route exact path={paths.REGISTER} component={Register} />
+          <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} />
+          <Route exact path={paths.LOGIN_PASSWORD} component={LoginPassword} />
+          {/*
         <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         
@@ -80,8 +84,9 @@ const App = (props) => {
           path={paths.ADMIN_MANAGE}
           component={AdminManageBoard}
         /> */}
-      </Switch>
-    </Router>
+        </Switch>
+      </Router>
+    </>
   );
 };
 
