@@ -1,17 +1,25 @@
-import validator from "validator";
-
-const preValidateLoginData = (data = { username: "", password: "" }) => {
-  if (data.username === "" && data.password === "") {
-    return "Please enter username and password";
+const preValidateEmailLogin = (email = '') => {
+  if (email === '') {
+    return 'Please enter your email';
   }
 
-  // if (!/^(\d+|\w+)$/.test(data.username)) {
-  //   return "Invalid username or password";
-  // }
-  
-  // if (data.password.length <= 8 ) {
-  //   return "Invalid username or password";
-  // }
+  if (!/^[^\s@]+@[^\s@]+$/.test(email)) {
+    return 'Invalid email. Try again.';
+  }
+
+  return ' ';
 };
 
-export default preValidateLoginData;
+const preValidatePasswordLogin = ({ password = '' }) => {
+  if (password === '') {
+    return 'Please enter password';
+  }
+
+  if (password.length < 8) {
+    return 'Invalid email or password. Try again.';
+  }
+
+  return ' ';
+};
+
+export { preValidateEmailLogin, preValidatePasswordLogin };

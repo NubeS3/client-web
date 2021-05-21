@@ -6,6 +6,7 @@ import localStorageKeys from '../../configs/localStorageKeys';
 const initialState = {
   isValidating: false,
   isValidAuthentication: false,
+  loginEmail: localStorage.getItem(localStorageKeys.LOGIN_EMAIL) || '',
   isAdmin: false,
   authToken: localStorage.getItem(localStorageKeys.TOKEN) || null,
   rfToken: null,
@@ -13,11 +14,20 @@ const initialState = {
   err: null
 };
 
+export const loginEmail = createAsyncThunk(
+  'authen/loginEmail',
+  async (data, api) => {
+    localStorage.setItem(localStorageKeys.LOGIN_EMAIL, data.email);
+    api.dispatch(authenSlice.actions.loginEmail(data.email));
+    return data.email;
+  }
+);
+
 export const login = createAsyncThunk('authen/login', async (data, api) => {
   try {
     api.dispatch(authenSlice.actions.loggingIn());
     const response = await axios.post(endpoints.LOGIN, {
-      username: data.username,
+      email: data.email,
       password: data.password
     });
     return response.data;
@@ -78,6 +88,9 @@ export const authenSlice = createSlice({
       state.rfToken = null;
       state.isLoggingIn = false;
       state.err = null;
+    },
+    loginEmail: (state, action) => {
+      state.loginEmail = action.payload || '';
     }
   },
   extraReducers: {
