@@ -13,7 +13,7 @@
 /build
 firebase.json
 .firebaserc
-/.firebase
+.firebase
 # misc
 .DS_Store
 .env.local
