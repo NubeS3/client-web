@@ -1,7 +1,8 @@
 const paths = {
   BASE: '/',
   BASE_ADMIN: '/admin',
-  LOGIN: '/sign-in',
+  LOGIN_EMAIL: '/sign-in-email',
+  LOGIN_PASSWORD: '/sign-in-password',
 
   TEST: '/ui-test',
 

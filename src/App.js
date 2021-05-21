@@ -22,7 +22,8 @@ import './index.css';
 import paths from './configs/paths';
 import Landing from './view/pages/Landing/Landing';
 import Register from './view/pages/Register/Register';
-import Login from './view/pages/Login/Login';
+import LoginEmail from './view/pages/Login/LoginEmail';
+import LoginPassword from './view/pages/Login/LoginPassword';
 import GeneralAppBar from './components/Header/GeneralAppBar';
 
 const App = (props) => {
@@ -58,7 +59,8 @@ const App = (props) => {
         <Switch>
           <Route exact path={paths.BASE} component={Landing} />
           <Route exact path={paths.REGISTER} component={Register} />
-          <Route exact path={paths.LOGIN} component={Login} />
+          <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} />
+          <Route exact path={paths.LOGIN_PASSWORD} component={LoginPassword} />
           {/*
         <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
