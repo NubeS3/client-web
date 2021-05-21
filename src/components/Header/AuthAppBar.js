@@ -1,8 +1,8 @@
 import React from 'react';
 import paths from '../../configs/paths';
-const GeneralAppBar = (props) => {
+const AuthAppBar = (props) => {
   return (
-    // <div>
+    // <div className="absolute">
     <nav className="bg-white dark:bg-gray-800 shadow z-9">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex items-center justify-between h-16">
@@ -48,9 +48,9 @@ const GeneralAppBar = (props) => {
                 </a>
                 <a
                   className="text-gray-600  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  href={paths.LOGIN_EMAIL}
+                  href={paths.BASE_STORAGE}
                 >
-                  Sign In
+                  My Account
                 </a>
               </div>
             </div>
@@ -84,7 +84,7 @@ const GeneralAppBar = (props) => {
           </a>
           <a
             className="text-gray-800 dark:text-white block px-3 py-2 rounded-md text-base font-medium"
-            href={paths.BASE}
+            href="/"
           >
             Blog
           </a>
@@ -96,15 +96,15 @@ const GeneralAppBar = (props) => {
           </a>
           <a
             className="text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            href={paths.LOGIN_EMAIL}
+            href="/console"
           >
-            Sign In
+            My Account
           </a>
         </div>
       </div>
     </nav>
-    //  {/* </div> */}
+    // </div>
   );
 };
 
-export default GeneralAppBar;
+export default AuthAppBar;

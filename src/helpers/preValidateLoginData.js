@@ -7,7 +7,7 @@ const preValidateEmailLogin = (email = '') => {
     return 'Invalid email. Try again.';
   }
 
-  return ' ';
+  return '';
 };
 
 const preValidatePasswordLogin = ({ password = '' }) => {
@@ -19,7 +19,7 @@ const preValidatePasswordLogin = ({ password = '' }) => {
     return 'Invalid email or password. Try again.';
   }
 
-  return ' ';
+  return '';
 };
 
 export { preValidateEmailLogin, preValidatePasswordLogin };

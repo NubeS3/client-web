@@ -14,19 +14,20 @@ const LoginEmail = (props) => {
     e.preventDefault();
 
     let error = preValidateEmailLogin(email);
-    if (error !== ' ') {
+    if (error !== '') {
       return setErr(error);
     }
-    setErr(' ');
+    setErr('');
 
     store.dispatch(loginEmail({ email: email }));
 
-    props.history.push(paths.LOGIN_PASSWORD);
+    // props.history.push(paths.LOGIN_PASSWORD);
   };
 
   return (
-    <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
-      <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1>
+    <>
+      {/* <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
+        <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1> */}
       <form className="mb-6 pt-4 w-5/6">
         <div class="relative text-gray-600">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -65,7 +66,8 @@ const LoginEmail = (props) => {
         </button>
       </form>
       <p className="text-red-500 mb-6">{err}</p>
-    </div>
+      {/* </div> */}
+    </>
   );
 };
 

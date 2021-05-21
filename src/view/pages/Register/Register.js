@@ -5,8 +5,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const Register = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -69,13 +67,21 @@ const Register = (props) => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className={
+                  formik.errors.email
+                    ? 'mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-red-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-red-500 focus:z-10 sm:text-sm'
+                    : 'mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                }
                 placeholder="Email address"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+              {formik.errors.email ? (
+                <div className="text-red-600 text-sm" role="alert">
+                  {formik.errors.email}
+                </div>
+              ) : null}
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
@@ -87,14 +93,20 @@ const Register = (props) => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className={
+                  formik.errors.password
+                    ? 'mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-red-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-red-500 focus:z-10 sm:text-sm'
+                    : 'mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                }
                 placeholder="Password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
               {formik.errors.password ? (
-                <div>{formik.errors.password}</div>
+                <div className="text-red-600 text-sm" role="alert">
+                  {formik.errors.password}
+                </div>
               ) : null}
             </div>
           </div>
