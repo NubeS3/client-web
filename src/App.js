@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import store from './store';
-// import { verifyAuthentication } from './store/auth/auth';
-// import { verifyAdminAuthentication } from './store/auth/admin_auth';
+import { verifyAuthentication } from './store/auth/auth';
+import { verifyAdminAuthentication } from './store/auth/admin_auth';
+import localStorageKeys from './configs/localStorageKeys';
 // import GuardRoute from './views/routes/GuardRoute';
 // import Dashboard from './views/pages/Dashboard/Dashboard';
 // import Storage from './views/pages/Storage/Storage';
@@ -11,7 +12,6 @@ import store from './store';
 // import SignIn from './views/pages/Login/Login';
 // import paths from './configs/paths';
 // import ConfirmedOTP from './views/pages/Otp/Otp';
-// import localStorageKeys from './configs/localStorageKeys';
 // import AdminLogin from './views/pages/Admin/AdminLogin';
 // import AdminDashboard from './views/pages/Admin/AdminDashboard';
 // import UserManageBoard from './views/pages/Admin/UserManage';
@@ -22,26 +22,26 @@ import './index.css';
 import paths from './configs/paths';
 import Landing from './view/pages/Landing/Landing';
 import Register from './view/pages/Register/Register';
-import LoginEmail from './view/pages/Login/LoginEmail';
-import LoginPassword from './view/pages/Login/LoginPassword';
-import GeneralAppBar from './components/Header/GeneralAppBar';
+import PageFrame from './components/PageFrame';
+import StorageLanding from './view/pages/Landing/StorageLanding';
+import Login from './view/pages/Login/Login';
 
 const App = (props) => {
-  // const mount = async () => {
-  //   await store.dispatch(
-  //     verifyAuthentication({
-  //       authToken: localStorage.getItem(localStorageKeys.TOKEN)
-  //     })
-  //   );
-  //   await store.dispatch(
-  //     verifyAdminAuthentication({
-  //       adminToken: localStorage.getItem(localStorageKeys.TOKEN_ADMIN)
-  //     })
-  //   );
-  // };
+  const mount = async () => {
+    await store.dispatch(
+      verifyAuthentication({
+        authToken: localStorage.getItem(localStorageKeys.TOKEN)
+      })
+    );
+    await store.dispatch(
+      verifyAdminAuthentication({
+        adminToken: localStorage.getItem(localStorageKeys.TOKEN_ADMIN)
+      })
+    );
+  };
 
   useEffect(() => {
-    // mount();
+    mount();
   }, []);
 
   if (props.isValidating) {
@@ -54,15 +54,21 @@ const App = (props) => {
 
   return (
     <>
-      <GeneralAppBar />
-      <Router basename="/">
-        <Switch>
-          <Route exact path={paths.BASE} component={Landing} />
-          <Route exact path={paths.REGISTER} component={Register} />
-          <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} />
-          <Route exact path={paths.LOGIN_PASSWORD} component={LoginPassword} />
-          {/*
-        <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
+      <PageFrame>
+        <Router basename="/">
+          <Switch>
+            <Route exact path={paths.BASE} component={Landing} />
+            <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
+            <Route exact path={paths.REGISTER} component={Register} />
+            <Route exact path={paths.LOGIN_EMAIL} component={Login} />
+            {/* <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} /> */}
+            {/* <Route
+              exact
+              path={paths.LOGIN_PASSWORD}
+              component={LoginPassword}
+            /> */}
+
+            {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         
         <Route exact path={paths.OTP} component={ConfirmedOTP} />
@@ -70,22 +76,23 @@ const App = (props) => {
         <GuardRoute exact path={paths.DASHBOARD} component={Dashboard} />
         <GuardRoute exact path={paths.STORAGE} component={Storage} />
         <AdminGuardRoute
-          exact
-          path={paths.DASHBOARD_ADMIN}
-          component={AdminDashboard}
+        exact
+        path={paths.DASHBOARD_ADMIN}
+        component={AdminDashboard}
         />
         <AdminGuardRoute
-          exact
-          path={paths.USER_MANAGE}
-          component={UserManageBoard}
+        exact
+        path={paths.USER_MANAGE}
+        component={UserManageBoard}
         />
         <AdminGuardRoute
-          exact
-          path={paths.ADMIN_MANAGE}
-          component={AdminManageBoard}
-        /> */}
-        </Switch>
-      </Router>
+        exact
+        path={paths.ADMIN_MANAGE}
+        component={AdminManageBoard}
+      /> */}
+          </Switch>
+        </Router>
+      </PageFrame>
     </>
   );
 };

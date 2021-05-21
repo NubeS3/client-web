@@ -1,11 +1,10 @@
 import React from 'react';
-
-import Header from '../components/Header';
+import AppBar from './Header/AppBar';
 
 const PageFrame = (props) => {
   return (
     <>
-      <Header />
+      <AppBar />
       <div {...props}>{props.children}</div>
     </>
   );
