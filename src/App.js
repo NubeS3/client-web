@@ -25,6 +25,7 @@ import Register from './view/pages/Register/Register';
 import PageFrame from './components/PageFrame';
 import StorageLanding from './view/pages/Landing/StorageLanding';
 import Login from './view/pages/Login/Login';
+import Storage from './view/pages/Storage/Storage';
 
 const App = (props) => {
   const mount = async () => {
@@ -61,6 +62,7 @@ const App = (props) => {
             <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
             <Route exact path={paths.REGISTER} component={Register} />
             <Route exact path={paths.LOGIN_EMAIL} component={Login} />
+            <Route exact path={paths.STORAGE} component={Storage} />
             {/* <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} /> */}
             {/* <Route
               exact

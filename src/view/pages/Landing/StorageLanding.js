@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import paths from '../../../configs/paths';
 import './style.css';
 
 const StorageLanding = (props) => {
@@ -18,7 +19,7 @@ const StorageLanding = (props) => {
             </h2>
             <div className="flex items-center justify-center mt-4">
               <a
-                href="/sign-up"
+                href={paths.REGISTER}
                 className="uppercase py-2 px-4 bg-gray-800 border-2 border-transparent text-white text-md mr-4 hover:bg-gray-900"
               >
                 Sign Up
