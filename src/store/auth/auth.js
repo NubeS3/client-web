@@ -11,7 +11,7 @@ const initialState = {
   authToken: localStorage.getItem(localStorageKeys.TOKEN) || null,
   rfToken: null,
   isLoggingIn: false,
-  err: null
+  err: { error: '' }
 };
 
 export const loginEmail = createAsyncThunk(
@@ -20,6 +20,15 @@ export const loginEmail = createAsyncThunk(
     localStorage.setItem(localStorageKeys.LOGIN_EMAIL, data.email);
     api.dispatch(authenSlice.actions.loginEmail(data.email));
     return data.email;
+  }
+);
+
+export const changeLoginEmail = createAsyncThunk(
+  'authen/changeLoginEmail',
+  async (data, api) => {
+    localStorage.removeItem(localStorageKeys.LOGIN_EMAIL);
+    api.dispatch(authenSlice.actions.loginEmail(''));
+    return '';
   }
 );
 
@@ -111,7 +120,7 @@ export const authenSlice = createSlice({
     [login.rejected]: (state, action) => {
       console.log(action.payload);
       state.isLoggingIn = false;
-      state.err = action.payload;
+      state.err = { error: action.payload };
     },
     [verifyAuthentication.fulfilled]: (state, action) => {
       state.isValidating = false;
@@ -149,6 +158,18 @@ export const authenSlice = createSlice({
       state.authToken = null;
       state.rfToken = null;
       state.err = action.payload;
+    },
+    [loginEmail.fulfilled]: (state, action) => {
+      state.loginEmail = action.payload;
+    },
+    [loginEmail.rejected]: (state, action) => {
+      state.err = { error: action.payload };
+    },
+    [changeLoginEmail.fulfilled]: (state, action) => {
+      state.loginEmail = action.payload;
+    },
+    [changeLoginEmail.rejected]: (state, action) => {
+      state.err = { error: action.payload };
     }
   }
 });

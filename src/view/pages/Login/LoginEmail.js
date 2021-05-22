@@ -14,19 +14,20 @@ const LoginEmail = (props) => {
     e.preventDefault();
 
     let error = preValidateEmailLogin(email);
-    if (error !== ' ') {
+    if (error !== '') {
       return setErr(error);
     }
-    setErr(' ');
+    setErr('');
 
     store.dispatch(loginEmail({ email: email }));
 
-    props.history.push(paths.LOGIN_PASSWORD);
+    // props.history.push(paths.LOGIN_PASSWORD);
   };
 
   return (
-    <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
-      <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1>
+    <>
+      {/* <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
+        <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1> */}
       <form className="mb-6 pt-4 w-5/6">
         <div class="relative text-gray-600">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -59,13 +60,14 @@ const LoginEmail = (props) => {
         </div>
         <button
           onClick={handleEmailSubmit}
-          className="relative w-full my-2 rounded-sm flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="relative w-full my-2 rounded-sm justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Next
         </button>
       </form>
       <p className="text-red-500 mb-6">{err}</p>
-    </div>
+      {/* </div> */}
+    </>
   );
 };
 

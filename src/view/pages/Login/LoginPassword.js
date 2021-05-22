@@ -3,42 +3,49 @@ import { connect } from 'react-redux';
 import { preValidatePasswordLogin } from '../../../helpers/preValidateLoginData';
 import paths from '../../../configs/paths';
 import store from '../../../store';
-import { login } from '../../../store/auth/auth';
+import { changeLoginEmail, login } from '../../../store/auth/auth';
+import { useHistory } from 'react-router';
 
 const LoginPassword = (props) => {
-  let [pass, setPass] = React.useState('');
-  let [err, setErr] = React.useState(' ');
-
+  const [pass, setPass] = React.useState('');
+  const [err, setErr] = React.useState('');
+  const history = useHistory();
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
 
     console.log(props.loginEmail);
 
-    let error = preValidatePasswordLogin(pass);
+    let error = preValidatePasswordLogin({ password: pass });
     if (error) {
+      console.log(error);
       return setErr(error);
     }
-    setErr(' ');
+    setErr('');
 
     store.dispatch(login({ email: props.loginEmail, password: pass }));
+    if (props.err) {
+      setErr(props.err.error);
+      return;
+    }
+    history.push(paths.BASE);
+  };
 
-    props.history.push(paths.BASE);
+  const changeLogInEmail = () => {
+    store.dispatch(changeLoginEmail());
+    // props.history.push(paths.LOGIN_EMAIL);
   };
 
   return (
-    <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
-      <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1>
+    <>
+      {/* <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
+      <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1> */}
       <div className="flex flex-col justify-center items-center">
         <p>{props.loginEmail}</p>
-        <a
-          href=""
-          className="text-blue-600"
-          onClick={() => props.history.push(paths.LOGIN_EMAIL)}
-        >
+        <a href="" className="text-blue-600" onClick={changeLogInEmail}>
           {'(Change)'}
         </a>
       </div>
-      <form method="POST" className="pt-4 w-5/6">
+      <form onSubmit={handlePasswordSubmit} className="pt-4 w-5/6">
         <div class="relative text-gray-400">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <svg
@@ -64,7 +71,6 @@ const LoginPassword = (props) => {
         </div>
         <button
           type="submit"
-          onClick={handlePasswordSubmit}
           className="relative w-full my-2 rounded-sm flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Sign in
@@ -74,12 +80,17 @@ const LoginPassword = (props) => {
       <a href="#" className="text-blue-600 py-6">
         Forgot Password?
       </a>
-    </div>
+      {/* </div> */}
+    </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  loginEmail: state.authen.loginEmail
-});
+const mapStateToProps = (state) => {
+  console.log(state.authen.err);
+  return {
+    err: state.authen.err,
+    loginEmail: state.authen.loginEmail
+  };
+};
 
 export default connect(mapStateToProps)(LoginPassword);
