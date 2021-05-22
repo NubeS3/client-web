@@ -25,6 +25,7 @@ import Register from './view/pages/Register/Register';
 import LoginEmail from './view/pages/Login/LoginEmail';
 import LoginPassword from './view/pages/Login/LoginPassword';
 import GeneralAppBar from './components/Header/GeneralAppBar';
+import Greeting from './components/Dialog/Greeting';
 
 const App = (props) => {
   // const mount = async () => {
@@ -61,6 +62,7 @@ const App = (props) => {
           <Route exact path={paths.REGISTER} component={Register} />
           <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} />
           <Route exact path={paths.LOGIN_PASSWORD} component={LoginPassword} />
+          <Route exact path={paths.TEST} component={Greeting} />
           {/*
         <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
