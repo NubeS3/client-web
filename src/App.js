@@ -22,9 +22,15 @@ import './index.css';
 import paths from './configs/paths';
 import Landing from './view/pages/Landing/Landing';
 import Register from './view/pages/Register/Register';
+import LoginEmail from './view/pages/Login/LoginEmail';
+import LoginPassword from './view/pages/Login/LoginPassword';
+import GeneralAppBar from './components/Header/GeneralAppBar';
+import Greeting from './components/Dialog/Greeting';
 import PageFrame from './components/PageFrame';
 import StorageLanding from './view/pages/Landing/StorageLanding';
 import Login from './view/pages/Login/Login';
+import CreateBucket from './components/Dialog/Bucket/CreateBucket';
+import BucketCard from './components/BucketCard/BucketCard';
 import Storage from './view/pages/Storage/Storage';
 
 const App = (props) => {
@@ -61,7 +67,8 @@ const App = (props) => {
             <Route exact path={paths.BASE} component={Landing} />
             <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
             <Route exact path={paths.REGISTER} component={Register} />
-            <Route exact path={paths.LOGIN_EMAIL} component={Login} />
+            <Route exact path={paths.LOGIN} component={Login} />
+            <Route exact path={paths.TEST} component={BucketCard} />
             <Route exact path={paths.STORAGE} component={Storage} />
             {/* <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} /> */}
             {/* <Route

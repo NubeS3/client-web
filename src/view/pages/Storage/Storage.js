@@ -11,7 +11,7 @@ const Storage = ({ email }) => {
 
   const handleSignOut = () => {
     store.dispatch(clearAuthentication());
-    history.push(paths.LOGIN_EMAIL);
+    history.push(paths.LOGIN);
   };
 
   return (

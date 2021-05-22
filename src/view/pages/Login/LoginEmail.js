@@ -60,7 +60,7 @@ const LoginEmail = (props) => {
         </div>
         <button
           onClick={handleEmailSubmit}
-          className="relative w-full my-2 rounded-sm flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="relative w-full my-2 rounded-sm justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Next
         </button>
