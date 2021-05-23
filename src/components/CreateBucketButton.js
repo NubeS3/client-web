@@ -26,7 +26,9 @@ const CreateBucketButton = () => {
         </svg>
         Create a Bucket
       </button>
-      {openDialog ? <CreateBucket openDialog={setOpenDialog} /> : null}
+      {openDialog && (
+        <CreateBucket open={openDialog} onCancel={() => setOpenDialog(false)} />
+      )}
     </div>
   );
 };

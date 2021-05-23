@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import KeyCard from '../../../components/KeyCard/KeyCard';
+import StorageFrame from './StorageFrame';
 
 const AppKeyContainer = ({ email }) => {
   return (
-    <>
+    <StorageFrame active="appkey">
       <main className="h-screen lg:block relative w-full">
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
@@ -14,9 +16,11 @@ const AppKeyContainer = ({ email }) => {
             </div>
           </div>
         </header>
-        <div className="flex flex-col justify-between items-center px-2 bg-gray-100"></div>
+        <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
+          <KeyCard />
+        </div>
       </main>
-    </>
+    </StorageFrame>
   );
 };
 

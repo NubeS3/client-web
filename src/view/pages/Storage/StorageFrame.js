@@ -8,7 +8,7 @@ import store from '../../../store';
 import { clearAuthentication } from '../../../store/auth/auth';
 import BucketContainer from './Buckets';
 
-const Storage = ({ email }) => {
+const Storage = ({ email, active, ...props }) => {
   const history = useHistory();
 
   const handleSignOut = () => {
@@ -20,8 +20,8 @@ const Storage = ({ email }) => {
     <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 lg:mx-60 md:mx-0">
       <div class="flex items-start justify-between">
         <div class="h-screen hidden lg:block relative w-65 ">
-          <FixedSidedbar />
-          <OptionalSidebar />
+          <FixedSidedbar active={active} />
+          <OptionalSidebar active={active} />
         </div>
         <div class="flex flex-col w-full md:space-y-4">
           <header class="w-full h-16 flex items-center justify-between">
@@ -53,7 +53,7 @@ const Storage = ({ email }) => {
               </div>
             </div>
           </header>
-          <BucketContainer />
+          {props.children}
         </div>
       </div>
     </main>

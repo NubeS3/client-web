@@ -32,9 +32,11 @@ import Login from './view/pages/Login/Login';
 import CreateBucket from './components/Dialog/Bucket/CreateBucket';
 import CreateBucketButton from './components/CreateBucketButton';
 import BucketCard from './components/BucketCard/BucketCard';
-import Storage from './view/pages/Storage/Storage';
+import KeyCard from './components/KeyCard/KeyCard';
 import BucketContainer from './view/pages/Storage/Buckets';
 import AppKeyContainer from './view/pages/Storage/AppKey';
+import BrowserContainer from './view/pages/Storage/Browser';
+import ReportContainer from './view/pages/Storage/Reports';
 
 const App = (props) => {
   const mount = async () => {
@@ -72,7 +74,6 @@ const App = (props) => {
             <Route exact path={paths.REGISTER} component={Register} />
             <Route exact path={paths.LOGIN} component={Login} />
             <Route exact path={paths.TEST} component={CreateBucketButton} />
-            <Route exact path={paths.STORAGE} component={Storage} />
             <Route exact path={paths.STORAGE} component={BucketContainer} />
             <Route
               exact
@@ -82,7 +83,12 @@ const App = (props) => {
             <Route
               exact
               path={paths.STORAGE_BROWSER}
-              component={AppKeyContainer}
+              component={BrowserContainer}
+            />
+            <Route
+              exact
+              path={paths.STORAGE_REPORT}
+              component={ReportContainer}
             />
             {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />

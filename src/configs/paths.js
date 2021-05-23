@@ -14,6 +14,7 @@ const paths = {
   STORAGE: '/storage/bucket',
   STORAGE_APPKEY: '/storage/appkey',
   STORAGE_BROWSER: '/storage/browser',
+  STORAGE_REPORT: '/storage/report',
   OTP: '/otp',
   LOGIN_ADMIN: '/admin/sign-in',
   DASHBOARD_ADMIN: '/admin/dashboard',
