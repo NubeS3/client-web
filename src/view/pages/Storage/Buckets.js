@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import BucketCard from '../../../components/BucketCard/BucketCard';
 import CreateBucket from '../../../components/Dialog/Bucket/CreateBucket';
+import CreateBucketButton from '../../../components/CreateBucketButton';
+
 const BucketContainer = ({ email }) => {
   const [showCreateCard, setShowCreateCard] = useState(false);
 
@@ -19,10 +21,11 @@ const BucketContainer = ({ email }) => {
               <div className="flex items-end text-black dark:text-white text-3xl">
                 Nubes3 Cloud Storage Buckets
               </div>
-              <button onClick={createCardClick}>Button</button>
             </div>
           </div>
         </header>
+
+        <CreateBucketButton onButtonClick={createCardClick} />
         <div>
           <BucketCard />
         </div>

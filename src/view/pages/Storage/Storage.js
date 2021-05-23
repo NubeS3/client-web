@@ -25,7 +25,7 @@ const Storage = ({ email }) => {
           <OptionalSidebar />
         </div>
         <div class="flex flex-col w-full md:space-y-4">
-          <header class="w-full h-16 z-40 flex items-center justify-between">
+          <header class="w-full h-16 flex items-center justify-between">
             <div class="block lg:hidden ml-6">
               <button class="flex p-2 items-center rounded-full bg-white shadow text-gray-500 text-md">
                 <svg
@@ -40,7 +40,7 @@ const Storage = ({ email }) => {
                 </svg>
               </button>
             </div>
-            <div class="relative z-20 flex flex-col justify-end h-full px-3 md:w-full">
+            <div class="relative flex flex-col justify-end h-full px-3 md:w-full">
               <div class="relative p-1 flex items-center w-full space-x-4 justify-end">
                 <div class="flex items-center text-gray-500 dark:text-white text-md focus:outline-none hover:font-bold">
                   Welcome {email},
