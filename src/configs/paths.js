@@ -11,7 +11,7 @@ const paths = {
   CONFIRM_OTP: '/confirm-otp',
   RESEND_OTP: '/resend-otp',
   DASHBOARD: '/dashboard',
-  STORAGE: '/storage',
+  STORAGE: '/storage/console',
   OTP: '/otp',
   LOGIN_ADMIN: '/admin/sign-in',
   DASHBOARD_ADMIN: '/admin/dashboard',

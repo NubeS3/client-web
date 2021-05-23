@@ -32,6 +32,7 @@ import Login from './view/pages/Login/Login';
 import CreateBucket from './components/Dialog/Bucket/CreateBucket';
 import CreateBucketButton from './components/CreateBucketButton';
 import BucketCard from './components/BucketCard/BucketCard';
+import Storage from './view/pages/Storage/Storage';
 
 const App = (props) => {
   const mount = async () => {
@@ -69,6 +70,7 @@ const App = (props) => {
             <Route exact path={paths.REGISTER} component={Register} />
             <Route exact path={paths.LOGIN} component={Login} />
             <Route exact path={paths.TEST} component={CreateBucketButton} />
+            <Route exact path={paths.STORAGE} component={Storage} />
             {/* <Route exact path={paths.TEST} component={BucketCard} /> */}
             {/* <Route exact path={paths.LOGIN_EMAIL} component={LoginEmail} /> */}
             {/* <Route
