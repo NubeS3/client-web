@@ -5,15 +5,8 @@ import CreateBucket from '../../../components/Dialog/Bucket/CreateBucket';
 import CreateBucketButton from '../../../components/CreateBucketButton';
 
 const BucketContainer = ({ email }) => {
-  const [showCreateCard, setShowCreateCard] = useState(false);
-
-  const createCardClick = () => {
-    setShowCreateCard(!showCreateCard);
-  };
-
   return (
     <>
-      {showCreateCard ? <CreateBucket /> : null}
       <main className="h-screen hidden lg:block relative w-full">
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
@@ -25,10 +18,7 @@ const BucketContainer = ({ email }) => {
           </div>
         </header>
 
-        <CreateBucketButton onButtonClick={createCardClick} />
-        <div>
-          <BucketCard />
-        </div>
+        <CreateBucketButton />
       </main>
     </>
   );

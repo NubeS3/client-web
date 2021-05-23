@@ -1,11 +1,14 @@
 import React from 'react';
+import CreateBucket from './Dialog/Bucket/CreateBucket';
 
-const CreateBucketButton = ({ onButtonClick }) => {
+const CreateBucketButton = () => {
+  const [openDialog, setOpenDialog] = React.useState(false);
+
   return (
-    <div className="m-2">
+    <div className="relative mx-2">
       <button
-        onClick={onButtonClick}
-        className="flex w-full py-2 px-2 text-blue-500 items-center justify-center bg-white border border-gray-300 focus:outline-none hover:border-indigo-700"
+        className="flex w-full m-2 py-2 text-blue-500 items-center justify-center bg-white border border-gray-300 focus:outline-none hover:border-indigo-700"
+        onClick={() => setOpenDialog(!openDialog)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,6 +26,7 @@ const CreateBucketButton = ({ onButtonClick }) => {
         </svg>
         Create a Bucket
       </button>
+      {openDialog ? <CreateBucket openDialog={setOpenDialog} /> : null}
     </div>
   );
 };

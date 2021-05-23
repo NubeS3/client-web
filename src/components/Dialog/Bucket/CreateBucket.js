@@ -7,7 +7,7 @@ const CreateBucket = (props) => {
         className="fixed z-20 inset-0 overflow-y-auto items-center"
         aria-labelledby="modal-title"
       >
-        <div className="flex flex-col mx-auto justify-center max-w-2xl px-4 bg-white shadow rounded-sm my-auto text-gray-600">
+        <div className="flex flex-col mx-auto justify-center items-center mt-10 max-w-2xl px-4 bg-white shadow rounded-sm my-auto text-gray-600">
           <h1 className="w-full text-center text-3xl py-6">Create a Bucket</h1>
           <hr />
           <div className="mt-6 mb-6 px-4">
@@ -100,7 +100,10 @@ const CreateBucket = (props) => {
                     <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Create a Bucket
                     </button>
-                    <button className="rounded-sm py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button
+                      onClick={() => props.openDialog(false)}
+                      className="rounded-sm py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
                       Cancel
                     </button>
                   </div>
@@ -113,6 +116,7 @@ const CreateBucket = (props) => {
       <div
         className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-10"
         aria-hidden="true"
+        onClick={() => props.openDialog(false)}
       ></div>
     </>
   );
