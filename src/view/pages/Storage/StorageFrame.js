@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router';
+import { Route, Router, Switch, useHistory } from 'react-router';
 import FixedSidedbar from '../../../components/Sidebars/FixedSidebar';
 import OptionalSidebar from '../../../components/Sidebars/OptionalSidebar';
 import paths from '../../../configs/paths';
 import store from '../../../store';
 import { clearAuthentication } from '../../../store/auth/auth';
 import BucketContainer from './Buckets';
-import CreateBucket from '../../../components/Dialog/Bucket/CreateBucket';
 
-const Storage = ({ email }) => {
+const Storage = ({ email, active, ...props }) => {
   const history = useHistory();
 
   const handleSignOut = () => {
@@ -18,11 +17,11 @@ const Storage = ({ email }) => {
   };
 
   return (
-    <main class="bg-transparent dark:bg-gray-800 relative h-screen overflow-hidden relative mx-64">
+    <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 lg:mx-60 md:mx-0">
       <div class="flex items-start justify-between">
-        <div class="h-screen hidden lg:block relative w-70">
-          <FixedSidedbar />
-          <OptionalSidebar />
+        <div class="h-screen hidden lg:block relative w-65 ">
+          <FixedSidedbar active={active} />
+          <OptionalSidebar active={active} />
         </div>
         <div class="flex flex-col w-full md:space-y-4">
           <header class="w-full h-16 flex items-center justify-between">
@@ -54,7 +53,7 @@ const Storage = ({ email }) => {
               </div>
             </div>
           </header>
-          <BucketContainer />
+          {props.children}
         </div>
       </div>
     </main>

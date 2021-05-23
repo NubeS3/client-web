@@ -2,7 +2,7 @@ import React from 'react';
 
 const BucketCard = () => {
   return (
-    <div className="flex flex-col mx-auto justify-center max-w-3xl py-4 px-8 bg-white shadow rounded-sm my-auto text-gray-600">
+    <div className="flex flex-col justify-center max-w-3xl py-4 px-8 bg-white shadow rounded-sm my-2 text-gray-600">
       <div className="grid grid-cols-3">
         <div className="col-span-2">
           <div>
