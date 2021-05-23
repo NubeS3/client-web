@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router';
+import { Route, Router, Switch, useHistory } from 'react-router';
 import FixedSidedbar from '../../../components/Sidebars/FixedSidebar';
 import OptionalSidebar from '../../../components/Sidebars/OptionalSidebar';
 import paths from '../../../configs/paths';
 import store from '../../../store';
 import { clearAuthentication } from '../../../store/auth/auth';
 import BucketContainer from './Buckets';
-import CreateBucket from '../../../components/Dialog/Bucket/CreateBucket';
 
 const Storage = ({ email }) => {
   const history = useHistory();
@@ -18,9 +17,9 @@ const Storage = ({ email }) => {
   };
 
   return (
-    <main class="bg-transparent dark:bg-gray-800 relative h-screen overflow-hidden relative mx-64">
+    <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 lg:mx-60 md:mx-0">
       <div class="flex items-start justify-between">
-        <div class="h-screen hidden lg:block relative w-70">
+        <div class="h-screen hidden lg:block relative w-65 ">
           <FixedSidedbar />
           <OptionalSidebar />
         </div>

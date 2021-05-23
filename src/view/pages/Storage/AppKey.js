@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import BucketCard from '../../../components/BucketCard/BucketCard';
-import CreateBucketButton from '../../../components/CreateBucketButton';
 
-const BucketContainer = ({ email }) => {
+const AppKeyContainer = ({ email }) => {
   return (
     <>
       <main className="h-screen lg:block relative w-full">
@@ -11,19 +9,12 @@ const BucketContainer = ({ email }) => {
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
             <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
               <div className="flex items-end text-black dark:text-white text-3xl">
-                Nubes3 Cloud Storage Buckets
+                Application Key
               </div>
             </div>
           </div>
         </header>
-
-        <CreateBucketButton />
-        <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
-          <BucketCard />
-          <BucketCard />
-          <BucketCard />
-          <BucketCard />
-        </div>
+        <div className="flex flex-col justify-between items-center px-2 bg-gray-100"></div>
       </main>
     </>
   );
@@ -36,4 +27,4 @@ const mapStateToProps = (state) => {
     email
   };
 };
-export default connect(mapStateToProps)(BucketContainer);
+export default connect(mapStateToProps)(AppKeyContainer);

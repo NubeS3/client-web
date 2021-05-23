@@ -1,4 +1,5 @@
 import React from 'react';
+import paths from '../../configs/paths';
 
 // Which one was choosen has font-normal and color gray-800
 
@@ -13,17 +14,17 @@ const FixedSidedbar = (props) => {
                 NubeS3 Cloud Storage
               </span>
             </a>
-            <a className="flex mt-2" href="#">
-              <span className=" mx-4 text-gray-800 hover:text-gray-600 text-base font-normal">
+            <a className="flex mt-2" href={paths.STORAGE}>
+              <span className=" mx-4 text-gray-800 hover:text-gray-600 text-base font-bold">
                 Buckets
               </span>
             </a>
-            <a className="flex mt-1" href="#">
+            <a className="flex mt-1" href={paths.STORAGE_APPKEY}>
               <span className="mx-4 text-blue-500 hover:text-gray-600 text-base font-light">
                 App Keys
               </span>
             </a>
-            <a className="flex mt-1" href="#">
+            <a className="flex mt-1" href={paths.STORAGE_BROWSER}>
               <span className="mx-4 text-blue-500 hover:text-gray-600 text-base font-light">
                 Browser Files
               </span>
