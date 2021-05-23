@@ -1,9 +1,10 @@
 import React from 'react';
 import CreateBucket from './Dialog/Bucket/CreateBucket';
+import store from '../store';
+import { connect } from 'react-redux';
 
-const CreateBucketButton = () => {
+const CreateBucketButton = ({ authToken }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
-
   return (
     <div className="relative mx-2">
       <button
@@ -33,4 +34,10 @@ const CreateBucketButton = () => {
   );
 };
 
-export default CreateBucketButton;
+const mapStateToProps = (state) => {
+  const authToken = state.authen.authToken;
+  return {
+    authToken
+  };
+};
+export default connect(mapStateToProps)(CreateBucketButton);

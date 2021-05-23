@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import BucketCard from '../../../components/BucketCard/BucketCard';
 import CreateBucketButton from '../../../components/CreateBucketButton';
 import StorageFrame from './StorageFrame';
-
-const BucketContainer = ({ email }) => {
+import { getAllBucket } from '../../../store/userStorage/bucket';
+import store from '../../../store';
+const BucketContainer = ({ email, bucketList, authToken }) => {
+  useEffect(() => {
+    store.dispatch(getAllBucket({ authToken: authToken }));
+    return () => {};
+  }, []);
   return (
     <StorageFrame active="bucket">
       <main className="h-screen lg:block relative w-full">
@@ -18,11 +23,11 @@ const BucketContainer = ({ email }) => {
           </div>
         </header>
 
-        <CreateBucketButton />
+        <CreateBucketButton authToken={authToken} />
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
-          <BucketCard />
-          <BucketCard />
-          <BucketCard />
+          {bucketList
+            ? bucketList.map((item, index) => <BucketCard item={item} />)
+            : null}
           <BucketCard />
         </div>
       </main>
@@ -32,9 +37,12 @@ const BucketContainer = ({ email }) => {
 
 const mapStateToProps = (state) => {
   const email = state.authen.loginEmail;
-  console.log(email);
+  const bucketList = state.bucket.bucketList;
+  const authToken = state.authen.authToken;
   return {
-    email
+    email,
+    bucketList,
+    authToken
   };
 };
 export default connect(mapStateToProps)(BucketContainer);
