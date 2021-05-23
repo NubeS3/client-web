@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import paths from '../../configs/paths';
 const AuthAppBar = (props) => {
   return (
     // <div className="absolute">
-    <nav className="bg-white dark:bg-gray-800 shadow z-9 mb-2">
+    <nav className="bg-white dark:bg-gray-800 shadow z-9 mb-1">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex items-center justify-between h-16">
           <div className="w-full justify-between flex items-center">
@@ -30,7 +31,7 @@ const AuthAppBar = (props) => {
                 </a>
                 <a
                   className="text-gray-600  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  href={paths.BASE_STORAGE}
+                  href={paths.STORAGE}
                 >
                   N3 Cloud Storage
                 </a>
@@ -48,7 +49,7 @@ const AuthAppBar = (props) => {
                 </a>
                 <a
                   className="text-gray-600  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  href={paths.BASE_STORAGE}
+                  href={paths.STORAGE}
                 >
                   My Account
                 </a>
@@ -107,4 +108,7 @@ const AuthAppBar = (props) => {
   );
 };
 
-export default AuthAppBar;
+const mapStateToProps = (state) => ({
+  isValidAuthentication: state.authen.isValidAuthentication
+});
+export default connect(mapStateToProps)(AuthAppBar);

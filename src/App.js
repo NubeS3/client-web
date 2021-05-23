@@ -33,6 +33,7 @@ import CreateBucket from './components/Dialog/Bucket/CreateBucket';
 import CreateBucketButton from './components/CreateBucketButton';
 import BucketCard from './components/BucketCard/BucketCard';
 import KeyCard from './components/KeyCard/KeyCard';
+import Storage from './view/pages/Storage/Storage';
 
 const App = (props) => {
   const mount = async () => {
