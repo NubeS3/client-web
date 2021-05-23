@@ -1,8 +1,8 @@
 import React from 'react';
 
-const RequiredEmailVerification = (props) => {
+const RequiredEmailVerification = ({ open }) => {
   return (
-    <dialog open={props.open}>
+    <dialog open={open}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
         <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
           <h1 className="pt-6 pb-8 text-2xl text-center">

@@ -20,7 +20,7 @@ const LoginEmail = (props) => {
     setErr('');
 
     store.dispatch(loginEmail({ email: email }));
-
+    props.toggler();
     // props.history.push(paths.LOGIN_PASSWORD);
   };
 

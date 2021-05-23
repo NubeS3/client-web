@@ -5,7 +5,7 @@ const CreateBucketButton = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative mx-2">
       <button
         className="flex w-full m-2 py-2 text-blue-500 items-center justify-center bg-white border border-gray-300 focus:outline-none hover:border-indigo-700"
         onClick={() => setOpenDialog(!openDialog)}
@@ -26,7 +26,9 @@ const CreateBucketButton = () => {
         </svg>
         Create a Bucket
       </button>
-      <CreateBucket open={openDialog} />
+      {openDialog && (
+        <CreateBucket open={openDialog} onCancel={() => setOpenDialog(false)} />
+      )}
     </div>
   );
 };

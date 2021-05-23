@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Greeting = (props) => {
+const Greeting = ({ open }) => {
   return (
-    <dialog open={props.open}>
+    <dialog open={open}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
         <div className="flex flex-col justify-center items-center max-w-lg py-10 px-8 my-40 mx-auto bg-white shadow rounded-sm">
           <h1 className="py-6 text-2xl">Thank you for being with us.</h1>

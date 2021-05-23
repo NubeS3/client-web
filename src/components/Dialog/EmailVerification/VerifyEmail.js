@@ -1,6 +1,6 @@
 import React from 'react';
 
-const VerifyEmail = ({ email = 'thesplendore@gmail.com', open }) => {
+const VerifyEmail = ({ open, onSubmit, onCancel }) => {
   return (
     <dialog open={open}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
@@ -47,7 +47,9 @@ const VerifyEmail = ({ email = 'thesplendore@gmail.com', open }) => {
               <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Verify
               </button>
-              <button className="rounded-sm py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button className="rounded-sm py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={onCancel}
+              >
                 Cancel
               </button>
             </div>

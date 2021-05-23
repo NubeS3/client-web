@@ -1,8 +1,8 @@
 import React from 'react';
 
-const CreateBucket = (props) => {
+const CreateBucket = ({ open, onSubmit, onCancel }) => {
   return (
-    <dialog open={props.open}>
+    <dialog open={open}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
         <div className="flex flex-col mx-auto mt-40 justify-center max-w-2xl px-4 bg-white shadow rounded-sm my-auto text-gray-600">
           <h1 className="w-full text-center text-3xl py-6">Create a Bucket</h1>
@@ -15,7 +15,7 @@ const CreateBucket = (props) => {
               created per account. An unlimited number of files may be uploaded
               into a bucket.
             </p>
-            <form method="POST">
+            <form>
               <div className="grid grid-cols-3">
                 <p className="mt-6 mb-8">Bucket Unique Name:</p>
                 <input className="col-span-2 mt-6 mb-8 w-2/3 py-1 text-sm text-gray-600 rounded-sm px-2 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500" />
@@ -97,7 +97,10 @@ const CreateBucket = (props) => {
                     <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Create a Bucket
                     </button>
-                    <button className="rounded-sm py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button
+                      className="rounded-sm py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={onCancel}
+                    >
                       Cancel
                     </button>
                   </div>
