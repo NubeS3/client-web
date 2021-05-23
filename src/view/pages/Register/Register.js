@@ -37,7 +37,7 @@ const Register = (props) => {
           email: values.email
         })
       );
-      props.history.push('/#');
+      props.history.push('/');
     }
   });
 
