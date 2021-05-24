@@ -1,9 +1,13 @@
 import React from 'react';
+import GenerateMasterKeyCard from '../Dialog/GenerateMasterKeyCard/GenerateMasterKeyCard';
+import MasterKeyCardCreated from './MasterKeyCardCreated';
 
-const KeyCard = () => {
+const MasterKeyCard = () => {
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [showCard, setShowCard] = React.useState(false);
   return (
-    <div className="flex flex-col mx-auto justify-center max-w-3xl py-2 px-2 pb-10 bg-gray-100">
-      <p className="flex flex-col max-w-3xl py-4 px-8">
+    <div className="flex flex-col mx-auto justify-center max-w-3xl py-2 px-4 bg-gray-100">
+      <p className="flex flex-col max-w-3xl py-2 px-4">
         Master Application Key
       </p>
       <div className="flex flex-col mx-auto justify-center max-w-3xl py-4 px-8 bg-white shadow rounded-sm my-auto text-gray-600">
@@ -66,9 +70,20 @@ const KeyCard = () => {
             <button
               type="button"
               class="py-2 px-4  bg-indigo-500 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+              onClick={() => setOpenDialog(true)}
             >
               Generate New Master Application Key
             </button>
+            {openDialog && (
+              <GenerateMasterKeyCard
+                open={openDialog}
+                onSubmit={() => {
+                  setOpenDialog(false);
+                  setShowCard(true);
+                }}
+                onCancel={() => setOpenDialog(false)}
+              />
+            )}
           </div>
           <div />
           <div className="col-span-2">
@@ -78,8 +93,10 @@ const KeyCard = () => {
           </div>
         </div>
       </div>
+      <br />
+      {showCard && <MasterKeyCardCreated />}
     </div>
   );
 };
 
-export default KeyCard;
+export default MasterKeyCard;

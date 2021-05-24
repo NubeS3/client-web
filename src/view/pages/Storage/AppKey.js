@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import KeyCard from '../../../components/KeyCard/KeyCard';
+import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
 import StorageFrame from './StorageFrame';
 
 const AppKeyContainer = ({ email }) => {
@@ -17,7 +17,7 @@ const AppKeyContainer = ({ email }) => {
           </div>
         </header>
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
-          <KeyCard />
+          <MasterKeyCard />
         </div>
       </main>
     </StorageFrame>
