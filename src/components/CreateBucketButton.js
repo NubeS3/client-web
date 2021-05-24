@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 const CreateBucketButton = ({ authToken }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
   return (
-    <div className="relative mx-2">
+    <div className="relative">
       <button
-        className="flex w-full m-2 py-2 text-blue-500 items-center justify-center bg-white border border-gray-300 focus:outline-none hover:border-indigo-700"
+        className="flex w-full my-2 py-2 text-blue-500 items-center justify-center bg-white border border-gray-300 focus:outline-none hover:border-indigo-700"
         onClick={() => setOpenDialog(!openDialog)}
       >
         <svg

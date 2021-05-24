@@ -17,14 +17,14 @@ const Storage = ({ email, active, ...props }) => {
   };
 
   return (
-    <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 lg:mx-60 md:mx-0">
+    <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 xl:mx-48 lg:mx-12">
       <div class="flex items-start justify-between">
-        <div class="h-screen hidden lg:block relative w-65 ">
+        <div class="h-screen hidden lg:block relative w-65">
           <FixedSidedbar active={active} />
           <OptionalSidebar active={active} />
         </div>
         <div class="flex flex-col w-full md:space-y-4">
-          <header class="w-full h-16 flex items-center justify-between">
+          <header class="w-full flex items-center justify-between">
             <div class="block lg:hidden ml-6">
               <button class="flex p-2 items-center rounded-full bg-white shadow text-gray-500 text-md">
                 <svg

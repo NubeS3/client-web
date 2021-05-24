@@ -10,7 +10,7 @@ const ReportContainer = ({ email }) => {
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
             <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
-              <div className="flex items-end text-black dark:text-white text-3xl">
+              <div className="flex items-end text-black dark:text-white text-2xl">
                 Reports
               </div>
             </div>

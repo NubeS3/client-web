@@ -2,7 +2,7 @@ import React from 'react';
 
 const BucketCard = ({ item }) => {
   return (
-    <div className="flex flex-col justify-center max-w-3xl py-4 px-8 bg-white shadow rounded-sm my-2 text-gray-600">
+    <div className="flex flex-col justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
       <div className="grid grid-cols-3">
         <div className="col-span-2">
           <div>
@@ -20,7 +20,7 @@ const BucketCard = ({ item }) => {
                 d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
               />
             </svg>
-            <p className="text-gray-600 text-2xl inline" id="bucket-name">
+            <p className="text-gray-600 text-xl inline" id="bucket-name">
               Test-NubeS3-A
             </p>
           </div>
@@ -102,11 +102,11 @@ const BucketCard = ({ item }) => {
         <div>
           <button
             id="btn-upload-download"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-3"
+            className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Upload/Download
           </button>
-          <div className="mt-20 text-blue-500 font-medium">
+          <div className="mt-20 text-blue-500">
             <div>
               <a href="#" className="hover:underline">
                 <svg
@@ -169,7 +169,7 @@ const BucketCard = ({ item }) => {
                 </svg>
                 Object Lock:
               </a>
-              <p className="inline ml-1 text-black font-normal">Disable</p>
+              <p className="inline ml-1 text-black font-normal"> Disable</p>
             </div>
             <div>
               <a href="#" className="hover:underline">

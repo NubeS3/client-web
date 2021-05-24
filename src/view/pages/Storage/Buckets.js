@@ -16,7 +16,7 @@ const BucketContainer = ({ email, bucketList, authToken }) => {
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
             <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
-              <div className="flex items-end text-black dark:text-white text-3xl">
+              <div className="flex items-end text-black dark:text-white text-2xl">
                 Nubes3 Cloud Storage Buckets
               </div>
             </div>
@@ -24,7 +24,7 @@ const BucketContainer = ({ email, bucketList, authToken }) => {
         </header>
 
         <CreateBucketButton authToken={authToken} />
-        <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
+        <div className="flex flex-col justify-between items-center py-2 px-2 bg-gray-100">
           {bucketList
             ? bucketList.map((item, index) => <BucketCard item={item} />)
             : null}

@@ -6,11 +6,9 @@ const MasterKeyCard = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [showCard, setShowCard] = React.useState(false);
   return (
-    <div className="flex flex-col mx-auto justify-center max-w-3xl py-2 px-4 bg-gray-100">
-      <p className="flex flex-col max-w-3xl py-2 px-4">
-        Master Application Key
-      </p>
-      <div className="flex flex-col mx-auto justify-center max-w-3xl py-4 px-8 bg-white shadow rounded-sm my-auto text-gray-600">
+    <div className="flex flex-col justify-center">
+      <p className="w-full max-w-4xl my-2 mx-2">Master Application Key</p>
+      <div className="flex flex-col mx-auto justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
         <div className="grid grid-cols-3">
           <div className="mt-4">
             <p className="text-gray-500">keyID:</p>
@@ -69,7 +67,7 @@ const MasterKeyCard = () => {
           <div className="col-span-2 mt-6">
             <button
               type="button"
-              class="py-2 px-4  bg-indigo-500 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+              class="rounded-sm my-2 py-2 px-4 w-full border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={() => setOpenDialog(true)}
             >
               Generate New Master Application Key
