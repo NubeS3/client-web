@@ -47,8 +47,10 @@ export const createBucket = createAsyncThunk(
       const response = await axios.post(
         endpoints.CREATE_BUCKET,
         {
-          name: data.name,
-          region: data.region.name
+          name: data.bucketName,
+          is_public: data.isPublic,
+          is_encrypted: data.isEncrypted,
+          is_object_lock: data.isObjectLock
         },
         {
           headers: {

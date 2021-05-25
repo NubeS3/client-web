@@ -7,7 +7,9 @@ import { getAllBucket } from '../../../store/userStorage/bucket';
 import store from '../../../store';
 const BucketContainer = ({ email, bucketList, authToken }) => {
   useEffect(() => {
-    store.dispatch(getAllBucket({ authToken: authToken }));
+    store.dispatch(
+      getAllBucket({ authToken: authToken, limit: 10, offset: 0 })
+    );
     return () => {};
   }, []);
   return (
@@ -26,9 +28,11 @@ const BucketContainer = ({ email, bucketList, authToken }) => {
         <CreateBucketButton authToken={authToken} />
         <div className="flex flex-col justify-between items-center py-2 px-2 bg-gray-100">
           {bucketList
-            ? bucketList.map((item, index) => <BucketCard item={item} />)
+            ? bucketList.map(
+                (item, index) => <BucketCard item={item.bucket} />
+                // console.log(item.bucket)
+              )
             : null}
-          <BucketCard />
         </div>
       </main>
     </StorageFrame>
@@ -39,6 +43,7 @@ const mapStateToProps = (state) => {
   const email = state.authen.loginEmail;
   const bucketList = state.bucket.bucketList;
   const authToken = state.authen.authToken;
+  console.log(bucketList);
   return {
     email,
     bucketList,

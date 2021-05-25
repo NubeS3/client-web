@@ -2,7 +2,10 @@ import React from 'react';
 
 const BucketCard = ({ item }) => {
   return (
-    <div className="flex flex-col justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
+    <div
+      key={item.id}
+      className="flex flex-col justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600 my-2"
+    >
       <div className="grid grid-cols-3">
         <div className="col-span-2">
           <div>
@@ -21,7 +24,7 @@ const BucketCard = ({ item }) => {
               />
             </svg>
             <p className="text-gray-600 text-xl inline" id="bucket-name">
-              Test-NubeS3-A
+              {item.name}
             </p>
           </div>
           <div className="grid grid-cols-3">
@@ -30,7 +33,9 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="created-at">
-                April 16, 2021
+                {item.created_at
+                  ? new Date(item.created_at).toDateString()
+                  : ''}
               </p>
             </div>
             <div>
@@ -38,7 +43,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="bucket-id">
-                6b9afb24e46233e2012b
+                {item.id}
               </p>
             </div>
             <div>
@@ -46,7 +51,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="type">
-                Public
+                {item.is_public ? 'Public' : 'Private'}
               </p>
             </div>
             <div>
@@ -94,7 +99,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="encryption">
-                Disabled
+                {item.is_encrypted ? 'Enable' : 'Disable'}
               </p>
             </div>
           </div>
@@ -169,7 +174,9 @@ const BucketCard = ({ item }) => {
                 </svg>
                 Object Lock:
               </a>
-              <p className="inline ml-1 text-black font-normal"> Disable</p>
+              <p className="inline ml-1 text-black font-normal">
+                {item.is_object_lock ? 'Enable' : 'Disable'}
+              </p>
             </div>
             <div>
               <a href="#" className="hover:underline">
