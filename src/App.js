@@ -39,6 +39,7 @@ import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
 import MasterKeyCardCreated from './components/MasterKeyCard/MasterKeyCardCreated';
 import GenerateMasterKeyCard from './components/Dialog/GenerateMasterKeyCard/GenerateMasterKeyCard';
+import AddApplicationKey from './components/Dialog/ApplicationKey';
 
 const App = (props) => {
   const mount = async () => {
@@ -75,8 +76,7 @@ const App = (props) => {
             <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
             <Route exact path={paths.REGISTER} component={Register} />
             <Route exact path={paths.LOGIN} component={Login} />
-            {/* <Route exact path={paths.TEST} component={CreateBucketButton} /> */}
-            <Route exact path={paths.TEST} component={MasterKeyCard} />
+            <Route exact path={paths.TEST} component={AddApplicationKey} />
             <Route exact path={paths.STORAGE} component={BucketContainer} />
             <Route
               exact
