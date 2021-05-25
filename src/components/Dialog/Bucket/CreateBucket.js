@@ -29,14 +29,14 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
       // //   return setError(error);
       // // }
       // setError("");
-      alert(
-        JSON.stringify({
-          bucketName: values.bucketName,
-          privacy: values.isPublic,
-          encryption: values.isEncrypted,
-          objectLock: values.objectLock
-        })
-      );
+      // alert(
+      //   JSON.stringify({
+      //     bucketName: values.bucketName,
+      //     privacy: values.isPublic,
+      //     encryption: values.isEncrypted,
+      //     objectLock: values.objectLock
+      //   })
+      // );
       console.log(
         store.dispatch(
           createBucket({
