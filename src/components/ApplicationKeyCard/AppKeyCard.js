@@ -3,7 +3,7 @@ import React from 'react';
 const AppKeyCard = () => {
   return (
     <div className="flex flex-col justify-center">
-      <p className="w-full max-w-4xl my-2 mx-2">Master Application Key</p>
+      <p className="w-full max-w-4xl my-2 mx-2">Your Application Keys</p>
       <div className="flex flex-col mx-auto justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
         <div className="grid grid-cols-3">
           <div className="mt-4">
