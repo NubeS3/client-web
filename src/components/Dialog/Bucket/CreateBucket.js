@@ -44,7 +44,7 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
   return (
     <dialog open={open}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
-        <div className="flex flex-col mx-auto mt-20 justify-center max-w-2xl px-4 bg-white shadow rounded-sm my-auto text-gray-600">
+        <div className="flex flex-col mx-auto mt-12 justify-center max-w-2xl px-4 bg-white shadow rounded-sm my-auto text-gray-600">
           <h1 className="w-full text-center text-3xl py-6">Create a Bucket</h1>
           <hr />
           <div className="mt-6 mb-6 px-4">
