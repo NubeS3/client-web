@@ -19,7 +19,7 @@ const Storage = ({ email, active, ...props }) => {
   return (
     <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 xl:mx-48 lg:mx-12">
       <div class="flex items-start justify-between">
-        <div class="h-screen hidden lg:block relative w-65">
+        <div class="h-screen hidden mt-16 lg:block relative w-65">
           <FixedSidedbar active={active} />
           <OptionalSidebar active={active} />
         </div>
@@ -39,7 +39,7 @@ const Storage = ({ email, active, ...props }) => {
                 </svg>
               </button>
             </div>
-            <div class="relative flex flex-col justify-end h-full px-3 md:w-full">
+            <div class="relative flex flex-col justify-end h-full px-3 mt-2 md:w-full">
               <div class="relative p-1 flex items-center w-full space-x-4 justify-end">
                 <div class="flex items-center text-gray-500 dark:text-white text-md focus:outline-none hover:font-bold">
                   Welcome {email},
