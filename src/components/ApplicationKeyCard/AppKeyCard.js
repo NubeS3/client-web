@@ -59,8 +59,7 @@ const AppKeyCard = () => {
               (none)
             </p>
           </div>
-          <div />
-          <div />
+
           <div className=" mt-6 justify-items-end">
             <span class="px-4 py-2  text-base rounded text-red-500 border border-red-500 undefined ">
               Delete Key
