@@ -58,7 +58,12 @@ export const createBucket = createAsyncThunk(
           }
         }
       );
-      return response.data;
+      const responseData = await {
+        bucket: response.data,
+        size: 0,
+        objectCount: 0
+      };
+      return responseData;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
     }
@@ -354,6 +359,7 @@ export const bucketSlice = createSlice({
       state.err = action.payload;
     },
     [createBucket.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.bucketList = [...state.bucketList, action.payload];
       alert('Bucket added!');
       state.isLoading = false;

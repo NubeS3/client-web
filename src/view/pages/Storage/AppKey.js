@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import AddApplicationKey from '../../../components/Dialog/ApplicationKey';
 import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
 import StorageFrame from './StorageFrame';
 
 const AppKeyContainer = ({ email }) => {
   return (
     <StorageFrame active="appkey">
-      <main className="h-screen lg:block relative w-full">
+      <div className="h-screen lg:block relative w-full">
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
             <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
@@ -18,8 +19,9 @@ const AppKeyContainer = ({ email }) => {
         </header>
         <div className="flex flex-col justify-center items-center py-2 px-2 bg-gray-100">
           <MasterKeyCard />
+          {/* <AddApplicationKey /> */}
         </div>
-      </main>
+      </div>
     </StorageFrame>
   );
 };

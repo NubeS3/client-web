@@ -3,7 +3,7 @@ import React from 'react';
 const BucketCard = ({ item }) => {
   return (
     <div
-      key={item.id}
+      key={item.bucket.id}
       className="flex flex-col justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600 my-2"
     >
       <div className="grid grid-cols-3">
@@ -24,7 +24,7 @@ const BucketCard = ({ item }) => {
               />
             </svg>
             <p className="text-gray-600 text-xl inline" id="bucket-name">
-              {item.name}
+              {item.bucket.name || ''}
             </p>
           </div>
           <div className="grid grid-cols-3">
@@ -33,8 +33,8 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="created-at">
-                {item.created_at
-                  ? new Date(item.created_at).toDateString()
+                {item.bucket.created_at
+                  ? new Date(item.bucket.created_at).toDateString()
                   : ''}
               </p>
             </div>
@@ -43,7 +43,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="bucket-id">
-                {item.id}
+                {item.bucket.id}
               </p>
             </div>
             <div>
@@ -51,7 +51,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="type">
-                {item.is_public ? 'Public' : 'Private'}
+                {item.bucket.is_public ? 'Public' : 'Private'}
               </p>
             </div>
             <div>
@@ -75,7 +75,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="current-file">
-                4
+                {item.object_count}
               </p>
             </div>
             <div>
@@ -83,7 +83,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="current-size">
-                58.7 MB
+                {item.size} KB
               </p>
             </div>
             <div>
@@ -99,7 +99,7 @@ const BucketCard = ({ item }) => {
             </div>
             <div className="col-span-2">
               <p className="text-black" id="encryption">
-                {item.is_encrypted ? 'Enable' : 'Disable'}
+                {item.bucket.is_encrypted ? 'Enable' : 'Disable'}
               </p>
             </div>
           </div>
@@ -175,7 +175,7 @@ const BucketCard = ({ item }) => {
                 Object Lock:
               </a>
               <p className="inline ml-1 text-black font-normal">
-                {item.is_object_lock ? 'Enable' : 'Disable'}
+                {item.bucket.is_object_lock ? 'Enable' : 'Disable'}
               </p>
             </div>
             <div>

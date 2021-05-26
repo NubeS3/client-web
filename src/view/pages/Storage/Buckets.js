@@ -14,27 +14,33 @@ const BucketContainer = ({ email, bucketList, authToken }) => {
   }, []);
   return (
     <StorageFrame active="bucket">
-      <main className="h-screen lg:block relative w-full">
+      <div className="h-screen lg:block relative w-full">
         <header className="w-full h-16 flex items-center justify-between">
-          <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
-            <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
+          <div className="relative flex flex-col justify-start h-full md:w-full">
+            <div className="relative flex items-center w-full space-x-4 justify-start">
               <div className="flex items-end text-black dark:text-white text-3xl">
                 Nubes3 Cloud Storage Buckets
               </div>
             </div>
           </div>
         </header>
+        <p className="text-gray-500 dark:text-white text-md my-10">
+          With Backblaze B2 Cloud Storage you can store data in the Backblaze
+          Cloud. Any size, file type or number of files. New to B2 Cloud
+          Storage? Check out the{' '}
+          <a className="text-blue-500 cursor-pointer">Nubes Starter Guide</a>.
+        </p>
 
         <CreateBucketButton authToken={authToken} />
         <div className="flex flex-col justify-between items-center py-2 px-2 bg-gray-100">
           {bucketList
             ? bucketList.map(
-                (item, index) => <BucketCard item={item.bucket} />
+                (item, index) => <BucketCard item={item} />
                 // console.log(item.bucket)
               )
             : null}
         </div>
-      </main>
+      </div>
     </StorageFrame>
   );
 };

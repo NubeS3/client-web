@@ -18,9 +18,9 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
     },
     validationSchema: Yup.object({
       bucketName: Yup.string()
-        .min(8, 'Minimum 8 characters')
+        .min(4, 'Minimum 4 characters')
         .max(64, 'Maximum 64 character')
-        .matches(/^[a-zA-Z_]*[a-zA-Z0-9]$/, 'Invalid name format')
+        .matches(/^[a-zA-Z_]*[a-zA-Z0-9\-]{4,64}$/, 'Invalid name format')
         .required('Required!')
     }),
     onSubmit: (values) => {
