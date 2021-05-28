@@ -42,6 +42,7 @@ import GenerateMasterKeyCard from './components/Dialog/GenerateMasterKeyCard/Gen
 import AddApplicationKey from './components/Dialog/ApplicationKey';
 import BrowserFile from './components/BrowserFile/BrowserFile';
 import CreateApplicationKeyButton from './components/CreateApplicationKey';
+import ListButtonFile from './components/ListButtonFile/ListButtonFile';
 
 const App = (props) => {
   const mount = async () => {
@@ -83,6 +84,7 @@ const App = (props) => {
               path={paths.TEST}
               component={CreateApplicationKeyButton}
             />
+            {/* <Route exact path={paths.TEST} component={ListButtonFile} /> */}
             <Route exact path={paths.STORAGE} component={BucketContainer} />
             <Route
               exact
