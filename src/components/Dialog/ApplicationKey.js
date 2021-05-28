@@ -10,27 +10,28 @@ const AddApplicationKey = ({ open, onSubmit, onCancle }) => {
           </h1>
           <hr />
           <form>
-            <div className="grid grid-cols-2">
-              <div>
+            <div className="grid grid-cols-5 pl-16 pt-8 pr-6 pb-4 text-sm text-gray-500">
+              <div className="col-span-2 my-2">
                 <p>Name of Key:</p>
-                <p>(keyName)</p>
+                <p className="text-xs">(keyName)</p>
               </div>
-              <input />
-              <div>
+              <input className="col-span-3 h-8 my-2 px-2 text-sm text-gray-600 rounded-sm border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500" />
+              <div className="col-span-2 my-2">
                 <p>Allow access to Bucket(s):</p>
-                <p>(optional)</p>
-                <p>(bucketName)</p>
+                <p className="text-xs">(optional)</p>
+                <p className="text-xs">(bucketName)</p>
               </div>
-              <select>
-                <option>Option 1</option>
-                <option>Option 2</option>
+              <select className="col-span-3 h-8 my-2 px-2 text-sm text-gray-600 rounded-sm border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500">
+                <option>All</option>
+                <option>Bucket 1</option>
+                <option>Bucket 2</option>
               </select>
-              <div>
+              <div className="col-span-2 my-2">
                 <p>Type of Access:</p>
-                <p>(optional)</p>
-                <p>(capabilities)</p>
+                <p className="text-xs">(optional)</p>
+                <p className="text-xs">(capabilities)</p>
               </div>
-              <div role="group">
+              <div role="group" className="col-span-3 my-2">
                 <input type="radio" defaultChecked />
                 <label> Read and Write</label>
                 <br />
@@ -41,30 +42,40 @@ const AddApplicationKey = ({ open, onSubmit, onCancle }) => {
                 <label> Write Only</label>
                 <br />
               </div>
-              <div>
+              <div className="col-span-2 my-2">
                 <p>File name prefix:</p>
-                <p>(optional)</p>
-                <p>(namePrefix)</p>
+                <p className="text-xs">(optional)</p>
+                <p className="text-xs">(namePrefix)</p>
               </div>
-              <div>
-                <input />
-                <p>Allow access to file names that starts with this.</p>
+              <div className="col-span-3 my-2 flex flex-col justify-center items-center">
+                <input className="w-full h-8 px-2 text-sm text-gray-600 rounded-sm border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500" />
+                <p className="text-xs">
+                  Allow access to file names that starts with this.
+                </p>
               </div>
-              <div>
+              <div className="col-span-2 my-2">
                 <p>Duration (seconds):</p>
-                <p>(optional)</p>
-                <p>(validDurationSeconds)</p>
+                <p className="text-xs">(optional)</p>
+                <p className="text-xs">(validDurationSeconds)</p>
               </div>
-              <div>
-                <input />
-                <p>Positive integer less than 1000 days (in seconds).</p>
+              <div className="col-span-3 my-2 flex flex-col justify-center items-center">
+                <input className="w-full h-8 px-2 text-sm text-gray-600 rounded-sm border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500" />
+                <p className="text-xs">
+                  Positive integer less than 1000 days (in seconds).
+                </p>
               </div>
-              <button className="col-span-2">Create New Key</button>
+              <div className="flex col-span-5 my-2 justify-center items-center">
+                <button className="rounded-sm py-2 px-24 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Create New Key
+                </button>
+              </div>
             </div>
           </form>
           <hr />
           <div className="flex justify-end w-full">
-            <button>Cancel</button>
+            <button className="rounded-sm m-4 py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Cancel
+            </button>
           </div>
         </div>
       </div>
