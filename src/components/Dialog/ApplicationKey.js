@@ -73,7 +73,10 @@ const AddApplicationKey = ({ open, onSubmit, onCancle }) => {
           </form>
           <hr />
           <div className="flex justify-end w-full">
-            <button className="rounded-sm m-4 py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button
+              className="rounded-sm m-4 py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={onCancle}
+            >
               Cancel
             </button>
           </div>
