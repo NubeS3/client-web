@@ -2,8 +2,8 @@ import React from 'react';
 
 const BrowserFile = () => {
   return (
-    <div className="flex flex-col 2xl:max-w-2xl mx-auto">
-      <p className="text-3xl text-gray-600">Browse Files</p>
+    <div className="flex flex-col w-full">
+      {/* // <p className="text-3xl text-gray-600">Browse Files</p> */}
       <div className="mt-8 mb-8">
         <a href="#">
           <img

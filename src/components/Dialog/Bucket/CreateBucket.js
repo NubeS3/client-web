@@ -12,15 +12,15 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
   const formik = useFormik({
     initialValues: {
       bucketName: '',
-      objectLock: 'disable',
-      encryption: 'disable',
-      privacy: 'private'
+      objectLock: false,
+      isEncrypted: false,
+      isPublic: false
     },
     validationSchema: Yup.object({
       bucketName: Yup.string()
-        .min(8, 'Minimum 8 characters')
+        .min(4, 'Minimum 4 characters')
         .max(64, 'Maximum 64 character')
-        .matches(/^[a-zA-Z_]*[a-zA-Z0-9]$/, 'Invalid name format')
+        .matches(/^[a-zA-Z_]*[a-zA-Z0-9\-]{4,64}$/, 'Invalid name format')
         .required('Required!')
     }),
     onSubmit: (values) => {
@@ -29,16 +29,27 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
       // //   return setError(error);
       // // }
       // setError("");
-      alert(
-        JSON.stringify({
-          bucketName: values.bucketName,
-          privacy: values.privacy,
-          encryption: values.encryption,
-          objectLock: values.objectLock
-        })
+      // alert(
+      //   JSON.stringify({
+      //     bucketName: values.bucketName,
+      //     privacy: values.isPublic,
+      //     encryption: values.isEncrypted,
+      //     objectLock: values.objectLock
+      //   })
+      // );
+      console.log(
+        store.dispatch(
+          createBucket({
+            authToken: authToken,
+            bucketName: values.bucketName,
+            isPublic: values.isPublic,
+            isEncrypted: values.isEncrypted,
+            isObjectLock: values.objectLock
+          })
+        )
       );
-      // console.log(store.dispatch(createBucket({ authToken: authToken })));
       history.push(paths.STORAGE);
+      onCancel();
     }
   });
   return (
@@ -86,9 +97,9 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
                     <input
                       type="radio"
                       id="b-private"
-                      name="privacy"
-                      value="private"
-                      onChange={formik.handleChange}
+                      name="isPublic"
+                      value={false}
+                      onChange={() => formik.setFieldValue('isPublic', false)}
                       defaultChecked
                     />
                     <label htmlFor="b-private"> Private</label>
@@ -96,9 +107,9 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
                     <input
                       type="radio"
                       id="b-public"
-                      name="privacy"
-                      value="public"
-                      onChange={formik.handleChange}
+                      name="isPublic"
+                      value={true}
+                      onChange={() => formik.setFieldValue('isPublic', true)}
                     />
                     <label htmlFor="b-public"> Public</label>
                     <br />
@@ -110,19 +121,19 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
                     <input
                       type="radio"
                       id="enc-dis"
-                      name="encryption"
-                      value="disable"
+                      name="isEncrypted"
+                      value={false}
                       defaultChecked
-                      onChange={formik.handleChange}
+                      onChange={() => formik.setFieldValue('isEncrypted', true)}
                     />
                     <label htmlFor="enc-dis"> Disable</label>
                     <br />
                     <input
                       type="radio"
                       id="enc-en"
-                      name="encryption"
-                      value="enable"
-                      onChange={formik.handleChange}
+                      name="isEncrypted"
+                      value={true}
+                      onChange={() => formik.setFieldValue('isEncrypted', true)}
                     />
                     <label htmlFor="enc-en"> Enable</label>
                     <br />
@@ -140,9 +151,9 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
                       type="radio"
                       id="ol-dis"
                       name="objectLock"
-                      value="disable"
+                      value={false}
                       defaultChecked
-                      onChange={formik.handleChange}
+                      onChange={() => formik.setFieldValue('objectLock', false)}
                     />
                     <label htmlFor="ol-dis"> Disable</label>
                     <br />
@@ -150,8 +161,8 @@ const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
                       type="radio"
                       id="ol-en"
                       name="objectLock"
-                      value="enable"
-                      onChange={formik.handleChange}
+                      value={true}
+                      onChange={() => formik.setFieldValue('objectLock', true)}
                     />
                     <label htmlFor="ol-en"> Enable</label>
                     <br />

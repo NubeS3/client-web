@@ -1,35 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { preValidatePasswordLogin } from '../../../helpers/preValidateLoginData';
 import paths from '../../../configs/paths';
 import store from '../../../store';
-import { changeLoginEmail, login } from '../../../store/auth/auth';
+import { changeLoginEmail, clearState, login } from '../../../store/auth/auth';
 import { useHistory } from 'react-router';
 
-const LoginPassword = (props) => {
+const LoginPassword = ({ loginEmail, errMessage, isRejected, isFulfilled }) => {
   const [pass, setPass] = React.useState('');
   const [err, setErr] = React.useState('');
   const history = useHistory();
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
 
-    console.log(props.loginEmail);
-
     let error = preValidatePasswordLogin({ password: pass });
     if (error) {
-      console.log(error);
       return setErr(error);
     }
     setErr('');
-
-    store.dispatch(login({ email: props.loginEmail, password: pass }));
-    if (props.err) {
-      setErr(props.err.error);
-      return;
-    }
-    history.push(paths.BASE);
+    store.dispatch(login({ email: loginEmail, password: pass }));
   };
 
+  useEffect(() => {
+    if (isRejected) {
+      setErr(errMessage.error);
+      store.dispatch(clearState());
+      return;
+    }
+    if (isFulfilled) {
+      store.dispatch(clearState());
+      history.push(paths.BASE);
+    }
+    return () => {
+      // cleanup
+    };
+  }, [isRejected, isFulfilled]);
   const changeLogInEmail = () => {
     store.dispatch(changeLoginEmail());
     // props.history.push(paths.LOGIN_EMAIL);
@@ -40,7 +45,7 @@ const LoginPassword = (props) => {
       {/* <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
       <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1> */}
       <div className="flex flex-col justify-center items-center">
-        <p>{props.loginEmail}</p>
+        <p>{loginEmail}</p>
         <a href="" className="text-blue-600" onClick={changeLogInEmail}>
           {'(Change)'}
         </a>
@@ -76,7 +81,7 @@ const LoginPassword = (props) => {
           Sign in
         </button>
       </form>
-      <p className="text-red-500 mt-6">{err}</p>
+      <p className="text-red-500 mt-6 text-center">{err}</p>
       <a href="#" className="text-blue-600 py-6">
         Forgot Password?
       </a>
@@ -88,8 +93,11 @@ const LoginPassword = (props) => {
 const mapStateToProps = (state) => {
   console.log(state.authen.err);
   return {
-    err: state.authen.err,
-    loginEmail: state.authen.loginEmail
+    errMessage: state.authen.err,
+    loginEmail: state.authen.loginEmail,
+    isLoggingIn: state.authen.isLoggingIn,
+    isFulfilled: state.authen.isFulfilled,
+    isRejected: state.authen.isRejected
   };
 };
 

@@ -11,6 +11,8 @@ const initialState = {
   authToken: localStorage.getItem(localStorageKeys.TOKEN) || null,
   rfToken: null,
   isLoggingIn: false,
+  isFulfilled: false,
+  isRejected: false,
   err: { error: '' }
 };
 
@@ -100,10 +102,18 @@ export const authenSlice = createSlice({
     },
     loginEmail: (state, action) => {
       state.loginEmail = action.payload || '';
+    },
+    clearState: (state) => {
+      state.isRejected = false;
+      state.isFulfiled = false;
+      state.isLoggingIn = false;
+      return state;
     }
   },
   extraReducers: {
     [login.fulfilled]: (state, action) => {
+      state.isLoggingIn = false;
+      state.isFulfilled = true;
       localStorage.setItem(localStorageKeys.TOKEN, action.payload.accessToken);
       localStorage.setItem(
         localStorageKeys.RFTOKEN,
@@ -112,7 +122,6 @@ export const authenSlice = createSlice({
       state.isAdmin = false;
       state.isValidating = false;
       state.isValidAuthentication = true;
-      state.isLoggingIn = false;
       state.authToken = action.payload.accessToken;
       state.rfToken = action.payload.refreshToken;
       state.err = null;
@@ -120,6 +129,7 @@ export const authenSlice = createSlice({
     [login.rejected]: (state, action) => {
       console.log(action.payload);
       state.isLoggingIn = false;
+      state.isRejected = true;
       state.err = { error: action.payload };
     },
     [verifyAuthentication.fulfilled]: (state, action) => {
@@ -173,3 +183,5 @@ export const authenSlice = createSlice({
     }
   }
 });
+
+export const { clearState } = authenSlice.actions;

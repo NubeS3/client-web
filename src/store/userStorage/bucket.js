@@ -47,8 +47,10 @@ export const createBucket = createAsyncThunk(
       const response = await axios.post(
         endpoints.CREATE_BUCKET,
         {
-          name: data.name,
-          region: data.region.name
+          name: data.bucketName,
+          is_public: data.isPublic,
+          is_encrypted: data.isEncrypted,
+          is_object_lock: data.isObjectLock
         },
         {
           headers: {
@@ -56,7 +58,12 @@ export const createBucket = createAsyncThunk(
           }
         }
       );
-      return response.data;
+      const responseData = await {
+        bucket: response.data,
+        size: 0,
+        objectCount: 0
+      };
+      return responseData;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
     }
@@ -352,6 +359,7 @@ export const bucketSlice = createSlice({
       state.err = action.payload;
     },
     [createBucket.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.bucketList = [...state.bucketList, action.payload];
       alert('Bucket added!');
       state.isLoading = false;

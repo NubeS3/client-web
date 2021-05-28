@@ -6,7 +6,7 @@ import StorageFrame from './StorageFrame';
 const ReportContainer = ({ email }) => {
   return (
     <StorageFrame active="report">
-      <main className="h-screen lg:block relative w-full">
+      <div className="h-screen lg:block relative w-full">
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
             <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
@@ -17,7 +17,7 @@ const ReportContainer = ({ email }) => {
           </div>
         </header>
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100"></div>
-      </main>
+      </div>
     </StorageFrame>
   );
 };

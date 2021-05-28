@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import BrowserFile from '../../../components/BrowserFile/BrowserFile';
 import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
 import StorageFrame from './StorageFrame';
 
 const BrowserContainer = ({ email }) => {
   return (
     <StorageFrame active="browser">
-      <main className="h-screen lg:block relative w-full">
+      <div className="h-screen lg:block relative w-full">
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
             <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
@@ -16,8 +17,10 @@ const BrowserContainer = ({ email }) => {
             </div>
           </div>
         </header>
-        <div className="flex flex-col justify-between items-center px-2 bg-gray-100"></div>
-      </main>
+        <div className="flex flex-col justify-between items-center px-2 bg-transparent">
+          <BrowserFile />
+        </div>
+      </div>
     </StorageFrame>
   );
 };
