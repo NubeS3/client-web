@@ -17,7 +17,7 @@ const Storage = ({ email, active, ...props }) => {
   };
 
   return (
-    <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 xl:mx-48 lg:mx-12">
+    <main class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-96 xl:mx-40 lg:mx-12">
       <div class="flex items-start justify-between">
         <div class="h-screen hidden mt-16 lg:block relative w-65">
           <FixedSidedbar active={active} />
