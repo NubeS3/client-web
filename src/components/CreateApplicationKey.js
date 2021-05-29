@@ -1,5 +1,6 @@
 import React from 'react';
 import AddApplicationKey from './Dialog/ApplicationKey';
+import BucketSetting from './Dialog/Bucket/BucketSetting';
 
 const CreateApplicationKeyButton = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
