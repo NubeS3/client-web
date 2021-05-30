@@ -1,3 +1,83 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .download {
+        background-image: url("https://tree-ams5-0002.backblaze.com/pics/b2-browse-icon-download.png");
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position-y: center;
+        background-position-x: 5px;
+        padding-left: 30px;
+    }
+
+    .download:hover {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-download-o.png");
+        background-repeat: no-repeat;
+    }
+
+    .newFolder {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-newfolder.png");
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position-y: center;
+        background-position-x: 5px;
+        padding-left: 30px;
+    }
+
+    .newFolder:hover {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-newfolder-o.png");
+        background-repeat: no-repeat;
+    }
+
+    .delete {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-delete.png");
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position-y: center;
+        background-position-x: 5px;
+        padding-left: 30px;
+    }
+
+    .delete:hover {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-delete-o.png");
+        background-repeat: no-repeat;
+    }
+
+    .snapshot {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-snapshot.png");
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position-y: center;
+        background-position-x: 5px;
+        padding-left: 30px;
+    }
+
+    .snapshot:hover {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-snapshot-o.png");
+        background-repeat: no-repeat;
+    }
+
+    .info {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png");
+        background-repeat: no-repeat;
+        background-size: 18px 18px;
+        background-position-y: center;
+    }
+
+    .info:hover {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-info-icon-o.png");
+        background-repeat: no-repeat;
+    }
+
+    .custom {
+        background-image: url("https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png");
+        background-repeat: no-repeat;
+    }
+
+    .custom:hover {
+        src: url("https://tree-ams5-0000.backblaze.com/pics/b2-info-icon-o.png");
+        background-repeat: no-repeat;
+    }
+}
