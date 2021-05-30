@@ -7,7 +7,15 @@ import CreateApplicationKey from '../../../components/CreateApplicationKey';
 import { getAppKey } from '../../../store/userStorage/appKey';
 import store from '../../../store';
 import { getAllBucket } from '../../../store/userStorage/bucket';
-const AppKeyContainer = ({ authToken, masterKey, appKeyList, bucketList }) => {
+import MasterKeyCardCreated from '../../../components/MasterKeyCard/MasterKeyCardCreated';
+const AppKeyContainer = ({
+  authToken,
+  masterKey,
+  appKeyList,
+  bucketList,
+  newCreatedKey
+}) => {
+  const [showCard, setShowCard] = React.useState(false);
   useEffect(() => {
     // if (bucketList.length === 0) {
     //   store.dispatch(getAllBucket({ authToken, limit: 10, offset: 0 }));
@@ -28,10 +36,16 @@ const AppKeyContainer = ({ authToken, masterKey, appKeyList, bucketList }) => {
           </div>
         </header>
         <div className="flex flex-col justify-center items-center py-2 px-2 bg-gray-100">
-          <MasterKeyCard authToken={authToken} masterKey={masterKey} />
+          <MasterKeyCard
+            authToken={authToken}
+            masterKey={masterKey}
+            setShowCard={setShowCard}
+          />
+          {showCard && <MasterKeyCardCreated appKey={newCreatedKey} />}
           <CreateApplicationKey
             authToken={authToken}
             bucketList={bucketList || []}
+            setShowCard={setShowCard}
           />
           <p className="w-full max-w-4xl my-2 mx-2">Your Application Keys</p>
           {appKeyList
@@ -48,12 +62,14 @@ const mapStateToProps = (state) => {
   const masterKey = state.appKey.masterKey;
   const appKeyList = state.appKey.appKeyList;
   const bucketList = state.bucket.bucketList;
+  const newCreatedKey = state.appKey.newCreatedKey;
   console.log(appKeyList);
   return {
     authToken,
     masterKey,
     appKeyList,
-    bucketList
+    bucketList,
+    newCreatedKey
   };
 };
 export default connect(mapStateToProps)(AppKeyContainer);

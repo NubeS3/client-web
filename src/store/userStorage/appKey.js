@@ -7,6 +7,7 @@ const initialState = {
   signedKeyReqCount: { count: 0 },
   appKeyList: [],
   masterKey: {},
+  newCreatedKey: {},
   isFulfilled: false,
   isRejected: false,
   isLoading: false,
@@ -102,15 +103,19 @@ export const appKeySlice = createSlice({
     [generateMasterKey.fulfilled]: (state, action) => {
       state.isFulfilled = true;
       state.masterKey = action.payload;
+      state.newCreatedKey = action.payload;
       state.isLoading = false;
     },
     [generateMasterKey.rejected]: (state, action) => {
-      state.isFulfilled = true;
+      state.isRejected = true;
       state.isLoading = false;
       state.err = action.payload;
     },
     [getAppKey.fulfilled]: (state, action) => {
-      state.appKeyList = action.payload;
+      state.masterKey = action.payload.filter(
+        (key) => key.type === 'MASTER'
+      )[0];
+      state.appKeyList = action.payload.filter((key) => key.type === 'APP');
       state.isLoading = false;
     },
     [getAppKey.rejected]: (state, action) => {
@@ -120,6 +125,7 @@ export const appKeySlice = createSlice({
     [createAppKey.fulfilled]: (state, action) => {
       state.isFulfilled = true;
       state.appKeyList = [...state.appKeyList, action.payload];
+      state.newCreatedKey = action.payload;
       state.isLoading = false;
     },
     [createAppKey.rejected]: (state, action) => {

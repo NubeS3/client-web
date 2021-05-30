@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
-import { createAppKey } from '../../store/userStorage/appKey';
+import { clearAppKeyState, createAppKey } from '../../store/userStorage/appKey';
 import store from '../../store';
 import { DateTime } from 'luxon';
+import { connect } from 'react-redux';
 const AddApplicationKey = ({
   open,
   onSubmit,
   onCancel,
   bucketList,
-  authToken
+  authToken,
+  setShowCard,
+  isFulfilled,
+  isRejected
 }) => {
   const readWritePermissions = [
     'ListKeys',
@@ -62,10 +66,6 @@ const AddApplicationKey = ({
         )
     }),
     onSubmit: (values) => {
-      // let newDate = '';
-      // if (values.expired_date) {
-      //   newDate = Date.parse(new Date()) / 1000 + values.expired_date;
-      // }
       const nullDate = '0000-01-01T00:00:00.000+07:00';
       // console.log('appkey data', {
       //   authToken: authToken,
@@ -96,6 +96,19 @@ const AddApplicationKey = ({
       onCancel();
     }
   });
+
+  useEffect(() => {
+    if (isFulfilled) {
+      setShowCard(true);
+      store.dispatch(clearAppKeyState());
+    }
+    if (isRejected) {
+      // log error
+      store.dispatch(clearAppKeyState());
+    }
+    return () => {};
+  }, [isFulfilled, isRejected]);
+
   return (
     <dialog open={true}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
@@ -249,4 +262,13 @@ const AddApplicationKey = ({
   );
 };
 
-export default AddApplicationKey;
+const mapStateToProps = (state) => {
+  const isFulfilled = state.appKey.isFulfilled;
+  const isRejected = state.appKey.isRejected;
+  return {
+    isFulfilled,
+    isRejected
+  };
+};
+
+export default connect(mapStateToProps)(AddApplicationKey);

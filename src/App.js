@@ -29,6 +29,7 @@ import BucketContainer from './view/pages/Storage/Buckets';
 import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
+import BucketFileBrowser from './components/BucketFileBrowser/BucketFileBrowser';
 
 const App = (props) => {
   const mount = async () => {
