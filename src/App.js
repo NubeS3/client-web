@@ -30,6 +30,7 @@ import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
 import BucketFileBrowser from './components/BucketFileBrowser/BucketFileBrowser';
+import CreateFolder from './components/Dialog/CreateFolder';
 
 const App = (props) => {
   const mount = async () => {
@@ -66,7 +67,7 @@ const App = (props) => {
             <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
             <Route exact path={paths.REGISTER} component={Register} />
             <Route exact path={paths.LOGIN} component={Login} />
-            <Route exact path={paths.TEST} component={BucketFileBrowser} />
+            <Route exact path={paths.TEST} component={CreateFolder} />
             <Route exact path={paths.STORAGE} component={BucketContainer} />
             <Route
               exact
