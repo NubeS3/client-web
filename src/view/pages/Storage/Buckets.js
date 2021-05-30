@@ -5,13 +5,14 @@ import CreateBucketButton from '../../../components/CreateBucketButton';
 import StorageFrame from './StorageFrame';
 import { getAllBucket } from '../../../store/userStorage/bucket';
 import store from '../../../store';
-const BucketContainer = ({ email, bucketList, authToken }) => {
+const BucketContainer = ({ isLoading, email, bucketList = [], authToken }) => {
   useEffect(() => {
-    store.dispatch(
-      getAllBucket({ authToken: authToken, limit: 10, offset: 0 })
-    );
+    console.log('Bucket');
+    // store.dispatch(
+    //   getAllBucket({ authToken: authToken, limit: 10, offset: 0 })
+    // );
     return () => {};
-  }, []);
+  }, [isLoading]);
   return (
     <StorageFrame active="bucket">
       <div className="h-screen lg:block relative w-full">
@@ -49,8 +50,10 @@ const mapStateToProps = (state) => {
   const email = state.authen.loginEmail;
   const bucketList = state.bucket.bucketList;
   const authToken = state.authen.authToken;
+  const isLoading = state.bucket.isLoading;
   console.log(bucketList);
   return {
+    isLoading,
     email,
     bucketList,
     authToken

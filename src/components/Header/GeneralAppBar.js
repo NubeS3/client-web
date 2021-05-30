@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import paths from '../../configs/paths';
 const GeneralAppBar = (props) => {
+  useEffect(() => {
+    console.log('GenAppbar');
+    return () => {};
+  }, []);
   return (
     // <div>
     <nav className="bg-white dark:bg-gray-800 shadow z-9 mb-1">

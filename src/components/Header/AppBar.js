@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import AuthAppBar from './AuthAppBar';
 import GeneralAppBar from './GeneralAppBar';
 
 const AppBar = (props) => {
+  useEffect(() => {
+    console.log('Appbar');
+    return () => {};
+  }, []);
   if (props.isValidAuthentication) {
     return <AuthAppBar />;
   } else {

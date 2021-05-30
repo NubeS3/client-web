@@ -58,31 +58,31 @@ const App = (props) => {
 
   return (
     <>
-      <PageFrame>
-        <Router basename="/">
-          <Switch>
-            <Route exact path={paths.BASE} component={Landing} />
-            <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
-            <Route exact path={paths.REGISTER} component={Register} />
-            <Route exact path={paths.LOGIN} component={Login} />
-            {/* <Route exact path={paths.TEST} component={ListButtonFile} /> */}
-            <Route exact path={paths.STORAGE} component={BucketContainer} />
-            <Route
-              exact
-              path={paths.STORAGE_APPKEY}
-              component={AppKeyContainer}
-            />
-            <Route
-              exact
-              path={paths.STORAGE_BROWSER}
-              component={BrowserContainer}
-            />
-            <Route
-              exact
-              path={paths.STORAGE_REPORT}
-              component={ReportContainer}
-            />
-            {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
+      {/* <PageFrame> */}
+      <Router basename="/">
+        <Switch>
+          <Route exact path={paths.BASE} component={Landing} />
+          <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
+          <Route exact path={paths.REGISTER} component={Register} />
+          <Route exact path={paths.LOGIN} component={Login} />
+          {/* <Route exact path={paths.TEST} component={ListButtonFile} /> */}
+          <Route exact path={paths.STORAGE} component={BucketContainer} />
+          <Route
+            exact
+            path={paths.STORAGE_APPKEY}
+            component={AppKeyContainer}
+          />
+          <Route
+            exact
+            path={paths.STORAGE_BROWSER}
+            component={BrowserContainer}
+          />
+          <Route
+            exact
+            path={paths.STORAGE_REPORT}
+            component={ReportContainer}
+          />
+          {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         
         <Route exact path={paths.OTP} component={ConfirmedOTP} />
@@ -104,9 +104,9 @@ const App = (props) => {
         path={paths.ADMIN_MANAGE}
         component={AdminManageBoard}
       /> */}
-          </Switch>
-        </Router>
-      </PageFrame>
+        </Switch>
+      </Router>
+      {/* </PageFrame> */}
     </>
   );
 };

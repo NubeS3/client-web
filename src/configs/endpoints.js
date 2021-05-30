@@ -18,7 +18,7 @@ const endpoints = {
   GET_BUCKET_FOLDER: `${BASE}/auth/folders/all`,
   GET_SIGNED_KEY: `${BASE}/auth/keyPairs/all/`,
 
-  GET_APP_KEY: `${BASE}/auth/accessKey`,
+  GET_APP_KEY: `${BASE}/auth/accessKey/`,
   CREATE_APP_KEY: `${BASE}/auth/accessKey/app`,
   GET_MASTER_KEY: `${BASE}/auth/accessKey/master`,
   CREATE_MASTER_KEY: `${BASE}/auth/accessKey/master`,
