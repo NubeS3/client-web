@@ -16,8 +16,15 @@ const endpoints = {
   DELETE_BUCKET: `${BASE}/auth/buckets/`,
   GET_BUCKET_FILE: `${BASE}/auth/files/all`,
   GET_BUCKET_FOLDER: `${BASE}/auth/folders/all`,
-  GET_ACCESS_KEY: `${BASE}/auth/accessKey/all/`,
   GET_SIGNED_KEY: `${BASE}/auth/keyPairs/all/`,
+
+  GET_APP_KEY: `${BASE}/auth/accessKey`,
+  CREATE_APP_KEY: `${BASE}/auth/accessKey/app`,
+  GET_MASTER_KEY: `${BASE}/auth/accessKey/master`,
+  CREATE_MASTER_KEY: `${BASE}/auth/accessKey/master`,
+
+  DELETE_APP_KEY: `${BASE}/auth/`,
+
   CREATE_ACCESS_KEY: `${BASE}/auth/accessKey/`,
   DELETE_ACCESS_KEY: `${BASE}/auth/accessKey`,
   CREATE_SIGNED_KEY: `${BASE}/auth/keyPairs/`,

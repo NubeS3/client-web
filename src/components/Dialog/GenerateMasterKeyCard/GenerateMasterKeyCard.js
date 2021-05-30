@@ -1,32 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import paths from '../../../configs/paths';
 import { useHistory } from 'react-router';
 import store from '../../../store';
 import { connect } from 'react-redux';
+import {
+  generateMasterKey,
+  clearAppKeyState
+} from '../../../store/userStorage/appKey';
 
-const GeneratingMasterKeyCard = ({ open, onSubmit, onCancel }) => {
+const GeneratingMasterKeyCard = ({
+  authToken,
+  open,
+  setShowCard,
+  onCancel,
+  isFulfilled,
+  isRejected
+}) => {
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
       isGenerate: false
     },
     onSubmit: (values) => {
-      // const error = preValidateRegisterData(values);
-      // // if (error) {
-      // //   return setError(error);
-      // // }
-      // setError("");
-      alert(
-        JSON.stringify({
-          isGenerate: values.isGenerate
-        })
-      );
-      // console.log(store.dispatch(createBucket({ authToken: authToken })));
-      history.push(paths.STORAGE);
+      store.dispatch(generateMasterKey({ authToken: authToken }));
     }
   });
+
+  useEffect(() => {
+    if (isFulfilled) {
+      setShowCard(true);
+      store.dispatch(clearAppKeyState());
+    }
+    if (isRejected) {
+      // log error
+      store.dispatch(clearAppKeyState());
+    }
+    return () => {};
+  }, [isFulfilled, isRejected]);
   return (
     <dialog open={open}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70 rounded-lg">
@@ -42,8 +54,7 @@ const GeneratingMasterKeyCard = ({ open, onSubmit, onCancel }) => {
             <div className="flex justify-end mt-4 pb-4 pr-6">
               <button
                 className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                type="submit"
-                onClick={onSubmit}
+                onClick={formik.handleSubmit}
               >
                 Yes! Generate Master Key
               </button>
@@ -63,8 +74,12 @@ const GeneratingMasterKeyCard = ({ open, onSubmit, onCancel }) => {
 
 const mapStateToProps = (state) => {
   const authToken = state.authen.authToken;
+  const isFulfilled = state.appKey.isFulfilled;
+  const isRejected = state.appKey.isRejected;
   return {
-    authToken
+    authToken,
+    isFulfilled,
+    isRejected
   };
 };
 export default connect(mapStateToProps)(GeneratingMasterKeyCard);

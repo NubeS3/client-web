@@ -107,7 +107,6 @@ export const authenSlice = createSlice({
       state.isRejected = false;
       state.isFulfiled = false;
       state.isLoggingIn = false;
-      return state;
     }
   },
   extraReducers: {

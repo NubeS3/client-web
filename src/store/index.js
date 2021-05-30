@@ -5,7 +5,7 @@ import { signUpSlice } from './user/signUp';
 import { uploadSlice } from './userStorage/upload';
 import { downloadSlice } from './userStorage/download';
 import { bucketSlice } from './userStorage/bucket';
-import { bucketKeySlice } from './userStorage/bucketKey';
+import { appKeySlice } from './userStorage/appKey';
 import { userManageSlice } from './admin/user';
 import { adminManageSlice } from './admin/admin';
 import { requestLogManageSlice } from './admin/requestLog';
@@ -20,7 +20,7 @@ const store = configureStore({
     upload: uploadSlice.reducer,
     download: downloadSlice.reducer,
     bucket: bucketSlice.reducer,
-    bucketKey: bucketKeySlice.reducer,
+    appKey: appKeySlice.reducer,
     bandwidthReport: bandwidthReportSlice.reducer,
 
     adminManage: adminManageSlice.reducer,

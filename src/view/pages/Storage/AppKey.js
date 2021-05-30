@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import AddApplicationKey from '../../../components/Dialog/ApplicationKey';
+import AppKeyCard from '../../../components/ApplicationKeyCard/AppKeyCard';
 import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
 import StorageFrame from './StorageFrame';
-
-const AppKeyContainer = ({ email }) => {
+import CreateApplicationKey from '../../../components/CreateApplicationKey';
+import { getAppKey } from '../../../store/userStorage/appKey';
+import store from '../../../store';
+import { getAllBucket } from '../../../store/userStorage/bucket';
+const AppKeyContainer = ({ authToken, masterKey, appKeyList, bucketList }) => {
+  useEffect(() => {
+    // if (bucketList.length === 0) {
+    //   store.dispatch(getAllBucket({ authToken, limit: 10, offset: 0 }));
+    // }
+    store.dispatch(getAppKey({ authToken: authToken }));
+    return () => {};
+  }, []);
   return (
     <StorageFrame active="appkey">
       <div className="h-screen lg:block relative w-full">
@@ -18,8 +28,15 @@ const AppKeyContainer = ({ email }) => {
           </div>
         </header>
         <div className="flex flex-col justify-center items-center py-2 px-2 bg-gray-100">
-          <MasterKeyCard />
-          {/* <AddApplicationKey /> */}
+          <MasterKeyCard authToken={authToken} masterKey={masterKey} />
+          <CreateApplicationKey
+            authToken={authToken}
+            bucketList={bucketList || []}
+          />
+          <p className="w-full max-w-4xl my-2 mx-2">Your Application Keys</p>
+          {appKeyList
+            ? appKeyList.map((appKey) => <AppKeyCard appKey={appKey} />)
+            : null}
         </div>
       </div>
     </StorageFrame>
@@ -27,10 +44,16 @@ const AppKeyContainer = ({ email }) => {
 };
 
 const mapStateToProps = (state) => {
-  const email = state.authen.loginEmail;
-  console.log(email);
+  const authToken = state.authen.authToken;
+  const masterKey = state.appKey.masterKey;
+  const appKeyList = state.appKey.appKeyList;
+  const bucketList = state.bucket.bucketList;
+  console.log(appKeyList);
   return {
-    email
+    authToken,
+    masterKey,
+    appKeyList,
+    bucketList
   };
 };
 export default connect(mapStateToProps)(AppKeyContainer);

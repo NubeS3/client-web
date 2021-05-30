@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import GenerateMasterKeyCard from '../Dialog/GenerateMasterKeyCard/GenerateMasterKeyCard';
 import MasterKeyCardCreated from './MasterKeyCardCreated';
 
-const MasterKeyCard = () => {
+const MasterKeyCard = ({ masterKey, authToken }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [showCard, setShowCard] = React.useState(false);
   return (
@@ -15,7 +16,7 @@ const MasterKeyCard = () => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="key-id">
-              e9fc89087123
+              {masterKey.key || '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -75,10 +76,7 @@ const MasterKeyCard = () => {
             {openDialog && (
               <GenerateMasterKeyCard
                 open={openDialog}
-                onSubmit={() => {
-                  setOpenDialog(false);
-                  setShowCard(true);
-                }}
+                setShowCard={setShowCard}
                 onCancel={() => setOpenDialog(false)}
               />
             )}
@@ -92,9 +90,16 @@ const MasterKeyCard = () => {
         </div>
       </div>
       <br />
-      {showCard && <MasterKeyCardCreated />}
+      {showCard && <MasterKeyCardCreated appKey={masterKey} />}
     </div>
   );
 };
 
-export default MasterKeyCard;
+const mapStateToProps = (state) => {
+  console.log(state.appKey.masterKey);
+  return {
+    masterKey: state.appKey.masterKey
+  };
+};
+
+export default connect(mapStateToProps)(MasterKeyCard);

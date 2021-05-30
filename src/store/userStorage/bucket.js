@@ -10,8 +10,6 @@ const initialState = {
   bucketList: [],
   accessKeyList: [],
   signedKeyList: [],
-  accessKeyReqCount: 0,
-  signedKeyReqCount: 0,
   isLoading: false,
   err: null
 };

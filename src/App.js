@@ -22,27 +22,13 @@ import './index.css';
 import paths from './configs/paths';
 import Landing from './view/pages/Landing/Landing';
 import Register from './view/pages/Register/Register';
-import LoginEmail from './view/pages/Login/LoginEmail';
-import LoginPassword from './view/pages/Login/LoginPassword';
-import GeneralAppBar from './components/Header/GeneralAppBar';
-import Greeting from './components/Dialog/Greeting';
 import PageFrame from './components/PageFrame';
 import StorageLanding from './view/pages/Landing/StorageLanding';
 import Login from './view/pages/Login/Login';
-import CreateBucket from './components/Dialog/Bucket/CreateBucket';
-import CreateBucketButton from './components/CreateBucketButton';
-import BucketCard from './components/BucketCard/BucketCard';
-import MasterKeyCard from './components/MasterKeyCard/MasterKeyCard';
 import BucketContainer from './view/pages/Storage/Buckets';
 import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
-import MasterKeyCardCreated from './components/MasterKeyCard/MasterKeyCardCreated';
-import GenerateMasterKeyCard from './components/Dialog/GenerateMasterKeyCard/GenerateMasterKeyCard';
-import AddApplicationKey from './components/Dialog/ApplicationKey';
-import BrowserFile from './components/BrowserFile/BrowserFile';
-import CreateApplicationKeyButton from './components/CreateApplicationKey';
-import ListButtonFile from './components/ListButtonFile/ListButtonFile';
 
 const App = (props) => {
   const mount = async () => {
@@ -79,11 +65,6 @@ const App = (props) => {
             <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
             <Route exact path={paths.REGISTER} component={Register} />
             <Route exact path={paths.LOGIN} component={Login} />
-            <Route
-              exact
-              path={paths.TEST}
-              component={CreateApplicationKeyButton}
-            />
             {/* <Route exact path={paths.TEST} component={ListButtonFile} /> */}
             <Route exact path={paths.STORAGE} component={BucketContainer} />
             <Route

@@ -1,10 +1,10 @@
 import React from 'react';
 import AddApplicationKey from './Dialog/ApplicationKey';
 
-const CreateApplicationKeyButton = () => {
+const CreateApplicationKeyButton = ({ bucketList, authToken }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
   return (
-    <div className="relative">
+    <>
       <button
         className="flex w-full my-2 py-2 text-blue-500 items-center justify-center bg-white border border-gray-300 focus:outline-none hover:border-indigo-700"
         onClick={() => setOpenDialog(true)}
@@ -28,10 +28,12 @@ const CreateApplicationKeyButton = () => {
       {openDialog && (
         <AddApplicationKey
           open={openDialog}
-          onCancle={() => setOpenDialog(false)}
+          onCancel={() => setOpenDialog(false)}
+          bucketList={bucketList}
+          authToken={authToken}
         />
       )}
-    </div>
+    </>
   );
 };
 

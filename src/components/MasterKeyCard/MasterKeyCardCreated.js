@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MasterKeyCardCreated = () => {
+const MasterKeyCardCreated = ({ appKey }) => {
   const [toggleHidden, setToggleHidden] = React.useState(false);
   return (
     <div className="flex flex-col mx-auto justify-center max-w-4xl py-4 px-8 bg-gray-100 shadow rounded-sm w-full text-gray-600">
@@ -14,7 +14,7 @@ const MasterKeyCardCreated = () => {
         </div>
         <div className="col-span-2 mt-3">
           <p className="text-black" id="key-id">
-            e9fc89087123
+            {appKey ? appKey.id : ''}
           </p>
         </div>
         <div className="col-span-1 mt-3 ml-20">
@@ -22,7 +22,7 @@ const MasterKeyCardCreated = () => {
         </div>
         <div className="col-span-2 mt-3">
           <p className="text-black" id="key-name">
-            Master Application Key
+            {appKey ? appKey.name : ''}
           </p>
         </div>
         <div className="col-span-1 mt-3 ml-20">
@@ -30,7 +30,7 @@ const MasterKeyCardCreated = () => {
         </div>
         <div className="col-span-2 mt-3">
           <p className="text-black" id="bucket-name">
-            000123asdh12sid112axv13b
+            {appKey ? appKey.key : ''}
           </p>
         </div>
         <div />
