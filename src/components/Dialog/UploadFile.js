@@ -1,4 +1,5 @@
 import React from 'react';
+import Dropzone from 'react-dropzone';
 
 const UploadFile = ({ open, onClose }) => {
   return (
@@ -26,11 +27,20 @@ const UploadFile = ({ open, onClose }) => {
               </svg>
             </button>
             <hr className="w-full" />
-            <div className="flex flex-col w-full items-center py-20">
-              <h1 className="font-bold">Drop files here</h1>
-              <h1 className="italic">or</h1>
-              <h1>click to select a file</h1>
-            </div>
+            <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+              {({ getRootProps, getInputProps }) => (
+                <section className="w-full">
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <div className="flex flex-col w-full items-center py-20">
+                      <h1 className="font-bold">Drop files here</h1>
+                      <h1 className="italic">or</h1>
+                      <h1>click to select a file</h1>
+                    </div>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
           </div>
         </div>
       </div>
