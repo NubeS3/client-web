@@ -1,8 +1,64 @@
 import React from 'react';
+import ListButtonFile from '../ListButtonFile/ListButtonFile';
 
-const BucketFileBrowser = () => {
+const BucketFileBrowser = ({
+  breadCrumbStack,
+  setBreadCrumbStack,
+  onBucketBrowserClick,
+  authToken,
+  items
+}) => {
+  const [selected, setSelected] = useState([]);
+
+  const handleBreadCrumbStack = (link, index) => {
+    setBreadCrumbStack(breadCrumbStack.slice(0, index + 1));
+  };
+
+  const handleOnBucketItemClick = (row) => {
+    if (row.type === 'folder') {
+      setBreadCrumbStack((breadCrumbStack) => [...breadCrumbStack, row.name]);
+    }
+  };
+
+  const findWithProperty = (arr, prop, value) => {
+    for (var i in arr) {
+      if (arr[i][prop] === value) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+  const handleSelectAllClick = (e) => {
+    if (e.target.checked) {
+      const newSelecteds = items.map((n) => ({ id: n.id, name: n.name }));
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleItemCheckboxClick = (fileItem) => {
+    const selectedIndex = findWithProperty(selected, 'id', fileItem.id);
+    let newSelected = [];
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, fileItem);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+  };
+
+  const isSelected = (id) => findWithProperty(selected, 'id', id) !== -1;
   return (
-    <div className="flex flex-col 2xl:max-w-2xl mx-auto">
+    <div className="flex flex-col 2xl:max-w-2xl w-full">
       {/* // <p className="text-3xl text-gray-600">Browse Files</p> */}
       <div className="mt-8 mb-8">
         <a href="#">
@@ -14,35 +70,34 @@ const BucketFileBrowser = () => {
           />
         </a>
         <p className="inline ml-2 text-lg text-blue-700">
-          <a href="#" className="mr-1 hover:underline">
+          <a
+            color="inherit"
+            key={'buckets'}
+            onClick={onBucketBrowserClick}
+            className="mr-1 hover:underline"
+          >
             Buckets
           </a>
           /
-          <a href="#" className="ml-1 hover:underline">
-            NubeS3Test
-          </a>
+          {breadCrumbStack.map((link, index) => {
+            return (
+              <>
+                <a
+                  color="inherit"
+                  key={index}
+                  onClick={() => handleBreadCrumbStack(link, index)}
+                  className="mr-1 hover:underline"
+                >
+                  {link}
+                </a>
+                /
+              </>
+            );
+          })}
         </p>
       </div>
       <div className="mb-5">
-        <a className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-3 rounded">
-          <img
-            className="w-4 h-4 inline mb-1 mr-1"
-            src="https://tree-ams5-0002.backblaze.com/pics/b2-browse-icon-upload.png"
-          />
-          Upload
-        </a>
-        <a className="download bg-transparent hover:bg-transparent text-gray-200 hover:text-blue-300 py-2 px-3 ml-1 border border-gray-100-500 hover:border-blue-300 rounded">
-          Download
-        </a>
-        <a className="newFolder bg-transparent hover:bg-transparent text-black hover:text-blue-300 py-2 px-3 ml-1 border border-gray-100-500 hover:border-blue-300 rounded">
-          New Folder
-        </a>
-        <a className="delete bg-transparent hover:bg-transparent text-gray-200 hover:text-blue-300 py-2 px-3 ml-1 border border-gray-100-500 hover:border-blue-300 rounded">
-          Delete
-        </a>
-        <a className="snapshot bg-transparent hover:bg-transparent text-gray-200 hover:text-blue-300 py-2 px-3 ml-1 border border-gray-100-500 hover:border-blue-300 rounded">
-          Snapshot
-        </a>
+        <ListButtonFile breadCrumbStack={breadCrumbStack} authToken={authToken} selected={selected} />
       </div>
       <div className="flex justify-end mb-3">
         <p>
@@ -59,7 +114,7 @@ const BucketFileBrowser = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                   >
-                    <input type="checkbox" />
+                    <input type="checkbox" onClick={handleSelectAllClick} />
                   </th>
                   <th
                     scope="col"
@@ -86,6 +141,99 @@ const BucketFileBrowser = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
+                {items
+                  ? items.map((item) => {
+                      const isItemSelected = isSelected(item.id);
+                      return (
+                        <tr key={item.id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <input
+                              type="checkbox"
+                              checked={isItemSelected}
+                              onClick={() => handleItemCheckboxClick(item)}
+                            />
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center">
+                              <div className="flex-shrink-0 h-10 w-10">
+                                <img
+                                  className="h-10 w-10 rounded-full"
+                                  src="https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-file.png"
+                                  alt=""
+                                />
+                              </div>
+                              <div className="ml-4">
+                                <div className="text-sm font-medium text-gray-900">
+                                  <a
+                                    className="text-blue-500 hover:underline"
+                                    onClick={() =>
+                                      handleOnBucketItemClick({
+                                        type: 'folder',
+                                        name: 'Testbucket-3'
+                                      })
+                                    }
+                                  >
+                                    {item.name}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">
+                              {row.metadata ? (
+                                <>
+                                  {row.metadata.size ? (
+                                    row.metadata.size < 1024 ? (
+                                      <>{row.metadata.size} byte</>
+                                    ) : (
+                                      <>
+                                        {row.metadata.size <
+                                        Math.pow(1024, 2) ? (
+                                          <>
+                                            {Math.ceil(
+                                              row.metadata.size / 1024
+                                            )}{' '}
+                                            KB
+                                          </>
+                                        ) : (
+                                          <>
+                                            {Math.ceil(
+                                              row.metadata.size /
+                                                Math.pow(1024, 2)
+                                            )}{' '}
+                                            MB
+                                          </>
+                                        )}
+                                      </>
+                                    )
+                                  ) : (
+                                    ''
+                                  )}
+                                </>
+                              ) : null}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">
+                              {item.created_at}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <a
+                              href="#"
+                              className="text-sm text-gray-900 hover:bg-blue-50"
+                            >
+                              <img
+                                src="https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png"
+                                className="w-5 h-5"
+                              />
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  : null}
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <input type="checkbox" />
@@ -101,133 +249,15 @@ const BucketFileBrowser = () => {
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
-                          <a className="text-blue-500 hover:underline" href="#">
-                            Test-nubeS3
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">58.7 MB</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      04/16/2021 16:40
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <a
-                      href="#"
-                      className="text-sm text-gray-900 hover:bg-blue-50"
-                    >
-                      <img
-                        src="https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png"
-                        className="w-5 h-5"
-                      />
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <input type="checkbox" />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src="https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-folder.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          <a className="text-blue-500 hover:underline" href="#">
-                            Test
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">58.7 MB</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      04/16/2021 16:40
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <a
-                      href="#"
-                      className="text-sm text-gray-900 hover:bg-blue-50"
-                    >
-                      <img
-                        src="https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png"
-                        className="w-5 h-5"
-                      />
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <input type="checkbox" />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src="https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-file.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          <a className="text-blue-500 hover:underline" href="#">
-                            Test-nubeS3
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">58.7 MB</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      04/16/2021 16:40
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <a
-                      href="#"
-                      className="text-sm text-gray-900 hover:bg-blue-50"
-                    >
-                      <img
-                        src="https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png"
-                        className="w-5 h-5"
-                      />
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <input type="checkbox" />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src="https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-file.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          <a className="text-blue-500 hover:underline" href="#">
+                          <a
+                            className="text-blue-500 hover:underline"
+                            onClick={() =>
+                              handleOnBucketItemClick({
+                                type: 'folder',
+                                name: 'Testbucket-3'
+                              })
+                            }
+                          >
                             Test-nubeS3
                           </a>
                         </div>

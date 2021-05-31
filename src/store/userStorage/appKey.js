@@ -52,38 +52,7 @@ export const getAppKey = createAsyncThunk(
   }
 );
 
-export const createAppKey = createAsyncThunk(
-  'bucket/createAppKey',
-  async (data, api) => {
-    try {
-      api.dispatch(appKeySlice.actions.loading());
-      const response = await axios.post(
-        endpoints.CREATE_APP_KEY,
-        {
-          name: data.name,
-          bucket_id: data.bucket_id,
-          expired_date: data.expired_date,
-          firename_prefix_restrict: data.firename_prefix_restrict,
-          permissions: data.permissions
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${data.authToken}`
-          }
-        }
-      );
-      const responseData = await {
-        key: response.data,
-        bucket_id: data.bucketId,
-        expired_date: data.expiringDate,
-        permissions: data.permissions
-      };
-      return responseData;
-    } catch (error) {
-      return api.rejectWithValue(error.response.data.error);
-    }
-  }
-);
+
 
 export const appKeySlice = createSlice({
   name: 'appKey',
@@ -111,6 +80,7 @@ export const appKeySlice = createSlice({
       state.isLoading = false;
       state.err = action.payload;
     },
+
     [getAppKey.fulfilled]: (state, action) => {
       state.masterKey = action.payload.filter(
         (key) => key.type === 'MASTER'

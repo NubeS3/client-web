@@ -1,6 +1,11 @@
 import React from 'react';
 
-const BrowserFile = () => {
+const BrowserFile = ({
+  bucketList,
+  onClick,
+  breadCrumbStack,
+  setBreadCrumbStack
+}) => {
   return (
     <div className="flex flex-col w-full">
       {/* // <p className="text-3xl text-gray-600">Browse Files</p> */}
@@ -42,90 +47,68 @@ const BrowserFile = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src="https://tree-ams5-0001.backblaze.com/pics/b2-browse-icon-bucket.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          <a className="text-blue-500 hover:underline" href="#">
-                            Test-nubeS3
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">58.7 MB</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      04/16/2021 16:40
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src="https://tree-ams5-0001.backblaze.com/pics/b2-browse-icon-bucket.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          <a className="text-blue-500 hover:underline" href="#">
-                            Test-nubeS3
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">58.7 MB</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      04/16/2021 16:40
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src="https://tree-ams5-0001.backblaze.com/pics/b2-browse-icon-bucket.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          <a className="text-blue-500 hover:underline" href="#">
-                            Test-nubeS3
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">58.7 MB</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      04/16/2021 16:40
-                    </div>
-                  </td>
-                </tr>
+                {bucketList
+                  ? bucketList.map((item, index) => (
+                      <tr key={item.bucket.id || index}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 h-10 w-10">
+                              <img
+                                className="h-7 w-7 rounded-full"
+                                src="https://tree-ams5-0001.backblaze.com/pics/b2-browse-icon-bucket.png"
+                                alt=""
+                              />
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900">
+                                <a
+                                  className="text-blue-500 hover:underline"
+                                  onClick={() =>
+                                    onClick(item.bucket.id, item.bucket.name)
+                                  }
+                                >
+                                  {item.bucket.name}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {item.bucket ? (
+                              <>
+                                {row.size ? (
+                                  row.size < 1024 ? (
+                                    <>{row.size} byte</>
+                                  ) : (
+                                    <>
+                                      {row.size < Math.pow(1024, 2) ? (
+                                        <>{Math.ceil(row.size / 1024)} KB</>
+                                      ) : (
+                                        <>
+                                          {Math.ceil(
+                                            row.size / Math.pow(1024, 2)
+                                          )}{' '}
+                                          MB
+                                        </>
+                                      )}
+                                    </>
+                                  )
+                                ) : (
+                                  ''
+                                )}
+                              </>
+                            ) : null}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {new Date(item.bucket.created_at).toDateString()}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  : null}
               </tbody>
             </table>
           </div>

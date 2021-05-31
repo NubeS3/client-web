@@ -8,11 +8,11 @@ import store from '../../../store';
 const BucketContainer = ({ isLoading, email, bucketList = [], authToken }) => {
   useEffect(() => {
     console.log('Bucket');
-    // store.dispatch(
-    //   getAllBucket({ authToken: authToken, limit: 10, offset: 0 })
-    // );
+    store.dispatch(
+      getAllBucket({ authToken: authToken, limit: 10, offset: 0 })
+    );
     return () => {};
-  }, [isLoading]);
+  }, []);
   return (
     <StorageFrame active="bucket">
       <div className="h-screen lg:block relative w-full">

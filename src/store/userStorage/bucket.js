@@ -11,6 +11,7 @@ const initialState = {
   accessKeyList: [],
   signedKeyList: [],
   isLoading: false,
+  isFetchingFile: false,
   err: null
 };
 
@@ -277,40 +278,6 @@ export const getSignedKey = createAsyncThunk(
   }
 );
 
-//data payload: authToken, name, region
-export const createSignedKey = createAsyncThunk(
-  'bucket/createSignedKey',
-  async (data, api) => {
-    try {
-      api.dispatch(bucketSlice.actions.loading());
-      const response = await axios.post(
-        endpoints.CREATE_SIGNED_KEY,
-        {
-          bucket_id: data.bucketId,
-          expired_date: data.expiringDate,
-          permissions: data.permissions
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${data.authToken}`
-          }
-        }
-      );
-      response.data = {
-        ...response.data,
-        ...{
-          bucket_id: data.bucketId,
-          expired_date: data.expiringDate,
-          permissions: data.permissions
-        }
-      };
-      return response.data;
-    } catch (error) {
-      return api.rejectWithValue(error.response.data.error);
-    }
-  }
-);
-
 //data payload: authToken, limit, offset
 export const deleteSignedKey = createAsyncThunk(
   'bucket/deleteSignedKey',
@@ -449,15 +416,6 @@ export const bucketSlice = createSlice({
     [getSignedKey.rejected]: (state, action) => {
       state.err = action.payload;
       state.isLoading = false;
-    },
-
-    [createSignedKey.fulfilled]: (state, action) => {
-      state.signedKeyList = [...state.signedKeyList, action.payload];
-      state.isLoading = false;
-    },
-    [createSignedKey.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.err = action.payload;
     },
     [deleteSignedKey.fulfilled]: (state, action) => {
       state.signedKeyList = state.signedKeyList.filter(
