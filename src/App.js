@@ -30,6 +30,8 @@ import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
 import BucketFileBrowser from './components/BucketFileBrowser/BucketFileBrowser';
+import CreateFolder from './components/Dialog/CreateFolder';
+import Lifecycle from './components/Dialog/Lifecycle';
 
 const App = (props) => {
   const mount = async () => {

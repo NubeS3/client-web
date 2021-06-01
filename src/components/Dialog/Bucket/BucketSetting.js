@@ -87,8 +87,9 @@ const BucketSetting = ({ name = 'Test-NubeS2-A', onCancel }) => {
               <br />
               <div className="flex flex-row justify-center">
                 <p className="text-xs text-gray-400">
-                  Change takes effect in approximately{' '}
+                  Change takes effect in approximately
                 </p>
+                <p>&nbsp;</p>
                 <p className="text-xs text-gray-400 font-bold">10 minutes</p>
               </div>
             </div>
