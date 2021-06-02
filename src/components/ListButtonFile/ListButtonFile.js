@@ -1,13 +1,15 @@
+import { useState } from 'react';
 import store from '../../store';
 import { createBucketFolder } from '../../store/userStorage/bucket';
 import CreateFolder from '../Dialog/CreateFolder';
 
-const UploadButton = ({ disabled }) => {
+const UploadButton = ({ disabled, onUploadClick }) => {
   return (
     <button
       type="button"
       class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-3 rounded"
       disabled={disabled}
+      onClick={onUploadClick}
     >
       <img
         className="w-4 h-4 inline mb-1 mr-1"
@@ -18,7 +20,13 @@ const UploadButton = ({ disabled }) => {
   );
 };
 
-const DownloadButton = ({ disabled }) => {
+const DownloadButton = ({ disabled, selected }) => {
+  const [showDownloadDialog, setShowDownloadDialog] = useState(false);
+  const handleOpenDownload = () => {
+    if (selected.length > 0) {
+      setShowDownloadDialog(true);
+    }
+  };
   return (
     <button
       type="button"
@@ -30,17 +38,13 @@ const DownloadButton = ({ disabled }) => {
   );
 };
 
-const NewFolderButton = ({}) => {
-  const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
+const NewFolderButton = ({ onNewFolderClick }) => {
   return (
     <>
-      {showCreateFolderDialog ? (
-        <CreateFolder onCancel={() => setShowCreateFolderDialog(false)} />
-      ) : null}
       <button
         type="button"
         className="newFolder bg-transparent hover:bg-transparent text-black hover:text-blue-300 py-2 px-3 ml-1 border border-gray-100-500 hover:border-blue-300 rounded"
-        onClick={() => setShowCreateFolderDialog(true)}
+        onClick={onNewFolderClick}
       >
         New Folder
       </button>
@@ -72,30 +76,19 @@ const SnapshotButton = ({ disabled }) => {
   );
 };
 
-const ListButtonFile = ({ breadCrumbStack, authToken, selected }) => {
-  const handleCreateFolder = () => {
-    store.dispatch(
-      createBucketFolder({
-        authToken: authToken,
-        name: 'folderName',
-        parent_path: '/' + breadCrumbStack.join('/')
-      })
-    );
-    // setOpenCreateFolderDialog(false);
-  };
-
-  const handleOpenDownload = () => {
-    if (selected.length > 0) {
-      setOpenDownloadDialog(true);
-    }
-  };
-
+const ListButtonFile = ({
+  breadCrumbStack,
+  authToken,
+  selected,
+  onNewFolderClick,
+  onUploadClick
+}) => {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row flex-1">
-        <UploadButton />
-        <DownloadButton />
-        <NewFolderButton />
+        <UploadButton onUploadClick={onUploadClick} />
+        <DownloadButton selected={selected} />
+        <NewFolderButton onNewFolderClick={onNewFolderClick} />
         <DeleteButton />
         <SnapshotButton />
       </div>

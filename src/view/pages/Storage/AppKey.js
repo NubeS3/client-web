@@ -63,7 +63,6 @@ const mapStateToProps = (state) => {
   const appKeyList = state.appKey.appKeyList;
   const bucketList = state.bucket.bucketList;
   const newCreatedKey = state.appKey.newCreatedKey;
-  console.log(appKeyList);
   return {
     authToken,
     masterKey,

@@ -31,6 +31,7 @@ import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
 import BucketFileBrowser from './components/BucketFileBrowser/BucketFileBrowser';
 import CreateFolder from './components/Dialog/CreateFolder';
+import UploadFile from './components/Dialog/UploadFile';
 import Lifecycle from './components/Dialog/Lifecycle';
 
 const App = (props) => {

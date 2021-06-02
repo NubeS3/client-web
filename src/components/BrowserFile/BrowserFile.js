@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const BrowserFile = ({
   bucketList,
@@ -77,17 +77,17 @@ const BrowserFile = ({
                           <div className="text-sm text-gray-900">
                             {item.bucket ? (
                               <>
-                                {row.size ? (
-                                  row.size < 1024 ? (
-                                    <>{row.size} byte</>
+                                {item.size ? (
+                                  item.size < 1024 ? (
+                                    <>{item.size} byte</>
                                   ) : (
                                     <>
-                                      {row.size < Math.pow(1024, 2) ? (
-                                        <>{Math.ceil(row.size / 1024)} KB</>
+                                      {item.size < Math.pow(1024, 2) ? (
+                                        <>{Math.ceil(item.size / 1024)} KB</>
                                       ) : (
                                         <>
                                           {Math.ceil(
-                                            row.size / Math.pow(1024, 2)
+                                            item.size / Math.pow(1024, 2)
                                           )}{' '}
                                           MB
                                         </>

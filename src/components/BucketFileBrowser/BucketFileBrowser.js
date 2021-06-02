@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import store from '../../store';
+import { createBucketFolder, uploadFile } from '../../store/userStorage/bucket';
+import CreateFolder from '../Dialog/CreateFolder';
+import UploadFile from '../Dialog/UploadFile';
 import ListButtonFile from '../ListButtonFile/ListButtonFile';
 
 const BucketFileBrowser = ({
@@ -6,12 +10,48 @@ const BucketFileBrowser = ({
   setBreadCrumbStack,
   onBucketBrowserClick,
   authToken,
-  items
+  items,
+  bucketSelected
 }) => {
   const [selected, setSelected] = useState([]);
+  const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
+  const [showUploadDialog, setShowUploadDialog] = useState(false);
 
   const handleBreadCrumbStack = (link, index) => {
     setBreadCrumbStack(breadCrumbStack.slice(0, index + 1));
+  };
+
+  const onNewFolderClick = () => {};
+
+  const handleCreateFolder = () => {
+    store.dispatch(
+      createBucketFolder({
+        authToken: authToken,
+        name: 'folderName',
+        parent_path: '/' + breadCrumbStack.join('/')
+      })
+    );
+    // setOpenCreateFolderDialog(false);
+  };
+
+  const handleUpload = (acceptedFiles) => {
+    var parent_path = '';
+    if (breadCrumbStack.length === 1) {
+      parent_path = '/';
+    } else {
+      parent_path = '/' + breadCrumbStack.slice(1).join('/');
+    }
+    console.log(acceptedFiles);
+    acceptedFiles.forEach((file) => {
+      store.dispatch(
+        uploadFile({
+          authToken: authToken,
+          file: file,
+          bucketId: bucketSelected,
+          full_path: parent_path
+        })
+      );
+    });
   };
 
   const handleOnBucketItemClick = (row) => {
@@ -58,7 +98,16 @@ const BucketFileBrowser = ({
 
   const isSelected = (id) => findWithProperty(selected, 'id', id) !== -1;
   return (
-    <div className="flex flex-col 2xl:max-w-2xl w-full">
+    <div className="flex flex-col w-full">
+      {showCreateFolderDialog ? (
+        <CreateFolder onCancel={() => setShowCreateFolderDialog(false)} />
+      ) : null}
+      {showUploadDialog ? (
+        <UploadFile
+          onClose={() => setShowUploadDialog(false)}
+          handleUpload={handleUpload}
+        />
+      ) : null}
       {/* // <p className="text-3xl text-gray-600">Browse Files</p> */}
       <div className="mt-8 mb-8">
         <a href="#">
@@ -97,11 +146,18 @@ const BucketFileBrowser = ({
         </p>
       </div>
       <div className="mb-5">
-        <ListButtonFile breadCrumbStack={breadCrumbStack} authToken={authToken} selected={selected} />
+        <ListButtonFile
+          breadCrumbStack={breadCrumbStack}
+          authToken={authToken}
+          selected={selected}
+          onNewFolderClick={() => setShowCreateFolderDialog(true)}
+          onUploadClick={() => setShowUploadDialog(true)}
+        />
       </div>
       <div className="flex justify-end mb-3">
         <p>
-          <span className="text-gray-400">Selected:</span> 0 Files: 0 bytes
+          <span className="text-gray-400">Selected: </span>
+          {selected.length} Files: 0 bytes
         </p>
       </div>
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -181,25 +237,25 @@ const BucketFileBrowser = ({
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {row.metadata ? (
+                              {item.metadata ? (
                                 <>
-                                  {row.metadata.size ? (
-                                    row.metadata.size < 1024 ? (
-                                      <>{row.metadata.size} byte</>
+                                  {item.metadata.size ? (
+                                    item.metadata.size < 1024 ? (
+                                      <>{item.metadata.size} byte</>
                                     ) : (
                                       <>
-                                        {row.metadata.size <
+                                        {item.metadata.size <
                                         Math.pow(1024, 2) ? (
                                           <>
                                             {Math.ceil(
-                                              row.metadata.size / 1024
+                                              item.metadata.size / 1024
                                             )}{' '}
                                             KB
                                           </>
                                         ) : (
                                           <>
                                             {Math.ceil(
-                                              row.metadata.size /
+                                              item.metadata.size /
                                                 Math.pow(1024, 2)
                                             )}{' '}
                                             MB
@@ -234,56 +290,6 @@ const BucketFileBrowser = ({
                       );
                     })
                   : null}
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <input type="checkbox" />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src="https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-file.png"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          <a
-                            className="text-blue-500 hover:underline"
-                            onClick={() =>
-                              handleOnBucketItemClick({
-                                type: 'folder',
-                                name: 'Testbucket-3'
-                              })
-                            }
-                          >
-                            Test-nubeS3
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">58.7 MB</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      04/16/2021 16:40
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <a
-                      href="#"
-                      className="text-sm text-gray-900 hover:bg-blue-50"
-                    >
-                      <img
-                        src="https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png"
-                        className="w-5 h-5"
-                      />
-                    </a>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>

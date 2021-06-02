@@ -59,10 +59,12 @@ const BrowserContainer = ({
         <div className="flex flex-col justify-between items-center px-2 bg-transparent">
           {bucketSelected ? (
             <BucketFileBrowser
-              folderChildrenList={folderChildrenList}
+              authToken={authToken}
+              items={folderChildrenList}
               breadCrumbStack={breadCrumbStack}
               setBreadCrumbStack={setBreadCrumbStack}
               onBucketBrowserClick={onBucketBrowserClick}
+              bucketSelected={bucketSelected}
             />
           ) : (
             <BrowserFile

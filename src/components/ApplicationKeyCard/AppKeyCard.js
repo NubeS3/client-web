@@ -1,8 +1,8 @@
 import React from 'react';
 
-const AppKeyCard = () => {
+const AppKeyCard = ({ appKey }) => {
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center w-full">
       <div className="flex flex-col mx-auto justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
         <div className="grid grid-cols-3">
           <div className="mt-4">
@@ -10,7 +10,7 @@ const AppKeyCard = () => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="key-id">
-              e9fc89087123
+              {appKey ? appKey.id : '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -18,7 +18,7 @@ const AppKeyCard = () => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="key-name">
-              Master Application Key
+              {appKey ? appKey.name : '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -26,7 +26,13 @@ const AppKeyCard = () => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="bucket-name">
-              -
+              {appKey ? (
+                <>
+                  {appKey.bucket_id === '*' ? 'All' : <>{appKey.bucket_id}</>}
+                </>
+              ) : (
+                '-'
+              )}
             </p>
           </div>
           <div className="mt-6">
@@ -34,12 +40,7 @@ const AppKeyCard = () => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="capabilities">
-              byPassGovernance, listKeys, writeKeys, deleteKeys, listBuckets,
-              readBuckets, writeBuckets, deleteBuckets, readBucketEncryption,
-              readBucketRetentions, writeBucketEncryption,
-              writeBucketRetentions, listFiles, readFiles, shareFiles,
-              writeFiles, deleteFiles, readFileRetentions, readFileLegalHolds,
-              writeFileRetentions, writeFileLegalHolds
+              {appKey ? appKey.permissions.join(', ') : '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -47,7 +48,17 @@ const AppKeyCard = () => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="expiration">
-              Never
+              {appKey ? (
+                <>
+                  {appKey.expired_date === '0001-01-01T00:00:00Z' ? (
+                    'Never'
+                  ) : (
+                    <>{appKey.expired_date}</>
+                  )}
+                </>
+              ) : (
+                '-'
+              )}
             </p>
           </div>
           <div className="mt-6">
@@ -55,7 +66,17 @@ const AppKeyCard = () => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="name-prefix">
-              (none)
+              {appKey ? (
+                <>
+                  {appKey.file_name_prefix_restrict === '' ? (
+                    '(none)'
+                  ) : (
+                    <>{appKey.file_name_prefix_restrict}</>
+                  )}
+                </>
+              ) : (
+                '-'
+              )}
             </p>
           </div>
           <div />

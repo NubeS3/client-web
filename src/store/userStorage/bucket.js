@@ -257,47 +257,34 @@ export const deleteBucketKey = createAsyncThunk(
   }
 );
 
-export const getSignedKey = createAsyncThunk(
-  'bucket/getSignedKey',
+export const uploadFile = createAsyncThunk(
+  'bucket/uploadFile',
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
-      const response = await axios.get(
-        endpoints.GET_SIGNED_KEY +
-          `${data.bucketId}?limit=${data.limit}&offset=${data.offset}`,
-        {
-          headers: {
-            Authorization: `Bearer ${data.authToken}`
-          }
-        }
-      );
-      return response.data;
-    } catch (err) {
-      return api.rejectWithValue(err.response.data.error);
-    }
-  }
-);
+      var bodyFormData = new FormData();
+      bodyFormData.append('file', data.file);
+      bodyFormData.append('path', data.full_path);
+      bodyFormData.append('name', data.file.name);
+      bodyFormData.append('bucket_id', data.bucketId);
 
-//data payload: authToken, limit, offset
-export const deleteSignedKey = createAsyncThunk(
-  'bucket/deleteSignedKey',
-  async (data, api) => {
-    try {
-      api.dispatch(bucketSlice.actions.loading());
-      const response = await axios.delete(
-        endpoints.DELETE_SIGNED_KEY + `/${data.bucketId}/${data.publicKey}`,
-        {
-          headers: {
-            Authorization: `Bearer ${data.authToken}`
-          }
+      const response = await axios.post(endpoints.UPLOAD, bodyFormData, {
+        headers: {
+          Authorization: `Bearer ${data.authToken}`
         }
-      );
-      const responseData = await {
-        public: response.data
+      });
+      const reponseData = await {
+        id: response.data.id,
+        name: response.data.name,
+        bucket_id: response.data.bucket_id,
+        metadata: {
+          size: response.data.size,
+          content_type: response.data.content_type
+        }
       };
-      return responseData;
-    } catch (err) {
-      return api.rejectWithValue(err.response.data.error);
+      return response.data;
+    } catch (error) {
+      return api.rejectWithValue(error.response.data.error);
     }
   }
 );
@@ -408,24 +395,14 @@ export const bucketSlice = createSlice({
       state.loading = false;
       state.err = action.payload;
     },
-
-    [getSignedKey.fulfilled]: (state, action) => {
-      state.signedKeyList = action.payload;
+    [uploadFile.fulfilled]: (state, action) => {
+      state.folderChildrenList = [...state.folderChildrenList, action.payload];
       state.isLoading = false;
     },
-    [getSignedKey.rejected]: (state, action) => {
+    [uploadFile.rejected]: (state, action) => {
       state.err = action.payload;
       state.isLoading = false;
-    },
-    [deleteSignedKey.fulfilled]: (state, action) => {
-      state.signedKeyList = state.signedKeyList.filter(
-        (publicKey) => publicKey.public !== action.payload.public
-      );
-      state.loading = false;
-    },
-    [deleteSignedKey.rejected]: (state, action) => {
-      state.loading = false;
-      state.err = action.payload;
+      alert(action.payload);
     }
   }
 });

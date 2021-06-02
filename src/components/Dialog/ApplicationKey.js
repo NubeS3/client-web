@@ -66,7 +66,7 @@ const AddApplicationKey = ({
         )
     }),
     onSubmit: (values) => {
-      const nullDate = '0000-01-01T00:00:00.000+07:00';
+      const nullDate = '0001-01-01T00:00:00Z';
       // console.log('appkey data', {
       //   authToken: authToken,
       //   name: values.name,

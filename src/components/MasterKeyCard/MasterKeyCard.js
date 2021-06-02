@@ -7,8 +7,8 @@ const MasterKeyCard = ({ masterKey, authToken, setShowCard }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
 
   return (
-    <div className="flex flex-col justify-center">
-      <p className="w-full max-w-4xl my-2 mx-2">Master Application Key</p>
+    <div className="flex flex-col justify-center w-full">
+      <p className="w-full my-2 mx-2">Master Application Key</p>
       <div className="flex flex-col mx-auto justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
         <div className="grid grid-cols-3">
           <div className="mt-4">
@@ -16,7 +16,7 @@ const MasterKeyCard = ({ masterKey, authToken, setShowCard }) => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="key-id">
-              {masterKey.id || '-'}
+              {masterKey ? masterKey.id : '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -24,7 +24,7 @@ const MasterKeyCard = ({ masterKey, authToken, setShowCard }) => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="key-name">
-              {masterKey.name}
+              {masterKey ? masterKey.name : '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -40,7 +40,7 @@ const MasterKeyCard = ({ masterKey, authToken, setShowCard }) => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black whitespace-normal" id="capabilities">
-              {masterKey ? masterKey.permissions : ''}
+              {masterKey ? masterKey.permissions.join(', ') : ''}
             </p>
           </div>
           <div className="mt-6">
