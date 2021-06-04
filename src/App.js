@@ -33,6 +33,7 @@ import BucketFileBrowser from './components/BucketFileBrowser/BucketFileBrowser'
 import CreateFolder from './components/Dialog/CreateFolder';
 import UploadFile from './components/Dialog/UploadFile';
 import Lifecycle from './components/Dialog/Lifecycle';
+import ItemDetail from './components/Dialog/ItemDetail';
 
 const App = (props) => {
   const mount = async () => {
@@ -69,7 +70,7 @@ const App = (props) => {
             <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
             <Route exact path={paths.REGISTER} component={Register} />
             <Route exact path={paths.LOGIN} component={Login} />
-            <Route exact path={paths.TEST} component={UploadFile} />
+            <Route exact path={paths.TEST} component={ItemDetail} />
             {/* <Route exact path={paths.TEST} component={Lifecycle} /> */}
             <Route exact path={paths.STORAGE} component={BucketContainer} />
             <Route

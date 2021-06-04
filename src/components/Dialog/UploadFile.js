@@ -29,7 +29,7 @@ const UploadFile = ({ open, onClose }) => {
             <hr className="w-full" />
             <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
               {({ getRootProps, getInputProps }) => (
-                <section className="w-full">
+                <section className="w-full cursor-pointer">
                   <div {...getRootProps()}>
                     <input {...getInputProps()} />
                     <div className="flex flex-col w-full items-center py-20">
