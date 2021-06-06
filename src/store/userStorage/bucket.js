@@ -173,6 +173,7 @@ export const createBucketFolder = createAsyncThunk(
           }
         }
       );
+      response.data = await { ...response.data, type: 'folder' };
       return response.data;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
@@ -251,15 +252,7 @@ export const uploadFile = createAsyncThunk(
           Authorization: `Bearer ${data.authToken}`
         }
       });
-      const reponseData = await {
-        id: response.data.id,
-        name: response.data.name,
-        bucket_id: response.data.bucket_id,
-        metadata: {
-          size: response.data.size,
-          content_type: response.data.content_type
-        }
-      };
+      response.data = await { ...response.data, type: 'file' };
       return response.data;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
@@ -329,7 +322,7 @@ export const bucketSlice = createSlice({
       state.err = action.payload;
     },
     [createBucketFolder.fulfilled]: (state, action) => {
-      state.bucketFolderList = [...state.bucketFolderList, action.payload];
+      state.folderChildrenList = [...state.folderChildrenList, action.payload];
       state.isLoading = false;
     },
     [createBucketFolder.rejected]: (state, action) => {

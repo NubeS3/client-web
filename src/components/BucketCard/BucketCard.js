@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import BucketSetting from '../Dialog/Bucket/BucketSetting';
 
 const BucketCard = ({ item }) => {
+  const [showBucketSettings, setShowBucketSettings] = useState(false);
   return (
     <div
       key={item.bucket.id}
       className="flex flex-col justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600 my-2"
     >
+      {showBucketSettings ? <BucketSetting /> : null}
       <div className="grid grid-cols-3">
         <div className="col-span-2">
           <div>
@@ -113,7 +116,11 @@ const BucketCard = ({ item }) => {
           </button>
           <div className="mt-20 text-blue-500">
             <div>
-              <a href="#" className="hover:underline">
+              <p
+                href="#"
+                className="hover:underline cursor-pointer"
+                onClick={() => setShowBucketSettings(true)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 inline mb-1 mr-1"
@@ -135,7 +142,7 @@ const BucketCard = ({ item }) => {
                   />
                 </svg>
                 Bucket Settings
-              </a>
+              </p>
             </div>
             <div>
               <a href="#" className="hover:underline">

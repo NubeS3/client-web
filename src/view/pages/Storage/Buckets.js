@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import BucketCard from '../../../components/BucketCard/BucketCard';
 import CreateBucketButton from '../../../components/CreateBucketButton';
 import StorageFrame from './StorageFrame';
 import { getAllBucket } from '../../../store/userStorage/bucket';
 import store from '../../../store';
-const BucketContainer = ({ isLoading, email, bucketList = [], authToken }) => {
+
+const BucketContainer = ({ bucketList = [], authToken }) => {
   useEffect(() => {
     console.log('Bucket');
     store.dispatch(
@@ -36,7 +37,7 @@ const BucketContainer = ({ isLoading, email, bucketList = [], authToken }) => {
         <div className="flex flex-col justify-between items-center py-2 px-2 bg-gray-100">
           {bucketList
             ? bucketList.map(
-                (item, index) => <BucketCard item={item} />
+                (item) => <BucketCard item={item} />
                 // console.log(item.bucket)
               )
             : null}

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import store from '../../store';
-import { createBucketFolder, uploadFile } from '../../store/userStorage/bucket';
+import { uploadFile } from '../../store/userStorage/bucket';
 import CreateFolder from '../Dialog/CreateFolder';
 import UploadFile from '../Dialog/UploadFile';
 import ListButtonFile from '../ListButtonFile/ListButtonFile';
+import ItemDetail from '../Dialog/ItemDetail';
 
 const BucketFileBrowser = ({
   breadCrumbStack,
@@ -16,23 +17,33 @@ const BucketFileBrowser = ({
   const [selected, setSelected] = useState([]);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [showUploadDialog, setShowUploadDialog] = useState(false);
+  const [showItemDetail, setShowItemDetail] = useState(false);
+  const [selectedSingle, setSelectedSingle] = useState();
 
   const handleBreadCrumbStack = (link, index) => {
     setBreadCrumbStack(breadCrumbStack.slice(0, index + 1));
   };
 
-  const onNewFolderClick = () => {};
-
-  const handleCreateFolder = () => {
-    store.dispatch(
-      createBucketFolder({
-        authToken: authToken,
-        name: 'folderName',
-        parent_path: '/' + breadCrumbStack.join('/')
-      })
-    );
-    // setOpenCreateFolderDialog(false);
+  const onItemDetailClose = () => {
+    setShowItemDetail(false);
+    setSelectedSingle(null);
   };
+
+  const totalSize = useMemo(
+    () => () => {
+      let result = 0;
+      if (selected.length === 0) return 0;
+      selected.forEach((file) => {
+        result += file.size;
+      });
+      return result;
+    },
+    [selected]
+  );
+  // const handleCreateFolder = () => {
+
+  //   // setOpenCreateFolderDialog(false);
+  // };
 
   const handleUpload = (acceptedFiles) => {
     var parent_path = '';
@@ -54,9 +65,13 @@ const BucketFileBrowser = ({
     });
   };
 
-  const handleOnBucketItemClick = (row) => {
-    if (row.type === 'folder') {
-      setBreadCrumbStack((breadCrumbStack) => [...breadCrumbStack, row.name]);
+  const handleOnBucketItemClick = (item) => {
+    if (item.type === 'folder') {
+      setBreadCrumbStack((breadCrumbStack) => [...breadCrumbStack, item.name]);
+    }
+    if (item.type === 'file') {
+      setShowItemDetail(true);
+      setSelectedSingle(item);
     }
   };
 
@@ -71,7 +86,11 @@ const BucketFileBrowser = ({
 
   const handleSelectAllClick = (e) => {
     if (e.target.checked) {
-      const newSelecteds = items.map((n) => ({ id: n.id, name: n.name }));
+      const newSelecteds = items.map((n) => ({
+        id: n.id,
+        name: n.name,
+        size: n.size
+      }));
       setSelected(newSelecteds);
       return;
     }
@@ -99,8 +118,15 @@ const BucketFileBrowser = ({
   const isSelected = (id) => findWithProperty(selected, 'id', id) !== -1;
   return (
     <div className="flex flex-col w-full">
+      {showItemDetail ? (
+        <ItemDetail item={selectedSingle} onClose={onItemDetailClose} />
+      ) : null}
       {showCreateFolderDialog ? (
-        <CreateFolder onCancel={() => setShowCreateFolderDialog(false)} />
+        <CreateFolder
+          onCancel={() => setShowCreateFolderDialog(false)}
+          authToken={authToken}
+          breadCrumbStack={breadCrumbStack}
+        />
       ) : null}
       {showUploadDialog ? (
         <UploadFile
@@ -157,7 +183,7 @@ const BucketFileBrowser = ({
       <div className="flex justify-end mb-3">
         <p>
           <span className="text-gray-400">Selected: </span>
-          {selected.length} Files: 0 bytes
+          {selected.length} Files: {totalSize} bytes
         </p>
       </div>
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -172,6 +198,10 @@ const BucketFileBrowser = ({
                   >
                     <input type="checkbox" onClick={handleSelectAllClick} />
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                  ></th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
@@ -209,25 +239,28 @@ const BucketFileBrowser = ({
                               onClick={() => handleItemCheckboxClick(item)}
                             />
                           </td>
+                          <td>
+                            <div className="flex-shrink-0 h-10 w-10">
+                              <img
+                                className="h-10 w-10 rounded-full"
+                                src={
+                                  item.type === 'file'
+                                    ? 'https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-file.png'
+                                    : 'https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-folder.png'
+                                }
+                                alt=""
+                              />
+                            </div>
+                          </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src="https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-file.png"
-                                  alt=""
-                                />
-                              </div>
-                              <div className="ml-4">
+                              <div>
                                 <div className="text-sm font-medium text-gray-900">
                                   <a
                                     className="text-blue-500 hover:underline"
-                                    // onClick={() =>
-                                    //   handleOnBucketItemClick({
-                                    //     type: 'folder',
-                                    //     name: 'Testbucket-3'
-                                    //   })
-                                    // }
+                                    onClick={() =>
+                                      handleOnBucketItemClick(item)
+                                    }
                                   >
                                     {item.name}
                                   </a>

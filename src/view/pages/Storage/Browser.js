@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route, useHistory, useRouteMatch } from 'react-router';
 import BrowserFile from '../../../components/BrowserFile/BrowserFile';
 import BucketFileBrowser from '../../../components/BucketFileBrowser/BucketFileBrowser';
-import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
+import paths from '../../../configs/paths';
 import store from '../../../store';
 import { getChildrenByPath } from '../../../store/userStorage/bucket';
 import StorageFrame from './StorageFrame';
@@ -15,6 +16,9 @@ const BrowserContainer = ({
 }) => {
   const [breadCrumbStack, setBreadCrumbStack] = useState([]);
   const [bucketSelected, setBucketSelected] = useState();
+  const history = useHistory();
+
+  const match = useRouteMatch();
   useEffect(() => {
     // if (bucketList.length === 0) {
     //   store.dispatch(getAllBucket({ authToken, limit: 10, offset: 0 }));
@@ -22,12 +26,12 @@ const BrowserContainer = ({
   }, []);
 
   useEffect(() => {
-    // store.dispatch(
-    //   getChildrenByPath({
-    //     authToken: authToken,
-    //     full_path: "/" + breadCrumbStack.join("/"),
-    //   })
-    // );
+    store.dispatch(
+      getChildrenByPath({
+        authToken: authToken,
+        full_path: '/' + breadCrumbStack.join('/')
+      })
+    );
     console.log('/' + breadCrumbStack.join('/'));
   }, [breadCrumbStack]);
 
@@ -37,6 +41,7 @@ const BrowserContainer = ({
     store.dispatch(
       getChildrenByPath({ authToken: authToken, full_path: '/' + bucketName })
     );
+    history.push(`/${bucketSelected}`);
   };
 
   const onBucketBrowserClick = () => {
@@ -57,7 +62,7 @@ const BrowserContainer = ({
           </div>
         </header>
         <div className="flex flex-col justify-between items-center px-2 bg-transparent">
-          {bucketSelected ? (
+          {/* {bucketSelected ? (
             <BucketFileBrowser
               authToken={authToken}
               items={folderChildrenList}
@@ -73,7 +78,27 @@ const BrowserContainer = ({
               breadCrumbStack={breadCrumbStack}
               setBreadCrumbStack={setBreadCrumbStack}
             />
-          )}
+          )} */}
+          <Switch>
+            <Route exact path={match.url}>
+              <BucketFileBrowser
+                authToken={authToken}
+                items={folderChildrenList}
+                breadCrumbStack={breadCrumbStack}
+                setBreadCrumbStack={setBreadCrumbStack}
+                onBucketBrowserClick={onBucketBrowserClick}
+                bucketSelected={bucketSelected}
+              />
+            </Route>
+            <Route path={match.url + `/${bucketSelected}`}>
+              <BrowserFile
+                bucketList={bucketList}
+                onClick={onSelectBucket}
+                breadCrumbStack={breadCrumbStack}
+                setBreadCrumbStack={setBreadCrumbStack}
+              />
+            </Route>
+          </Switch>
         </div>
       </div>
     </StorageFrame>

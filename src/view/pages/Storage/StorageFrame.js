@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import AuthPageFrame from '../../../components/AuthPageFrame';
@@ -49,12 +49,12 @@ const Storage = ({ email, active, ...props }) => {
                   <div class="flex items-center text-gray-500 dark:text-white text-md focus:outline-none hover:font-bold">
                     Welcome {email},
                   </div>
-                  <a
-                    class="flex dark:text-white text-md hover:font-bold"
+                  <p
+                    class="flex dark:text-white text-md text-blue-500 hover:font-bold"
                     onClick={handleSignOut}
                   >
                     Sign Out
-                  </a>
+                  </p>
                 </div>
               </div>
             </header>

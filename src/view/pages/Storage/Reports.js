@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
 import StorageFrame from './StorageFrame';
 
-const ReportContainer = ({ email }) => {
+const ReportContainer = () => {
   return (
     <StorageFrame active="report">
       <div className="h-screen lg:block relative w-full">

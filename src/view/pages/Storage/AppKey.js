@@ -33,7 +33,7 @@ const AppKeyContainer = ({
                 Application Key
               </div>
             </div>
-          </div>  
+          </div>
         </header>
         <p className="text-gray-500 dark:text-white text-md my-10">
           Application keys are used as a pair: Key ID and Application Key. This
