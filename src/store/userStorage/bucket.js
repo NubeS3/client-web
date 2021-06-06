@@ -234,28 +234,6 @@ export const createBucketKey = createAsyncThunk(
 );
 
 //data payload: authToken, limit, offset
-export const deleteBucketKey = createAsyncThunk(
-  'bucket/deleteBucketKey',
-  async (data, api) => {
-    try {
-      api.dispatch(bucketSlice.actions.loading());
-      const response = await axios.delete(
-        endpoints.DELETE_ACCESS_KEY + `/${data.bucketId}/${data.accessKey}`,
-        {
-          headers: {
-            Authorization: `Bearer ${data.authToken}`
-          }
-        }
-      );
-      const responseData = await {
-        key: response.data
-      };
-      return responseData;
-    } catch (err) {
-      return api.rejectWithValue(err.response.data.error);
-    }
-  }
-);
 
 export const uploadFile = createAsyncThunk(
   'bucket/uploadFile',
@@ -383,16 +361,6 @@ export const bucketSlice = createSlice({
     },
     [createBucketKey.rejected]: (state, action) => {
       state.isLoading = false;
-      state.err = action.payload;
-    },
-    [deleteBucketKey.fulfilled]: (state, action) => {
-      state.accessKeyList = state.accessKeyList.filter(
-        (accessKey) => accessKey.key !== action.payload.key
-      );
-      state.loading = false;
-    },
-    [deleteBucketKey.rejected]: (state, action) => {
-      state.loading = false;
       state.err = action.payload;
     },
     [uploadFile.fulfilled]: (state, action) => {

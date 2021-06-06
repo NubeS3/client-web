@@ -32,13 +32,16 @@ const GeneratingMasterKeyCard = ({
     if (isFulfilled) {
       setShowCard(true);
       store.dispatch(clearAppKeyState());
+      onCancel();
     }
     if (isRejected) {
       // log error
       store.dispatch(clearAppKeyState());
+      onCancel();
     }
     return () => {};
   }, [isFulfilled, isRejected]);
+
   return (
     <dialog open={open}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70 rounded-lg">

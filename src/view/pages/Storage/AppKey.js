@@ -17,9 +17,9 @@ const AppKeyContainer = ({
 }) => {
   const [showCard, setShowCard] = React.useState(false);
   useEffect(() => {
-    // if (bucketList.length === 0) {
-    //   store.dispatch(getAllBucket({ authToken, limit: 10, offset: 0 }));
-    // }
+    if (bucketList.length === 0) {
+      store.dispatch(getAllBucket({ authToken, limit: 10, offset: 0 }));
+    }
     store.dispatch(getAppKey({ authToken: authToken }));
     return () => {};
   }, []);
@@ -33,15 +33,23 @@ const AppKeyContainer = ({
                 Application Key
               </div>
             </div>
-          </div>
+          </div>  
         </header>
+        <p className="text-gray-500 dark:text-white text-md my-10">
+          Application keys are used as a pair: Key ID and Application Key. This
+          allows Nubes3 to communicate securely with different devices or apps.
+          Once you generate your Master Application Key, this key has full
+          capabilities. Create your own Application Keys to limit features like
+          read/write.
+          <a className="text-blue-500 cursor-pointer">Learn more.</a>.
+        </p>
         <div className="flex flex-col justify-center items-center py-2 px-2 bg-gray-100">
           <MasterKeyCard
             authToken={authToken}
             masterKey={masterKey}
             setShowCard={setShowCard}
           />
-          {showCard && <MasterKeyCardCreated appKey={newCreatedKey} />}
+          {showCard ? <MasterKeyCardCreated appKey={newCreatedKey} /> : null}
           <CreateApplicationKey
             authToken={authToken}
             bucketList={bucketList || []}
@@ -49,7 +57,9 @@ const AppKeyContainer = ({
           />
           <p className="w-full max-w-4xl my-2 mx-2">Your Application Keys</p>
           {appKeyList
-            ? appKeyList.map((appKey) => <AppKeyCard appKey={appKey} />)
+            ? appKeyList.map((appKey) => (
+                <AppKeyCard authToken={authToken} appKey={appKey} />
+              ))
             : null}
         </div>
       </div>
@@ -63,6 +73,7 @@ const mapStateToProps = (state) => {
   const appKeyList = state.appKey.appKeyList;
   const bucketList = state.bucket.bucketList;
   const newCreatedKey = state.appKey.newCreatedKey;
+  console.log(newCreatedKey);
   return {
     authToken,
     masterKey,

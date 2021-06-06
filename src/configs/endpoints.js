@@ -23,7 +23,7 @@ const endpoints = {
   GET_MASTER_KEY: `${BASE}/auth/accessKey/master`,
   CREATE_MASTER_KEY: `${BASE}/auth/accessKey/master`,
 
-  DELETE_APP_KEY: `${BASE}/auth/`,
+  DELETE_APP_KEY: `${BASE}/auth/accessKey`,
 
   CREATE_ACCESS_KEY: `${BASE}/auth/accessKey/`,
   DELETE_ACCESS_KEY: `${BASE}/auth/accessKey`,

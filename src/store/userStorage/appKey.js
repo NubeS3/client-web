@@ -5,13 +5,7 @@ import endpoints from '../../configs/endpoints';
 const initialState = {
   accessKeyReqCount: { count: 0 },
   signedKeyReqCount: { count: 0 },
-  appKeyList: [
-    {
-      bucket_id: '*',
-      permissions: [],
-      expired_date: new Date()
-    }
-  ],
+  appKeyList: [],
   masterKey: {
     id: '',
     name: '',
@@ -82,15 +76,29 @@ export const createAppKey = createAsyncThunk(
           }
         }
       );
-      const responseData = await {
-        key: response.data,
-        bucket_id: data.bucketId,
-        expired_date: data.expiringDate,
-        permissions: data.permissions
-      };
-      return responseData;
+      return response.data;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const deleteAppKey = createAsyncThunk(
+  'bucket/deleteBucketKey',
+  async (data, api) => {
+    try {
+      api.dispatch(appKeySlice.actions.loading());
+      const response = await axios.delete(
+        endpoints.DELETE_APP_KEY + `/${data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          }
+        }
+      );
+      return response.data;
+    } catch (err) {
+      return api.rejectWithValue(err.response.data.error);
     }
   }
 );
@@ -144,6 +152,16 @@ export const appKeySlice = createSlice({
       state.isLoading = false;
       state.err = action.payload;
       alert('Failed to create application key');
+    },
+    [deleteAppKey.fulfilled]: (state, action) => {
+      state.appKeyList = state.appKeyList.filter(
+        (appKey) => appKey.id !== action.payload.key
+      );
+      state.isLoading = false;
+    },
+    [deleteAppKey.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.err = action.payload;
     }
   }
 });

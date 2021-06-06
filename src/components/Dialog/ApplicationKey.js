@@ -93,6 +93,7 @@ const AddApplicationKey = ({
           permissions: values.permissions
         })
       );
+      setShowCard(true);
       onCancel();
     }
   });

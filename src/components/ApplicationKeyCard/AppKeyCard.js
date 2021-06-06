@@ -1,6 +1,11 @@
 import React from 'react';
+import store from '../../store';
+import { deleteAppKey } from '../../store/userStorage/appKey';
 
-const AppKeyCard = ({ appKey }) => {
+const AppKeyCard = ({ authToken, appKey }) => {
+  const handleDeleteAppKey = (id) => {
+    store.dispatch(deleteAppKey({ authToken: authToken, id: id }));
+  };
   return (
     <div className="flex flex-col justify-center w-full">
       <div className="flex flex-col mx-auto justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
@@ -47,19 +52,23 @@ const AppKeyCard = ({ appKey }) => {
             <p className="text-gray-500">expiration:</p>
           </div>
           <div className="col-span-2 mt-6">
-            <p className="text-black" id="expiration">
-              {appKey ? (
-                <>
-                  {appKey.expired_date === '0001-01-01T00:00:00Z' ? (
-                    'Never'
-                  ) : (
-                    <>{appKey.expired_date}</>
-                  )}
-                </>
-              ) : (
+            {appKey ? (
+              <>
+                {appKey.expired_date === '0001-01-01T00:00:00Z' ? (
+                  <p className="text-black" id="expiration">
+                    Never
+                  </p>
+                ) : (
+                  <p className="text-black" id="expiration">
+                    {appKey.expired_date}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-black" id="expiration">
                 '-'
-              )}
-            </p>
+              </p>
+            )}
           </div>
           <div className="mt-6">
             <p className="text-gray-500">namePrefix:</p>
@@ -82,9 +91,12 @@ const AppKeyCard = ({ appKey }) => {
           <div />
           <div />
           <div className=" mt-6 justify-items-end">
-            <span class="px-4 py-2  text-base rounded text-red-500 border border-red-500 undefined ">
+            <button
+              onClick={() => handleDeleteAppKey(appKey.id)}
+              class="px-4 py-2 text-base rounded text-red-500 border border-red-500 undefined"
+            >
               Delete Key
-            </span>
+            </button>
           </div>
           <div />
 

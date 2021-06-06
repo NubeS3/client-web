@@ -222,12 +222,12 @@ const BucketFileBrowser = ({
                                 <div className="text-sm font-medium text-gray-900">
                                   <a
                                     className="text-blue-500 hover:underline"
-                                    onClick={() =>
-                                      handleOnBucketItemClick({
-                                        type: 'folder',
-                                        name: 'Testbucket-3'
-                                      })
-                                    }
+                                    // onClick={() =>
+                                    //   handleOnBucketItemClick({
+                                    //     type: 'folder',
+                                    //     name: 'Testbucket-3'
+                                    //   })
+                                    // }
                                   >
                                     {item.name}
                                   </a>
