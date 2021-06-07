@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
+import paths from '../../configs/paths';
 
-const BrowserFile = ({
-  bucketList,
-  onClick,
-  breadCrumbStack,
-  setBreadCrumbStack
-}) => {
+const BucketBrowser = ({ bucketList, onClick }) => {
+  const onBucketSelect = () => {};
+
   return (
     <div className="flex flex-col w-full">
       {/* // <p className="text-3xl text-gray-600">Browse Files</p> */}
       <div className="mt-8 mb-8">
-        <a href="#">
+        <a href={paths.STORAGE_BROWSER}>
           <img
             width="20"
             height="20"
@@ -63,9 +61,7 @@ const BrowserFile = ({
                               <div className="text-sm font-medium text-gray-900">
                                 <a
                                   className="text-blue-500 hover:underline"
-                                  onClick={() =>
-                                    onClick(item.bucket.id, item.bucket.name)
-                                  }
+                                  onClick={() => onClick(item)}
                                 >
                                   {item.bucket.name}
                                 </a>
@@ -118,4 +114,4 @@ const BrowserFile = ({
   );
 };
 
-export default BrowserFile;
+export default BucketBrowser;

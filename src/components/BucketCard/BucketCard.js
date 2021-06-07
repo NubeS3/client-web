@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import BucketSetting from '../Dialog/Bucket/BucketSetting';
+import LifeCycle from '../Dialog/Lifecycle';
+import paths from '../../configs/paths';
 
 const BucketCard = ({ item }) => {
   const [showBucketSettings, setShowBucketSettings] = useState(false);
+  const [showLifeCycle, setShowLifeCycle] = useState(false);
+  const history = useHistory();
+
+  const onUploadClick = (item) => {
+    history.push(`${paths.STORAGE_BROWSER}/${'1123'}`);
+  };
   return (
     <div
       key={item.bucket.id}
       className="flex flex-col justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600 my-2"
     >
-      {showBucketSettings ? <BucketSetting /> : null}
+      {showBucketSettings ? (
+        <BucketSetting onCancel={() => setShowBucketSettings(false)} />
+      ) : null}
+      {showLifeCycle ? (
+        <LifeCycle onCancel={() => setShowLifeCycle(false)} />
+      ) : null}
       <div className="grid grid-cols-3">
         <div className="col-span-2">
           <div>
@@ -111,13 +125,13 @@ const BucketCard = ({ item }) => {
           <button
             id="btn-upload-download"
             className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={() => onUploadClick(item)}
           >
             Upload/Download
           </button>
           <div className="mt-20 text-blue-500">
             <div>
               <p
-                href="#"
                 className="hover:underline cursor-pointer"
                 onClick={() => setShowBucketSettings(true)}
               >
@@ -145,7 +159,10 @@ const BucketCard = ({ item }) => {
               </p>
             </div>
             <div>
-              <a href="#" className="hover:underline">
+              <p
+                className="hover:underline cursor-pointer"
+                onClick={() => setShowLifeCycle(true)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 inline mr-1 mb-0.5"
@@ -161,10 +178,10 @@ const BucketCard = ({ item }) => {
                   />
                 </svg>
                 Lifecycle
-              </a>
+              </p>
             </div>
             <div>
-              <a href="#" className="hover:underline">
+              <p className="hover:underline">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 inline mr-1 mb-1"
@@ -180,13 +197,13 @@ const BucketCard = ({ item }) => {
                   />
                 </svg>
                 Object Lock:
-              </a>
+              </p>
               <p className="inline ml-1 text-black font-normal">
                 {item.bucket.is_object_lock ? 'Enable' : 'Disable'}
               </p>
             </div>
             <div>
-              <a href="#" className="hover:underline">
+              <p className="hover:underline">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 inline mr-1 mb-1"
@@ -202,7 +219,7 @@ const BucketCard = ({ item }) => {
                   />
                 </svg>
                 Make Full Buckets Snapshot
-              </a>
+              </p>
             </div>
           </div>
         </div>

@@ -1,24 +1,48 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import store from '../../store';
-import { uploadFile } from '../../store/userStorage/bucket';
+import { getChildrenByPath, uploadFile } from '../../store/userStorage/bucket';
 import CreateFolder from '../Dialog/CreateFolder';
 import UploadFile from '../Dialog/UploadFile';
 import ListButtonFile from '../ListButtonFile/ListButtonFile';
 import ItemDetail from '../Dialog/ItemDetail';
+import { useHistory } from 'react-router';
+import paths from '../../configs/paths';
 
-const BucketFileBrowser = ({
-  breadCrumbStack,
-  setBreadCrumbStack,
-  onBucketBrowserClick,
-  authToken,
-  items,
-  bucketSelected
-}) => {
+const BucketFileBrowser = ({ authToken, items }) => {
+  const history = useHistory();
   const [selected, setSelected] = useState([]);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showItemDetail, setShowItemDetail] = useState(false);
   const [selectedSingle, setSelectedSingle] = useState();
+  const [breadCrumbStack, setBreadCrumbStack] = useState([
+    history.location.state?.data.bucket.name
+  ]);
+
+  const [bucketSelected, setBucketSelected] = useState(
+    history.location.state?.data.bucket.id
+  );
+
+  useEffect(() => {
+    console.log(history.location.state?.data);
+    return () => {};
+  }, []);
+
+  const onBucketBrowserClick = () => {
+    setBucketSelected(null);
+    setBreadCrumbStack([]);
+    history.push(paths.STORAGE_BROWSER);
+  };
+
+  useEffect(() => {
+    store.dispatch(
+      getChildrenByPath({
+        authToken: authToken,
+        full_path: '/' + breadCrumbStack.join('/')
+      })
+    );
+    console.log('/' + breadCrumbStack.join('/'));
+  }, [breadCrumbStack]);
 
   const handleBreadCrumbStack = (link, index) => {
     setBreadCrumbStack(breadCrumbStack.slice(0, index + 1));

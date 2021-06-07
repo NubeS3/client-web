@@ -6,7 +6,7 @@ const initialState = {
   selectedBucket: {},
   bucketFileList: [],
   bucketFolderList: [],
-  folderChildrenList: [],
+  folderChildrenList: [{ name: '1', type: 'folder' }, { name: '2' }],
   bucketList: [],
   accessKeyList: [],
   signedKeyList: [],
