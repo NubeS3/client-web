@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
 import StorageFrame from './StorageFrame';
+import MonthlyTransaction from '../../../components/Charts/MonthlyTransaction';
 
-const ReportContainer = ({ email }) => {
+const ReportContainer = () => {
   return (
     <StorageFrame active="report">
       <div className="h-screen lg:block relative w-full">
@@ -16,7 +16,9 @@ const ReportContainer = ({ email }) => {
             </div>
           </div>
         </header>
-        <div className="flex flex-col justify-between items-center px-2 bg-gray-100"></div>
+        <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
+          <MonthlyTransaction />
+        </div>
       </div>
     </StorageFrame>
   );

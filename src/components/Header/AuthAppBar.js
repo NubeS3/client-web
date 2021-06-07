@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import paths from '../../configs/paths';
 const AuthAppBar = (props) => {
+  useEffect(() => {
+    console.log('AuthAppbar');
+    return () => {};
+  }, []);
   return (
     // <div className="absolute">
     <nav className="bg-white dark:bg-gray-800 shadow z-9 mb-1">

@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import GenerateMasterKeyCard from '../Dialog/GenerateMasterKeyCard/GenerateMasterKeyCard';
 import MasterKeyCardCreated from './MasterKeyCardCreated';
 
-const MasterKeyCard = ({ masterKey, authToken }) => {
+const MasterKeyCard = ({ masterKey, authToken, setShowCard }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [showCard, setShowCard] = React.useState(false);
+
   return (
-    <div className="flex flex-col justify-center">
-      <p className="w-full max-w-4xl my-2 mx-2">Master Application Key</p>
+    <div className="flex flex-col justify-center w-full">
+      <p className="w-full my-2 mx-2">Master Application Key</p>
       <div className="flex flex-col mx-auto justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600">
         <div className="grid grid-cols-3">
           <div className="mt-4">
@@ -16,7 +16,7 @@ const MasterKeyCard = ({ masterKey, authToken }) => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="key-id">
-              {masterKey.key || '-'}
+              {masterKey ? masterKey.id : '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -24,7 +24,7 @@ const MasterKeyCard = ({ masterKey, authToken }) => {
           </div>
           <div className="col-span-2 mt-6">
             <p className="text-black" id="key-name">
-              Master Application Key
+              {masterKey ? masterKey.name : '-'}
             </p>
           </div>
           <div className="mt-6">
@@ -39,13 +39,8 @@ const MasterKeyCard = ({ masterKey, authToken }) => {
             <p className="text-gray-500">capabilities:</p>
           </div>
           <div className="col-span-2 mt-6">
-            <p className="text-black" id="capabilities">
-              byPassGovernance, listKeys, writeKeys, deleteKeys, listBuckets,
-              readBuckets, writeBuckets, deleteBuckets, readBucketEncryption,
-              readBucketRetentions, writeBucketEncryption,
-              writeBucketRetentions, listFiles, readFiles, shareFiles,
-              writeFiles, deleteFiles, readFileRetentions, readFileLegalHolds,
-              writeFileRetentions, writeFileLegalHolds
+            <p className="text-black whitespace-normal" id="capabilities">
+              {masterKey ? masterKey.permissions.join(', ') : ''}
             </p>
           </div>
           <div className="mt-6">
@@ -90,7 +85,6 @@ const MasterKeyCard = ({ masterKey, authToken }) => {
         </div>
       </div>
       <br />
-      {showCard && <MasterKeyCardCreated appKey={masterKey} />}
     </div>
   );
 };

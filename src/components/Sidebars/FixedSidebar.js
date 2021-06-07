@@ -28,7 +28,7 @@ const FixedSidedbar = (props) => {
       <div className="flex flex-col sm:flex-row sm:justify-center">
         <div className="w-60">
           <nav>
-            <a className="flex mt-1">
+            <a className="flex mt-1" href={paths.STORAGE}>
               <span className=" mx-4 text-gray-400  text-base font-medium">
                 NubeS3 Cloud Storage
               </span>
@@ -66,7 +66,7 @@ const FixedSidedbar = (props) => {
                 Browser Files
               </span>
             </a>
-            <a className="flex mt-1" href="#">
+            <a className="flex mt-1" href={paths.STORAGE_SNAPSHOTS}>
               <span
                 className={
                   appBarState.snapshot
@@ -88,7 +88,7 @@ const FixedSidedbar = (props) => {
                 Reports
               </span>
             </a>
-            <a className="flex mt-1" href="#">
+            <a className="flex mt-1" href={paths.STORAGE_CAPS}>
               <span
                 className={
                   appBarState.caps
@@ -99,7 +99,7 @@ const FixedSidedbar = (props) => {
                 Caps & Alerts
               </span>
             </a>
-            <a className="flex mt-1" href="#">
+            <a className="flex mt-1" href={paths.STORAGE_FIREBALL}>
               <span
                 className={
                   appBarState.fireball
