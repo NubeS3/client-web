@@ -1,10 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import BrowserFile from '../../../components/BrowserFile/BrowserFile';
-import MasterKeyCard from '../../../components/MasterKeyCard/MasterKeyCard';
+import { Switch, Route, useHistory, useRouteMatch } from 'react-router';
+import BucketBrowser from '../../../components/BrowserFile/BucketBrowser';
+import BucketFileBrowser from '../../../components/BucketFileBrowser/BucketFileBrowser';
+import paths from '../../../configs/paths';
 import StorageFrame from './StorageFrame';
 
-const BrowserContainer = ({ email }) => {
+const BrowserContainer = ({
+  authToken,
+  email,
+  bucketList,
+  folderChildrenList
+}) => {
+  const history = useHistory();
+
+  const match = useRouteMatch();
+  useEffect(() => {
+    // if (bucketList.length === 0) {
+    //   store.dispatch(getAllBucket({ authToken, limit: 10, offset: 0 }));
+    // }
+  }, []);
+
+  const onSelectBucket = (bucket) => {
+    // setBucketSelected(bucketId);
+    // setBreadCrumbStack((breadCrumbStack) => [...breadCrumbStack, bucketName]);
+    // store.dispatch(
+    //   getChildrenByPath({ authToken: authToken, full_path: '/' + bucketName })
+    // );
+    history.push({
+      pathname: `${paths.STORAGE_BROWSER}/${bucket.id}`,
+      state: { data: bucket }
+    });
+  };
+
   return (
     <StorageFrame active="browser">
       <div className="h-screen lg:block relative w-full">
@@ -18,7 +46,43 @@ const BrowserContainer = ({ email }) => {
           </div>
         </header>
         <div className="flex flex-col justify-between items-center px-2 bg-transparent">
-          <BrowserFile />
+          {/* {bucketSelected ? (
+            <BucketFileBrowser
+              authToken={authToken}
+              items={folderChildrenList}
+              breadCrumbStack={breadCrumbStack}
+              setBreadCrumbStack={setBreadCrumbStack}
+              onBucketBrowserClick={onBucketBrowserClick}
+              bucketSelected={bucketSelected}
+            />
+          ) : (
+            <BrowserFile
+              bucketList={bucketList}
+              onClick={onSelectBucket}
+              breadCrumbStack={breadCrumbStack}
+              setBreadCrumbStack={setBreadCrumbStack}
+            />
+          )} */}
+          <Switch>
+            <Route exact path={match.url}>
+              <BucketBrowser
+                bucketList={bucketList}
+                onClick={onSelectBucket}
+                // breadCrumbStack={breadCrumbStack}
+                // setBreadCrumbStack={setBreadCrumbStack}
+              />
+            </Route>
+            <Route path={match.url + `/:id`}>
+              <BucketFileBrowser
+                authToken={authToken}
+                items={folderChildrenList}
+                // breadCrumbStack={breadCrumbStack}
+                // setBreadCrumbStack={setBreadCrumbStack}
+                // onBucketBrowserClick={onBucketBrowserClick}
+                // bucketSelected={bucketSelected}
+              />
+            </Route>
+          </Switch>
         </div>
       </div>
     </StorageFrame>
@@ -26,10 +90,16 @@ const BrowserContainer = ({ email }) => {
 };
 
 const mapStateToProps = (state) => {
+  const authToken = state.authen.authToken;
   const email = state.authen.loginEmail;
+  const bucketList = state.bucket.bucketList;
+  const folderChildrenList = state.bucket.folderChildrenList;
   console.log(email);
   return {
-    email
+    authToken,
+    email,
+    bucketList,
+    folderChildrenList
   };
 };
 export default connect(mapStateToProps)(BrowserContainer);

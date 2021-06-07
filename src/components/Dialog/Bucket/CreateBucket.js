@@ -7,7 +7,7 @@ import store from '../../../store';
 import { createBucket } from '../../../store/userStorage/bucket';
 import { connect } from 'react-redux';
 
-const CreateBucket = ({ open, onSubmit, onCancel, authToken }) => {
+const CreateBucket = ({ open, onCancel, authToken }) => {
   const history = useHistory();
   const formik = useFormik({
     initialValues: {

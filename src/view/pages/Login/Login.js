@@ -6,6 +6,7 @@ import store from '../../../store';
 
 import LoginPassword from './LoginPassword';
 import LoginEmail from './LoginEmail';
+import PageFrame from '../../../components/PageFrame';
 
 const Login = (props) => {
   const [toggleEmail, setToggleEmail] = useState(true);
@@ -13,10 +14,16 @@ const Login = (props) => {
     setToggleEmail(!toggleEmail);
   };
   return (
-    <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
-      <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1>
-      {toggleEmail ? <LoginEmail toggler={emailToggler} /> : <LoginPassword />}
-    </div>
+    <PageFrame>
+      <div className="mx-auto flex flex-col items-center justify-center max-w-lg py-4 px-8 bg-white shadow-lg rounded-lg my-40">
+        <h1 className="pt-6 pb-8 text-2xl">Sign in to your NubeS3 account</h1>
+        {toggleEmail ? (
+          <LoginEmail toggler={emailToggler} />
+        ) : (
+          <LoginPassword />
+        )}
+      </div>
+    </PageFrame>
   );
 };
 

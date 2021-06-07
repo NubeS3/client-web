@@ -5,35 +5,16 @@ import store from './store';
 import { verifyAuthentication } from './store/auth/auth';
 import { verifyAdminAuthentication } from './store/auth/admin_auth';
 import localStorageKeys from './configs/localStorageKeys';
-// import GuardRoute from './views/routes/GuardRoute';
-// import Dashboard from './views/pages/Dashboard/Dashboard';
-// import Storage from './views/pages/Storage/Storage';
-// import SignUp from './views/pages/Register/Register';
-// import SignIn from './views/pages/Login/Login';
-// import paths from './configs/paths';
-// import ConfirmedOTP from './views/pages/Otp/Otp';
-// import AdminLogin from './views/pages/Admin/AdminLogin';
-// import AdminDashboard from './views/pages/Admin/AdminDashboard';
-// import UserManageBoard from './views/pages/Admin/UserManage';
-// import AdminManageBoard from './views/pages/Admin/AdminManage';
-// import AdminLanding from './views/pages/AdminLanding/Landing';
-// import AdminGuardRoute from './views/routes/AdminGuardRoute';
 import './index.css';
 import paths from './configs/paths';
 import Landing from './view/pages/Landing/Landing';
 import Register from './view/pages/Register/Register';
-import PageFrame from './components/PageFrame';
 import StorageLanding from './view/pages/Landing/StorageLanding';
 import Login from './view/pages/Login/Login';
 import BucketContainer from './view/pages/Storage/Buckets';
 import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
-import BucketFileBrowser from './components/BucketFileBrowser/BucketFileBrowser';
-import CreateFolder from './components/Dialog/CreateFolder';
-import UploadFile from './components/Dialog/UploadFile';
-import Lifecycle from './components/Dialog/Lifecycle';
-import ItemDetail from './components/Dialog/ItemDetail';
 import MultipleDownload from './components/Dialog/MultipleDownload';
 
 const App = (props) => {
@@ -64,32 +45,28 @@ const App = (props) => {
 
   return (
     <>
-      <PageFrame>
-        <Router basename="/">
-          <Switch>
-            <Route exact path={paths.BASE} component={Landing} />
-            <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
-            <Route exact path={paths.REGISTER} component={Register} />
-            <Route exact path={paths.LOGIN} component={Login} />
-            <Route exact path={paths.TEST} component={MultipleDownload} />
-            {/* <Route exact path={paths.TEST} component={Lifecycle} /> */}
-            <Route exact path={paths.STORAGE} component={BucketContainer} />
-            <Route
-              exact
-              path={paths.STORAGE_APPKEY}
-              component={AppKeyContainer}
-            />
-            <Route
-              exact
-              path={paths.STORAGE_BROWSER}
-              component={BrowserContainer}
-            />
-            <Route
-              exact
-              path={paths.STORAGE_REPORT}
-              component={ReportContainer}
-            />
-            {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
+      {/* <PageFrame> */}
+      <Router basename="/">
+        <Switch>
+          <Route exact path={paths.BASE} component={Landing} />
+          <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
+          <Route exact path={paths.REGISTER} component={Register} />
+          <Route exact path={paths.LOGIN} component={Login} />
+          <Route exact path={paths.TEST} component={MultipleDownload} />
+          {/* <Route exact path={paths.TEST} component={Lifecycle} /> */}
+          <Route exact path={paths.STORAGE} component={BucketContainer} />
+          <Route
+            exact
+            path={paths.STORAGE_APPKEY}
+            component={AppKeyContainer}
+          />
+          <Route path={paths.STORAGE_BROWSER} component={BrowserContainer} />
+          <Route
+            exact
+            path={paths.STORAGE_REPORT}
+            component={ReportContainer}
+          />
+          {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         
         <Route exact path={paths.OTP} component={ConfirmedOTP} />
@@ -111,9 +88,9 @@ const App = (props) => {
         path={paths.ADMIN_MANAGE}
         component={AdminManageBoard}
       /> */}
-          </Switch>
-        </Router>
-      </PageFrame>
+        </Switch>
+      </Router>
+      {/* </PageFrame> */}
     </>
   );
 };
