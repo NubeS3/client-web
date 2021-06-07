@@ -1,7 +1,11 @@
-import React from 'react';
-import Dropzone from 'react-dropzone';
+import React, { useState } from 'react';
+import Dropzone, { useDropzone } from 'react-dropzone';
 
-const UploadFile = ({ open, onClose }) => {
+const UploadFile = ({ open, onClose, handleUpload }) => {
+  const [fileNames, setFileNames] = useState([]);
+  const handleDrop = (acceptedFiles) =>
+    setFileNames(acceptedFiles.map((file) => file.name));
+
   return (
     <dialog open={true}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
@@ -27,7 +31,12 @@ const UploadFile = ({ open, onClose }) => {
               </svg>
             </button>
             <hr className="w-full" />
-            <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+            <Dropzone
+              onDrop={(acceptedFiles) => {
+                handleDrop(acceptedFiles);
+                handleUpload(acceptedFiles);
+              }}
+            >
               {({ getRootProps, getInputProps }) => (
                 <section className="w-full cursor-pointer">
                   <div {...getRootProps()}>
@@ -38,6 +47,10 @@ const UploadFile = ({ open, onClose }) => {
                       <h1>click to select a file</h1>
                     </div>
                   </div>
+                  <aside>
+                    <h4>Files</h4>
+                    <ul>{fileNames}</ul>
+                  </aside>
                 </section>
               )}
             </Dropzone>

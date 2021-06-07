@@ -2,7 +2,7 @@ import React from 'react';
 import AddApplicationKey from './Dialog/ApplicationKey';
 import BucketSetting from './Dialog/Bucket/BucketSetting';
 
-const CreateApplicationKeyButton = ({ bucketList, authToken }) => {
+const CreateApplicationKeyButton = ({ bucketList, authToken, setShowCard }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
   return (
     <>
@@ -32,6 +32,7 @@ const CreateApplicationKeyButton = ({ bucketList, authToken }) => {
           onCancel={() => setOpenDialog(false)}
           bucketList={bucketList}
           authToken={authToken}
+          setShowCard={setShowCard}
         />
       )}
     </>
