@@ -6,7 +6,7 @@ const initialState = {
   selectedBucket: {},
   bucketFileList: [],
   bucketFolderList: [],
-  folderChildrenList: [{ name: '1', type: 'folder' }, { name: '2' }],
+  folderChildrenList: [],
   bucketList: [],
   accessKeyList: [],
   signedKeyList: [],
@@ -135,6 +135,46 @@ export const getBucketFolders = createAsyncThunk(
   }
 );
 
+export const deleteFile = createAsyncThunk(
+  'bucket/deleteFile',
+  async (data, api) => {
+    try {
+      api.dispatch(bucketSlice.actions.loading());
+      const response = await axios.delete(
+        endpoints.DELETE_FILE + `${data.full_path}?${data.bucketId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          }
+        }
+      );
+      response.data.id = await data.bucketId;
+      return response.data;
+    } catch (err) {
+      return api.rejectWithValue(err.response.data.error);
+    }
+  }
+);
+export const deleteFolder = createAsyncThunk(
+  'bucket/deleteFolder',
+  async (data, api) => {
+    try {
+      api.dispatch(bucketSlice.actions.loading());
+      const response = await axios.delete(
+        endpoints.DELETE_FOLDER + `${data.full_path}`,
+        {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          }
+        }
+      );
+      response.data.id = await data.bucketId;
+      return response.data;
+    } catch (err) {
+      return api.rejectWithValue(err.response.data.error);
+    }
+  }
+);
 export const getChildrenByPath = createAsyncThunk(
   'bucket/getChildrenByPath',
   async (data, api) => {
@@ -250,10 +290,26 @@ export const uploadFile = createAsyncThunk(
       const response = await axios.post(endpoints.UPLOAD, bodyFormData, {
         headers: {
           Authorization: `Bearer ${data.authToken}`
+        },
+        onUploadProgress: (progressEvent) => {
+          let percentCompleted = Math.floor(
+            (progressEvent.loaded / progressEvent.total) * 100
+          );
+          console.log('completed: ', percentCompleted);
         }
       });
-      response.data = await { ...response.data, type: 'file' };
-      return response.data;
+      // .then((res) => {
+      //   console.log('All DONE: ', res.headers);
+      // });
+      const responseData = await {
+        ...response.data,
+        type: 'file',
+        metadata: {
+          content_type: response.data.content_type,
+          size: response.data.size
+        }
+      };
+      return responseData;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
     }
@@ -292,6 +348,7 @@ export const bucketSlice = createSlice({
       alert('Failed to add bucket!');
       state.err = action.payload;
     },
+
     [deleteBucket.fulfilled]: (state, action) => {
       state.bucketList = state.bucketList.filter(
         (bucket) => bucket.id !== action.payload.id
@@ -300,6 +357,30 @@ export const bucketSlice = createSlice({
       state.loading = false;
     },
     [deleteBucket.rejected]: (state, action) => {
+      state.loading = false;
+      state.err = action.payload;
+    },
+
+    [deleteFile.fulfilled]: (state, action) => {
+      state.folderChildrenList = state.folderChildrenList.filter(
+        (file) => file.id !== action.payload.id
+      );
+      alert('Bucket deleted!');
+      state.loading = false;
+    },
+    [deleteFile.rejected]: (state, action) => {
+      state.loading = false;
+      state.err = action.payload;
+    },
+
+    [deleteFolder.fulfilled]: (state, action) => {
+      state.folderChildrenList = state.bucketList.filter(
+        (folder) => folder.id !== action.payload.id
+      );
+      alert('Bucket deleted!');
+      state.loading = false;
+    },
+    [deleteFolder.rejected]: (state, action) => {
       state.loading = false;
       state.err = action.payload;
     },

@@ -25,11 +25,22 @@ export const uploadFile = createAsyncThunk(
       bodyFormData.append('bucket_id', data.bucketId);
       bodyFormData.append('hidden', false);
 
-      const response = await axios.post(endpoints.UPLOAD, bodyFormData, {
-        headers: {
-          Authorization: `Bearer ${data.authToken}`
-        }
-      });
+      const response = await axios
+        .post(endpoints.UPLOAD, bodyFormData, {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          },
+          onUploadProgress: (progressEvent) => {
+            let percentCompleted = Math.floor(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            console.log('completed: ', percentCompleted);
+          }
+        })
+        .then((res) => {
+          console.log('All DONE: ', res.headers);
+          return res.data;
+        });
       return response.data;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);

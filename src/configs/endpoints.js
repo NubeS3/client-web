@@ -16,6 +16,8 @@ const endpoints = {
   DELETE_BUCKET: `${BASE}/auth/buckets/`,
   GET_BUCKET_FILE: `${BASE}/auth/files/all`,
   GET_BUCKET_FOLDER: `${BASE}/auth/folders/all`,
+  DELETE_FILE: `${BASE}/auth/files`,
+  DELETE_FOLDER: `${BASE}/auth/folders`,
   GET_SIGNED_KEY: `${BASE}/auth/keyPairs/all/`,
 
   GET_APP_KEY: `${BASE}/auth/accessKey/`,
@@ -35,6 +37,7 @@ const endpoints = {
   COUNT_DATE_ACCESS_KEY_REQ: `${BASE}/auth/accessKey/use-count/date`,
   COUNT_DATE_SIGNED_KEY_REQ: `${BASE}/auth/keyPairs/use-count/date`,
   GET_TOTAL_BANDWIDTH: `${BASE}/users/bandwidth-report`,
+  GET_AVG_OBJECT_COUNT: `${BASE}/users/report/object-count`,
 
   LOGIN_ADMIN: `${BASE}/admin/signin`,
   GET_ALL_USER: `${BASE}/admin/auth/users-list`,

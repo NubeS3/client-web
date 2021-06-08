@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import StorageFrame from './StorageFrame';
 import MonthlyTransaction from '../../../components/Charts/MonthlyTransaction';
+import LineChartCard from '../../../components/Charts/LineChartCard';
+import store from '../../../store';
+import {
+  getAverageStoredFiles,
+  getMonthUsageBandwidth
+} from '../../../store/user/bandwidthReport';
 
-const ReportContainer = () => {
+const ReportContainer = ({ authToken, monthlyBandwidth, avgStoredFiles }) => {
+  useEffect(() => {
+    store.dispatch(getMonthUsageBandwidth({ authToken: authToken }));
+    store.dispatch(getAverageStoredFiles({ authToken: authToken }));
+    return () => {};
+  }, []);
   return (
     <StorageFrame active="report">
       <div className="h-screen lg:block relative w-full">
@@ -17,7 +28,10 @@ const ReportContainer = () => {
           </div>
         </header>
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
-          <MonthlyTransaction />
+          {/* <MonthlyTransaction /> */}
+          <LineChartCard title="AVG GB STORED" data={monthlyBandwidth} />
+          <LineChartCard title="GB DOWNLOADED" />
+          <LineChartCard title="AVG STORED FILES" data={avgStoredFiles} />
         </div>
       </div>
     </StorageFrame>
@@ -25,10 +39,13 @@ const ReportContainer = () => {
 };
 
 const mapStateToProps = (state) => {
-  const email = state.authen.loginEmail;
-  console.log(email);
+  const authToken = state.authen.authToken;
+  const monthlyBandwidth = state.bandwidthReport.monthlyBandwidth;
+  const avgStoredFiles = state.bandwidthReport.avgStoredFiles;
   return {
-    email
+    authToken,
+    monthlyBandwidth,
+    avgStoredFiles
   };
 };
 

@@ -10,7 +10,10 @@ const BucketCard = ({ item }) => {
   const history = useHistory();
 
   const onUploadClick = (item) => {
-    history.push(`${paths.STORAGE_BROWSER}/${'1123'}`);
+    history.push({
+      pathname: `${paths.STORAGE_BROWSER}/${item.bucket.id}`,
+      state: { data: item }
+    });
   };
   return (
     <div

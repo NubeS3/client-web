@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DeleteFile = ({ open, onClose, numOfFiles, totalSize }) => {
+const DeleteBucket = ({ open, onClose }) => {
   return (
     <dialog open={true}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
@@ -32,20 +32,14 @@ const DeleteFile = ({ open, onClose, numOfFiles, totalSize }) => {
             </div>
             <hr className="w-full" />
             <div className="flex flex-col my-6 justify-center items-center text-sm">
-              <div className="flex">
-                <p>You are deleting&nbsp;</p>
-                <p>
-                  {numOfFiles} File(s) {totalSize} KB
-                </p>
-              </div>
               <p>
-                Note: Your bucket file and storage usage will show updated
-                result within 24 hours.
+                Befor you can delete a bucket, you must first delete all the
+                files in the bucket
               </p>
               <div className="h-10" />
               <div className="col-span-5 flex flex-row justify-center">
                 <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-red-700 hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-900">
-                  I'm Sure. Delete Files!
+                  I'm Sure. Delete Bucket!
                 </button>
                 <button
                   className="rounded-sm py-2 px-4 border border-transparent text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
@@ -62,4 +56,4 @@ const DeleteFile = ({ open, onClose, numOfFiles, totalSize }) => {
   );
 };
 
-export default DeleteFile;
+export default DeleteBucket;

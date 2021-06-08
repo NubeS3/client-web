@@ -7,6 +7,7 @@ import ListButtonFile from '../ListButtonFile/ListButtonFile';
 import ItemDetail from '../Dialog/ItemDetail';
 import { useHistory } from 'react-router';
 import paths from '../../configs/paths';
+import DeleteFile from '../Dialog/Delete/DeleteFile';
 
 const BucketFileBrowser = ({ authToken, items }) => {
   const history = useHistory();
@@ -14,6 +15,7 @@ const BucketFileBrowser = ({ authToken, items }) => {
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showItemDetail, setShowItemDetail] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedSingle, setSelectedSingle] = useState();
   const [breadCrumbStack, setBreadCrumbStack] = useState([
     history.location.state?.data.bucket.name
@@ -24,7 +26,6 @@ const BucketFileBrowser = ({ authToken, items }) => {
   );
 
   useEffect(() => {
-    console.log(history.location.state?.data);
     return () => {};
   }, []);
 
@@ -58,7 +59,7 @@ const BucketFileBrowser = ({ authToken, items }) => {
       let result = 0;
       if (selected.length === 0) return 0;
       selected.forEach((file) => {
-        result += file.size;
+        result += file.metadata.size;
       });
       return result;
     },
@@ -100,7 +101,8 @@ const BucketFileBrowser = ({ authToken, items }) => {
   };
 
   const findWithProperty = (arr, prop, value) => {
-    for (var i in arr) {
+    // console.log(value);
+    for (var i = 0; i < arr.length; i += 1) {
       if (arr[i][prop] === value) {
         return i;
       }
@@ -110,19 +112,22 @@ const BucketFileBrowser = ({ authToken, items }) => {
 
   const handleSelectAllClick = (e) => {
     if (e.target.checked) {
-      const newSelecteds = items.map((n) => ({
-        id: n.id,
-        name: n.name,
-        size: n.size
-      }));
+      // const newSelecteds = items.map((n) => ({
+      //   id: n.id,
+      //   name: n.name,
+      //   size: n.size
+      // }));
+      const newSelecteds = items.map((n) => n);
+      // console.log(newSelecteds);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleItemCheckboxClick = (fileItem) => {
+  const handleItemCheckboxClick = (e, fileItem) => {
     const selectedIndex = findWithProperty(selected, 'id', fileItem.id);
+
     let newSelected = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, fileItem);
@@ -131,17 +136,30 @@ const BucketFileBrowser = ({ authToken, items }) => {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
+      console.log(
+        selected,
+        selected.slice(selectedIndex + 1),
+        selected.slice(0, selectedIndex)
+      );
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selected.slice(selectedIndex + 1, selected.length + 1)
       );
     }
+    // console.log(newSelected);
     setSelected(newSelected);
   };
 
   const isSelected = (id) => findWithProperty(selected, 'id', id) !== -1;
   return (
     <div className="flex flex-col w-full">
+      {showDeleteDialog ? (
+        <DeleteFile
+          selected={selected}
+          numberOfFiles={selected.length}
+          onClose={() => setShowDeleteDialog(true)}
+        />
+      ) : null}
       {showItemDetail ? (
         <ItemDetail item={selectedSingle} onClose={onItemDetailClose} />
       ) : null}
@@ -202,12 +220,22 @@ const BucketFileBrowser = ({ authToken, items }) => {
           selected={selected}
           onNewFolderClick={() => setShowCreateFolderDialog(true)}
           onUploadClick={() => setShowUploadDialog(true)}
+          onDeleteClick={() => setShowDeleteDialog(true)}
         />
       </div>
       <div className="flex justify-end mb-3">
         <p>
           <span className="text-gray-400">Selected: </span>
-          {selected.length} Files: {totalSize} bytes
+          {selected.length} Files:{' '}
+          {() => {
+            let result = 0;
+            if (selected.length === 0) return 0;
+            selected.forEach((file) => {
+              result += file.metadata.size;
+            });
+            return result;
+          }}{' '}
+          bytes
         </p>
       </div>
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -254,13 +282,15 @@ const BucketFileBrowser = ({ authToken, items }) => {
                 {items
                   ? items.map((item) => {
                       const isItemSelected = isSelected(item.id);
+                      const labelId = `enhanced-table-checkbox-${item.id}`;
                       return (
                         <tr key={item.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <input
+                              aria-labelledby={labelId}
                               type="checkbox"
                               checked={isItemSelected}
-                              onClick={() => handleItemCheckboxClick(item)}
+                              onChange={(e) => handleItemCheckboxClick(e, item)}
                             />
                           </td>
                           <td>

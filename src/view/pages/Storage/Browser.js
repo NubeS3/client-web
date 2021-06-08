@@ -21,15 +21,15 @@ const BrowserContainer = ({
     // }
   }, []);
 
-  const onSelectBucket = (bucket) => {
+  const onSelectBucket = (item) => {
     // setBucketSelected(bucketId);
     // setBreadCrumbStack((breadCrumbStack) => [...breadCrumbStack, bucketName]);
     // store.dispatch(
     //   getChildrenByPath({ authToken: authToken, full_path: '/' + bucketName })
     // );
     history.push({
-      pathname: `${paths.STORAGE_BROWSER}/${bucket.id}`,
-      state: { data: bucket }
+      pathname: `${paths.STORAGE_BROWSER}/${item.bucket.id}`,
+      state: { data: item }
     });
   };
 

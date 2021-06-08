@@ -22,20 +22,20 @@ const Storage = ({ email, active, ...props }) => {
 
   return (
     <AuthPageFrame>
-      <div class="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-80 xl:mx-40 lg:mx-12">
-        <div class="flex items-start justify-between">
-          <div class="h-screen hidden mt-16 lg:block relative w-65">
+      <div className="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-80 xl:mx-40 lg:mx-12">
+        <div className="flex items-start justify-between">
+          <div className="h-screen hidden mt-16 lg:block relative w-65">
             <FixedSidedbar active={active} />
             <OptionalSidebar active={active} />
           </div>
-          <div class="flex flex-col w-full md:space-y-4">
-            <header class="w-full flex items-center justify-between">
-              <div class="block lg:hidden ml-6">
-                <button class="flex p-2 items-center rounded-full bg-white shadow text-gray-500 text-md">
+          <div className="flex flex-col w-full md:space-y-4">
+            <header className="w-full flex items-center justify-between">
+              <div className="block lg:hidden ml-6">
+                <button className="flex p-2 items-center rounded-full bg-white shadow text-gray-500 text-md">
                   <svg
                     width="20"
                     height="20"
-                    class="text-gray-400"
+                    className="text-gray-400"
                     fill="currentColor"
                     viewBox="0 0 1792 1792"
                     xmlns="http://www.w3.org/2000/svg"
@@ -44,13 +44,13 @@ const Storage = ({ email, active, ...props }) => {
                   </svg>
                 </button>
               </div>
-              <div class="relative flex flex-col justify-end h-full px-3 mt-2 md:w-full">
-                <div class="relative p-1 flex items-center w-full space-x-4 justify-end">
-                  <div class="flex items-center text-gray-500 dark:text-white text-md focus:outline-none hover:font-bold">
+              <div className="relative flex flex-col justify-end h-full px-3 mt-2 md:w-full">
+                <div className="relative p-1 flex items-center w-full space-x-4 justify-end">
+                  <div className="flex items-center text-gray-500 dark:text-white text-md focus:outline-none hover:font-bold">
                     Welcome {email},
                   </div>
                   <p
-                    class="flex dark:text-white text-md text-blue-500 hover:font-bold"
+                    className="flex dark:text-white text-md text-blue-500 hover:font-bold"
                     onClick={handleSignOut}
                   >
                     Sign Out
