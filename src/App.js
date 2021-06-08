@@ -16,7 +16,7 @@ import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
 import MultipleDownload from './components/Dialog/MultipleDownload';
-import LineChartCard from './components/Charts/LineChartCard';
+import DeleteBucket from './components/Dialog/Delete/DeleteFile';
 
 const App = (props) => {
   const mount = async () => {
