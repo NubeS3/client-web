@@ -1,19 +1,27 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import store from '../../store';
-import { getChildrenByPath, uploadFile } from '../../store/userStorage/bucket';
+import {
+  clearBucketState,
+  getChildrenByPath,
+  uploadFile,
+  uploadFileMultiple
+} from '../../store/userStorage/bucket';
 import CreateFolder from '../Dialog/CreateFolder';
 import UploadFile from '../Dialog/UploadFile';
 import ListButtonFile from '../ListButtonFile/ListButtonFile';
 import ItemDetail from '../Dialog/ItemDetail';
 import { useHistory } from 'react-router';
 import paths from '../../configs/paths';
+import DeleteFile from '../Dialog/Delete/DeleteFile';
+import { connect } from 'react-redux';
 
-const BucketFileBrowser = ({ authToken, items }) => {
+const BucketFileBrowser = ({ authToken, items, uploadDone, uploadFailed }) => {
   const history = useHistory();
   const [selected, setSelected] = useState([]);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showItemDetail, setShowItemDetail] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedSingle, setSelectedSingle] = useState();
   const [breadCrumbStack, setBreadCrumbStack] = useState([
     history.location.state?.data.bucket.name
@@ -24,9 +32,16 @@ const BucketFileBrowser = ({ authToken, items }) => {
   );
 
   useEffect(() => {
-    console.log(history.location.state?.data);
+    if (uploadDone) {
+      setShowUploadDialog(false);
+      store.dispatch(clearBucketState());
+    }
+    if (uploadFailed) {
+      setShowUploadDialog(false);
+      store.dispatch(clearBucketState());
+    }
     return () => {};
-  }, []);
+  }, [uploadDone, uploadFailed]);
 
   const onBucketBrowserClick = () => {
     setBucketSelected(null);
@@ -53,17 +68,18 @@ const BucketFileBrowser = ({ authToken, items }) => {
     setSelectedSingle(null);
   };
 
-  const totalSize = useMemo(
-    () => () => {
-      let result = 0;
-      if (selected.length === 0) return 0;
-      selected.forEach((file) => {
-        result += file.size;
-      });
-      return result;
-    },
-    [selected]
-  );
+  const [totalSize, setTotalSize] = useState(0);
+  useEffect(() => {
+    if (selected.length === 0) setTotalSize(0);
+    let result = 0;
+    selected.forEach((file) => {
+      if (file.metadata) {
+        setTotalSize(result + file.metadata.size);
+      }
+    });
+    return () => {};
+  }, [selected]);
+
   // const handleCreateFolder = () => {
 
   //   // setOpenCreateFolderDialog(false);
@@ -89,6 +105,23 @@ const BucketFileBrowser = ({ authToken, items }) => {
     });
   };
 
+  const handleUploadMultiple = (acceptedFiles) => {
+    var parent_path = '';
+    if (breadCrumbStack.length === 1) {
+      parent_path = '/';
+    } else {
+      parent_path = '/' + breadCrumbStack.slice(1).join('/');
+    }
+    store.dispatch(
+      uploadFileMultiple({
+        authToken: authToken,
+        acceptedFiles: acceptedFiles,
+        bucketId: bucketSelected,
+        full_path: parent_path
+      })
+    );
+  };
+
   const handleOnBucketItemClick = (item) => {
     if (item.type === 'folder') {
       setBreadCrumbStack((breadCrumbStack) => [...breadCrumbStack, item.name]);
@@ -100,7 +133,8 @@ const BucketFileBrowser = ({ authToken, items }) => {
   };
 
   const findWithProperty = (arr, prop, value) => {
-    for (var i in arr) {
+    // console.log(value);
+    for (var i = 0; i < arr.length; i += 1) {
       if (arr[i][prop] === value) {
         return i;
       }
@@ -110,19 +144,22 @@ const BucketFileBrowser = ({ authToken, items }) => {
 
   const handleSelectAllClick = (e) => {
     if (e.target.checked) {
-      const newSelecteds = items.map((n) => ({
-        id: n.id,
-        name: n.name,
-        size: n.size
-      }));
+      // const newSelecteds = items.map((n) => ({
+      //   id: n.id,
+      //   name: n.name,
+      //   size: n.size
+      // }));
+      const newSelecteds = items.map((n) => n);
+      // console.log(newSelecteds);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleItemCheckboxClick = (fileItem) => {
+  const handleItemCheckboxClick = (e, fileItem) => {
     const selectedIndex = findWithProperty(selected, 'id', fileItem.id);
+
     let newSelected = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, fileItem);
@@ -131,17 +168,34 @@ const BucketFileBrowser = ({ authToken, items }) => {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
+      console.log(
+        selected,
+        selected.slice(selectedIndex + 1),
+        selected.slice(0, selectedIndex)
+      );
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selected.slice(selectedIndex + 1, selected.length + 1)
       );
     }
+    // console.log(newSelected);
     setSelected(newSelected);
   };
 
   const isSelected = (id) => findWithProperty(selected, 'id', id) !== -1;
   return (
     <div className="flex flex-col w-full">
+      {showDeleteDialog ? (
+        <DeleteFile
+          authToken={authToken}
+          selected={selected}
+          numOfFiles={selected.length}
+          onClose={() => setShowDeleteDialog(false)}
+          breadCrumbStack={breadCrumbStack}
+          bucketName={breadCrumbStack[0]}
+          bucketId={bucketSelected}
+        />
+      ) : null}
       {showItemDetail ? (
         <ItemDetail item={selectedSingle} onClose={onItemDetailClose} />
       ) : null}
@@ -156,6 +210,7 @@ const BucketFileBrowser = ({ authToken, items }) => {
         <UploadFile
           onClose={() => setShowUploadDialog(false)}
           handleUpload={handleUpload}
+          handleUploadMultiple={handleUploadMultiple}
         />
       ) : null}
       {/* // <p className="text-3xl text-gray-600">Browse Files</p> */}
@@ -202,12 +257,28 @@ const BucketFileBrowser = ({ authToken, items }) => {
           selected={selected}
           onNewFolderClick={() => setShowCreateFolderDialog(true)}
           onUploadClick={() => setShowUploadDialog(true)}
+          onDeleteClick={() => setShowDeleteDialog(true)}
         />
       </div>
       <div className="flex justify-end mb-3">
         <p>
           <span className="text-gray-400">Selected: </span>
-          {selected.length} Files: {totalSize} bytes
+          {selected.length} Files:{' '}
+          {totalSize ? (
+            totalSize < 1024 ? (
+              <>{totalSize} bytes</>
+            ) : (
+              <>
+                {totalSize < Math.pow(1024, 2) ? (
+                  <>{Math.ceil(totalSize / 1024)} KB</>
+                ) : (
+                  <>{Math.ceil(totalSize / Math.pow(1024, 2))} MB</>
+                )}
+              </>
+            )
+          ) : (
+            <>{totalSize} bytes</>
+          )}
         </p>
       </div>
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -220,7 +291,11 @@ const BucketFileBrowser = ({ authToken, items }) => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                   >
-                    <input type="checkbox" onClick={handleSelectAllClick} />
+                    <input
+                      type="checkbox"
+                      checked={selected.length === items.length}
+                      onClick={handleSelectAllClick}
+                    />
                   </th>
                   <th
                     scope="col"
@@ -254,13 +329,15 @@ const BucketFileBrowser = ({ authToken, items }) => {
                 {items
                   ? items.map((item) => {
                       const isItemSelected = isSelected(item.id);
+                      const labelId = `enhanced-table-checkbox-${item.id}`;
                       return (
                         <tr key={item.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <input
+                              aria-labelledby={labelId}
                               type="checkbox"
                               checked={isItemSelected}
-                              onClick={() => handleItemCheckboxClick(item)}
+                              onChange={(e) => handleItemCheckboxClick(e, item)}
                             />
                           </td>
                           <td>
@@ -329,7 +406,7 @@ const BucketFileBrowser = ({ authToken, items }) => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {item.created_at}
+                              {item.metadata ? item.metadata.upload_date : null}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -356,4 +433,13 @@ const BucketFileBrowser = ({ authToken, items }) => {
   );
 };
 
-export default BucketFileBrowser;
+const mapStateToProps = (state) => {
+  const uploadDone = state.bucket.uploadDone;
+  const uploadFailed = state.bucket.uploadFailed;
+  return {
+    uploadDone,
+    uploadFailed
+  };
+};
+
+export default connect(mapStateToProps)(BucketFileBrowser);

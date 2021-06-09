@@ -21,15 +21,15 @@ const BrowserContainer = ({
     // }
   }, []);
 
-  const onSelectBucket = (bucket) => {
+  const onSelectBucket = (item) => {
     // setBucketSelected(bucketId);
     // setBreadCrumbStack((breadCrumbStack) => [...breadCrumbStack, bucketName]);
     // store.dispatch(
     //   getChildrenByPath({ authToken: authToken, full_path: '/' + bucketName })
     // );
     history.push({
-      pathname: `${paths.STORAGE_BROWSER}/${bucket.id}`,
-      state: { data: bucket }
+      pathname: `${paths.STORAGE_BROWSER}/${item.bucket.id}`,
+      state: { data: item }
     });
   };
 
@@ -39,7 +39,7 @@ const BrowserContainer = ({
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full px-3 md:w-full">
             <div className="relative p-1 flex items-center w-full space-x-4 justify-start">
-              <div className="flex items-end text-black dark:text-white text-2xl">
+              <div className="flex items-end text-black dark:text-white text-4xl">
                 Browse Files
               </div>
             </div>

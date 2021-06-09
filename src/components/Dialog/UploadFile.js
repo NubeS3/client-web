@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
-import Dropzone, { useDropzone } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
+import { connect } from 'react-redux';
+import LinearProgressBar from '../LinearProgressBar';
 
-const UploadFile = ({ open, onClose, handleUpload }) => {
+const UploadFile = ({
+  open,
+  onClose,
+  handleUpload,
+  handleUploadMultiple,
+  progressInfo = [{ fileName: '', percentage: 0 }]
+}) => {
   const [fileNames, setFileNames] = useState([]);
-  const handleDrop = (acceptedFiles) =>
+  const handleDrop = (acceptedFiles) => {
     setFileNames(acceptedFiles.map((file) => file.name));
+    if (acceptedFiles.length === 1) {
+      handleUpload(acceptedFiles);
+    } else {
+      handleUploadMultiple(acceptedFiles);
+    }
+  };
 
   return (
     <dialog open={true}>
@@ -34,7 +48,6 @@ const UploadFile = ({ open, onClose, handleUpload }) => {
             <Dropzone
               onDrop={(acceptedFiles) => {
                 handleDrop(acceptedFiles);
-                handleUpload(acceptedFiles);
               }}
             >
               {({ getRootProps, getInputProps }) => (
@@ -48,8 +61,35 @@ const UploadFile = ({ open, onClose, handleUpload }) => {
                     </div>
                   </div>
                   <aside>
-                    <h4>Files</h4>
-                    <ul>{fileNames}</ul>
+                    <div className="bg-white w-full rounded-none shadow overflow-hidden">
+                      <div className="px-4 py-5 sm:px-6">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                          Accepted Files
+                        </h3>
+                        {/* <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                          Details and informations about user.
+                        </p> */}
+                      </div>
+                      <div className="border-t border-gray-200">
+                        <dl>
+                          {fileNames.map((file, index) => (
+                            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt className="text-sm font-medium text-gray-500">
+                                {file}
+                              </dt>
+                              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <LinearProgressBar
+                                // label={progressInfo[index]['fileName']}
+                                // progressPercentage={
+                                //   progressInfo[index]['percentage']
+                                // }
+                                />
+                              </dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </div>
+                    </div>
                   </aside>
                 </section>
               )}
@@ -61,4 +101,8 @@ const UploadFile = ({ open, onClose, handleUpload }) => {
   );
 };
 
-export default UploadFile;
+const mapStateToProps = (state) => {
+  const progressInfo = state.bucket.progressInfo;
+  return { progressInfo };
+};
+export default connect(mapStateToProps)(UploadFile);

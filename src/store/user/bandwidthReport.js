@@ -5,8 +5,69 @@ import endpoints from '../../configs/endpoints';
 const initialState = {
   loading: false,
   err: null,
-  data: [],
+  monthlyBandwidth: [],
+  avgStoredFiles: [],
+  avgGBStored: [],
   total: 0.0
+};
+
+const months = [
+  {
+    abbreviation: 'Jan',
+    name: 'January'
+  },
+  {
+    abbreviation: 'Feb',
+    name: 'February'
+  },
+  {
+    abbreviation: 'Mar',
+    name: 'March'
+  },
+  {
+    abbreviation: 'Apr',
+    name: 'April'
+  },
+  {
+    abbreviation: 'May',
+    name: 'May'
+  },
+  {
+    abbreviation: 'Jun',
+    name: 'June'
+  },
+  {
+    abbreviation: 'Jul',
+    name: 'July'
+  },
+  {
+    abbreviation: 'Aug',
+    name: 'August'
+  },
+  {
+    abbreviation: 'Sep',
+    name: 'September'
+  },
+  {
+    abbreviation: 'Oct',
+    name: 'October'
+  },
+  {
+    abbreviation: 'Nov',
+    name: 'November'
+  },
+  {
+    abbreviation: 'Dec',
+    name: 'December'
+  }
+];
+
+const lastDay = function (y, m) {
+  return new Date(y, m + 1, 0).getDate();
+};
+
+const firstDay = function (y, m) {
+  return new Date(y, m + 1, 1).getDate();
 };
 
 export const getMonthUsageBandwidth = createAsyncThunk(
@@ -14,16 +75,21 @@ export const getMonthUsageBandwidth = createAsyncThunk(
   async (data, api) => {
     let temp = [];
     let curDate = new Date();
-    let firstDate = new Date(curDate.getFullYear(), curDate.getMonth(), 1);
-    let gap = curDate.getDate();
-    let milestone = firstDate.getTime() / 1000;
+
     try {
       // api.dispatch(bandwidthReportSlice.actions.loading());
-      for (let i = 1; i <= gap; i++) {
+      for (var i = 0; i < months.length; i++) {
+        let firstDate = firstDay(curDate.getFullYear(), i);
+        let lastDate = lastDay(curDate.getFullYear(), i);
+        let firstMilestone =
+          new Date(curDate.getFullYear(), i + 1, 1).getTime() / 1000;
+        let lastMilestone =
+          new Date(curDate.getFullYear(), i + 1, lastDate).getTime() / 1000;
+
         const response = await axios.get(
           endpoints.GET_TOTAL_BANDWIDTH +
-            `?from=${milestone + 3600 * 24 * (i - 1)}&to=${
-              milestone + 3600 * 24 * i
+            `?from=${firstMilestone + 3600 * 24 * firstDate}&to=${
+              lastMilestone + 3600 * 24 * lastDate
             }`,
           {
             headers: {
@@ -32,9 +98,49 @@ export const getMonthUsageBandwidth = createAsyncThunk(
           }
         );
         temp.push({
-          day: i.toString(),
-          unit: 'KB',
-          bandwidth: Math.round((response.data * 100) / 8 / 1024 / 1024) / 100
+          month: months[i].name.toString(),
+          unit: 'MB',
+          usage: Math.round((response.data * 100) / 8 / 1024 / 1024) / 100
+        });
+      }
+      return temp;
+    } catch (err) {
+      return api.rejectWithValue(err.response.data.error);
+    }
+  }
+);
+
+export const getAvgGBStored = createAsyncThunk(
+  'bandwidthReport/getAvgGBStored',
+  async (data, api) => {
+    let temp = [];
+    let curDate = new Date();
+
+    try {
+      // api.dispatch(bandwidthReportSlice.actions.loading());
+      for (var i = 0; i < months.length; i++) {
+        let firstDate = firstDay(curDate.getFullYear(), i);
+        let lastDate = lastDay(curDate.getFullYear(), i);
+        let firstMilestone =
+          new Date(curDate.getFullYear(), i + 1, 1).getTime() / 1000;
+        let lastMilestone =
+          new Date(curDate.getFullYear(), i + 1, lastDate).getTime() / 1000;
+
+        const response = await axios.get(
+          endpoints.GET_AVG_GB_STORED +
+            `?from=${firstMilestone + 3600 * 24 * firstDate}&to=${
+              lastMilestone + 3600 * 24 * lastDate
+            }`,
+          {
+            headers: {
+              Authorization: `Bearer ${data.authToken}`
+            }
+          }
+        );
+        temp.push({
+          month: months[i].name.toString(),
+          unit: 'MB',
+          usage: Math.round((response.data * 100) / 8 / 1024 / 1024) / 100
         });
       }
       return temp;
@@ -69,6 +175,46 @@ export const getTotalUsageBandwidth = createAsyncThunk(
   }
 );
 
+export const getAverageStoredFiles = createAsyncThunk(
+  'bandwidthReport/getAverageStoredFiles',
+  async (data, api) => {
+    let temp = [];
+    let curDate = new Date();
+
+    try {
+      // api.dispatch(bandwidthReportSlice.actions.loading());
+      for (var i = 0; i < months.length; i++) {
+        let firstDate = firstDay(curDate.getFullYear(), i);
+        let lastDate = lastDay(curDate.getFullYear(), i);
+        let firstMilestone =
+          new Date(curDate.getFullYear(), i + 1, 1).getTime() / 1000;
+        let lastMilestone =
+          new Date(curDate.getFullYear(), i + 1, lastDate).getTime() / 1000;
+
+        const response = await axios.get(
+          endpoints.GET_AVG_OBJECT_COUNT +
+            `?from=${firstMilestone + 3600 * 24 * firstDate}&to=${
+              lastMilestone + 3600 * 24 * lastDate
+            }`,
+          {
+            headers: {
+              Authorization: `Bearer ${data.authToken}`
+            }
+          }
+        );
+        temp.push({
+          month: months[i].name.toString(),
+          unit: 'KB',
+          usage: response.data
+        });
+      }
+      return temp;
+    } catch (err) {
+      return api.rejectWithValue(err.response.data.error);
+    }
+  }
+);
+
 export const bandwidthReportSlice = createSlice({
   name: 'bandwidthReport',
   initialState: initialState,
@@ -79,20 +225,43 @@ export const bandwidthReportSlice = createSlice({
     reset: (state, action) => {
       state.loading = false;
       state.err = null;
-      state.data = 0;
+      state.monthlyBandwidth = 0;
     }
   },
   extraReducers: {
     [getMonthUsageBandwidth.fulfilled]: (state, action) => {
       state.loading = false;
       state.err = null;
-      state.data = action.payload;
+      state.monthlyBandwidth = action.payload;
     },
     [getMonthUsageBandwidth.rejected]: (state, action) => {
       state.loading = false;
       state.err = action.payload;
-      state.data = [];
+      state.monthlyBandwidth = [];
     },
+
+    [getAverageStoredFiles.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.err = null;
+      state.avgStoredFiles = action.payload;
+    },
+    [getAverageStoredFiles.rejected]: (state, action) => {
+      state.loading = false;
+      state.err = action.payload;
+      state.avgStoredFiles = [];
+    },
+
+    [getAvgGBStored.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.err = null;
+      state.avgGBStored = action.payload;
+    },
+    [getAvgGBStored.rejected]: (state, action) => {
+      state.loading = false;
+      state.err = action.payload;
+      state.avgGBStored = [];
+    },
+
     [getTotalUsageBandwidth.fulfilled]: (state, action) => {
       state.loading = false;
       state.err = null;
