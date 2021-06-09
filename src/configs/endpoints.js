@@ -40,6 +40,7 @@ const endpoints = {
   COUNT_DATE_SIGNED_KEY_REQ: `${BASE}/auth/keyPairs/use-count/date`,
   GET_TOTAL_BANDWIDTH: `${BASE}/users/bandwidth-report`,
   GET_AVG_OBJECT_COUNT: `${BASE}/users/report/object-count`,
+  GET_AVG_GB_STORED: `${BASE}/users/report/size`,
 
   LOGIN_ADMIN: `${BASE}/admin/signin`,
   GET_ALL_USER: `${BASE}/admin/auth/users-list`,

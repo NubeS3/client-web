@@ -42,7 +42,7 @@ const months = [
 //   { name: months[6], uv: 600 }
 // ];
 
-const LineChartCard = ({ width = 800, height = 400, title, data }) => {
+const LineChartCard = ({ width = 800, height = 400, title, data, yLabel }) => {
   const CustomTooltip = ({ payload, active }, ...props) => {
     if (active && payload && payload.length) {
       console.log(payload);
@@ -63,14 +63,14 @@ const LineChartCard = ({ width = 800, height = 400, title, data }) => {
         data={data}
         margin={{ top: 25, right: 20, bottom: 5, left: 0 }}
       >
-        <Line type="monotone" dataKey="bandwidth" stroke="#8884d8" />
+        <Line type="monotone" dataKey="usage" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="day">
-          <Label value="Days" offset={0} position="insideBottom" />
+        <XAxis dataKey="month">
+          <Label offset={0} position="insideBottom" />
         </XAxis>
         <YAxis
           label={{
-            value: 'Bandwidth usage (MB)',
+            // value: 'Bandwidth usage (MB)',
             angle: -90,
             position: 'insideLeft'
           }}

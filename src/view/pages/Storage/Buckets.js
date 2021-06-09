@@ -20,7 +20,7 @@ const BucketContainer = ({ bucketList = [], authToken }) => {
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full md:w-full">
             <div className="relative flex items-center w-full space-x-4 justify-start">
-              <div className="flex items-end text-black dark:text-white text-3xl">
+              <div className="flex items-end text-black dark:text-white text-4xl">
                 Nubes3 Cloud Storage Buckets
               </div>
             </div>
