@@ -2,18 +2,39 @@ import React from 'react';
 import store from '../../../store';
 import { deleteFile, deleteFolder } from '../../../store/userStorage/bucket';
 
-const DeleteFile = ({ selected, onClose, numOfFiles, totalSize }) => {
+const DeleteFile = ({
+  selected,
+  onClose,
+  numOfFiles,
+  totalSize,
+  authToken,
+  breadCrumbStack,
+  bucketId,
+  bucketName
+}) => {
   const handleDeleteFiles = () => {
+    var parent_path = '';
+    if (breadCrumbStack.length === 1) {
+      parent_path = '/' + bucketName;
+    } else {
+      parent_path = '/' + breadCrumbStack.join('/');
+    }
     selected.forEach((element) => {
       if (element.type === 'folder') {
         store.dispatch(
-          deleteFolder({ authToken: authToken, full_path: element.path })
+          deleteFolder({
+            authToken: authToken,
+            full_path: `${parent_path}/${element.name}`,
+            folder: element
+          })
         );
       } else if (element.type === 'file') {
         store.dispatch(
           deleteFile({
             authToken: authToken,
-            full_path: `${element.path}/${element.name}`
+            full_path: `${parent_path}/${element.name}`,
+            bucketId: bucketId,
+            file: element
           })
         );
       }
@@ -63,7 +84,10 @@ const DeleteFile = ({ selected, onClose, numOfFiles, totalSize }) => {
               </p>
               <div className="h-10" />
               <div className="col-span-5 flex flex-row justify-center">
-                <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-red-700 hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-900">
+                <button
+                  onClick={handleDeleteFiles}
+                  className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-red-700 hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-900"
+                >
                   I'm Sure. Delete Files!
                 </button>
                 <button

@@ -12,6 +12,9 @@ const initialState = {
   signedKeyList: [],
   isLoading: false,
   isFetchingFile: false,
+  progressInfo: [],
+  uploadDone: false,
+  uploadFailed: false,
   err: null
 };
 
@@ -63,6 +66,35 @@ export const createBucket = createAsyncThunk(
         objectCount: 0
       };
       return responseData;
+    } catch (error) {
+      return api.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const updateBucketSettings = createAsyncThunk(
+  'bucket/updateBucketSettings',
+  async (data, api) => {
+    try {
+      api.dispatch(bucketSlice.actions.loading());
+      //console.log(data.authToken)
+      const response = await axios.put(
+        endpoints.UPDATE_BUCKET_SETTINGS + `/${data.bucketId}`,
+        {
+          is_public: data.isPublic,
+          is_encrypted: data.isEncrypted,
+          hold_duration: data.holdDuration
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          }
+        }
+      );
+      // const responseData = await {
+      //   bucket: response.data
+      // };
+      return response.data;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
     }
@@ -141,20 +173,21 @@ export const deleteFile = createAsyncThunk(
     try {
       api.dispatch(bucketSlice.actions.loading());
       const response = await axios.delete(
-        endpoints.DELETE_FILE + `${data.full_path}?${data.bucketId}`,
+        endpoints.DELETE_FILE + `${data.full_path}?bucketId=${data.bucketId}`,
         {
           headers: {
             Authorization: `Bearer ${data.authToken}`
           }
         }
       );
-      response.data.id = await data.bucketId;
-      return response.data;
+      const responseData = await data.file;
+      return responseData;
     } catch (err) {
       return api.rejectWithValue(err.response.data.error);
     }
   }
 );
+
 export const deleteFolder = createAsyncThunk(
   'bucket/deleteFolder',
   async (data, api) => {
@@ -168,13 +201,14 @@ export const deleteFolder = createAsyncThunk(
           }
         }
       );
-      response.data.id = await data.bucketId;
-      return response.data;
+      const responseData = await data.folder;
+      return responseData;
     } catch (err) {
       return api.rejectWithValue(err.response.data.error);
     }
   }
 );
+
 export const getChildrenByPath = createAsyncThunk(
   'bucket/getChildrenByPath',
   async (data, api) => {
@@ -295,12 +329,15 @@ export const uploadFile = createAsyncThunk(
           let percentCompleted = Math.floor(
             (progressEvent.loaded / progressEvent.total) * 100
           );
-          console.log('completed: ', percentCompleted);
+          api.dispatch(
+            bucketSlice.actions.updateProgress({
+              fileName: data.file.name,
+              percentage: percentCompleted
+            })
+          );
         }
       });
-      // .then((res) => {
-      //   console.log('All DONE: ', res.headers);
-      // });
+
       const responseData = await {
         ...response.data,
         type: 'file',
@@ -309,6 +346,52 @@ export const uploadFile = createAsyncThunk(
           size: response.data.size
         }
       };
+      return responseData;
+    } catch (error) {
+      return api.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const uploadFileMultiple = createAsyncThunk(
+  'bucket/uploadFileMultiple',
+  async (data, api) => {
+    try {
+      api.dispatch(bucketSlice.actions.loading());
+      let responseData = [];
+      for (var file in data.acceptedFiles) {
+        var bodyFormData = new FormData();
+        bodyFormData.append('file', file);
+        bodyFormData.append('path', data.full_path);
+        bodyFormData.append('name', file.name);
+        bodyFormData.append('bucket_id', data.bucketId);
+
+        const response = await axios.post(endpoints.UPLOAD, bodyFormData, {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          },
+          onUploadProgress: (progressEvent) => {
+            let percentCompleted = Math.floor(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            api.dispatch(
+              bucketSlice.actions.updateProgress({
+                fileName: file.name,
+                percentage: percentCompleted
+              })
+            );
+          }
+        });
+        responseData.push({
+          ...response.data,
+          type: 'file',
+          metadata: {
+            content_type: response.data.content_type,
+            size: response.data.size
+          }
+        });
+      }
+
       return responseData;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
@@ -325,6 +408,25 @@ export const bucketSlice = createSlice({
     },
     getBucketList: (state, action) => {
       state.bucketList = action.payload;
+    },
+    updateProgress: (state, action) => {
+      let fileToUpload = {};
+      // for (let i = 0; i < files.length; i++) {
+      //   const id = size(existingFiles) + i + 1;
+      //   fileToUpload = {
+      //     ...fileToUpload,
+      //     [id]: {
+      //       id,
+      //       file: files[i],
+      //       progress: 0
+      //     }
+      //   };
+      // }
+      // state.progressInfo = [...state.progressInfo, action.payload];
+    },
+    clearBucketState: (state) => {
+      state.uploadFailed = false;
+      state.uploadDone = false;
     }
   },
 
@@ -345,15 +447,30 @@ export const bucketSlice = createSlice({
     },
     [createBucket.rejected]: (state, action) => {
       state.isLoading = false;
-      alert('Failed to add bucket!');
+      state.err = action.payload;
+    },
+
+    [updateBucketSettings.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      state.bucketList = state.bucketList.map((item) => {
+        // Find the item with the matching id
+        if (item.bucket.id === action.payload.id) {
+          return { ...item, bucket: action.payload };
+        } else {
+          return item;
+        }
+      });
+      state.isLoading = false;
+    },
+    [updateBucketSettings.rejected]: (state, action) => {
+      state.isLoading = false;
       state.err = action.payload;
     },
 
     [deleteBucket.fulfilled]: (state, action) => {
       state.bucketList = state.bucketList.filter(
-        (bucket) => bucket.id !== action.payload.id
+        (bucket) => bucket.bucket.id !== action.payload.id
       );
-      alert('Bucket deleted!');
       state.loading = false;
     },
     [deleteBucket.rejected]: (state, action) => {
@@ -365,7 +482,6 @@ export const bucketSlice = createSlice({
       state.folderChildrenList = state.folderChildrenList.filter(
         (file) => file.id !== action.payload.id
       );
-      alert('Bucket deleted!');
       state.loading = false;
     },
     [deleteFile.rejected]: (state, action) => {
@@ -377,7 +493,6 @@ export const bucketSlice = createSlice({
       state.folderChildrenList = state.bucketList.filter(
         (folder) => folder.id !== action.payload.id
       );
-      alert('Bucket deleted!');
       state.loading = false;
     },
     [deleteFolder.rejected]: (state, action) => {
@@ -437,6 +552,7 @@ export const bucketSlice = createSlice({
       state.isLoading = false;
       state.err = action.payload;
     },
+
     [uploadFile.fulfilled]: (state, action) => {
       state.folderChildrenList = [...state.folderChildrenList, action.payload];
       state.isLoading = false;
@@ -445,6 +561,19 @@ export const bucketSlice = createSlice({
       state.err = action.payload;
       state.isLoading = false;
       alert(action.payload);
+    },
+
+    [uploadFileMultiple.fulfilled]: (state, action) => {
+      state.uploadDone = true;
+      state.folderChildrenList = [...state.folderChildrenList, action.payload];
+      state.isLoading = false;
+    },
+    [uploadFileMultiple.rejected]: (state, action) => {
+      state.uploadFailed = true;
+      state.err = action.payload;
+      state.isLoading = false;
     }
   }
 });
+
+export const { clearBucketState } = bucketSlice.actions;

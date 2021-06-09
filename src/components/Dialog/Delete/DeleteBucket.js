@@ -1,6 +1,15 @@
 import React from 'react';
+import store from '../../../store';
+import { deleteBucket } from '../../../store/userStorage/bucket';
 
-const DeleteBucket = ({ open, onClose }) => {
+const DeleteBucket = ({ authToken, item, onClose }) => {
+  const handleDeleteBucket = () => {
+    store.dispatch(
+      deleteBucket({ authToken: authToken, bucketId: item.bucket.id })
+    );
+    onClose();
+  };
+
   return (
     <dialog open={true}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
@@ -38,7 +47,10 @@ const DeleteBucket = ({ open, onClose }) => {
               </p>
               <div className="h-10" />
               <div className="col-span-5 flex flex-row justify-center">
-                <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-red-700 hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-900">
+                <button
+                  onClick={handleDeleteBucket}
+                  className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-red-700 hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-900"
+                >
                   I'm Sure. Delete Bucket!
                 </button>
                 <button

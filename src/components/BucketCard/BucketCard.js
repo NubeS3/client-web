@@ -3,10 +3,14 @@ import { useHistory } from 'react-router';
 import BucketSetting from '../Dialog/Bucket/BucketSetting';
 import LifeCycle from '../Dialog/Lifecycle';
 import paths from '../../configs/paths';
+import DeleteBucket from '../Dialog/Delete/DeleteBucket';
+import ObjectLock from '../Dialog/ObjectLock';
 
-const BucketCard = ({ item }) => {
+const BucketCard = ({ item, authToken }) => {
   const [showBucketSettings, setShowBucketSettings] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showLifeCycle, setShowLifeCycle] = useState(false);
+  const [showObjectLockDialog, setShowObjectLockDialog] = useState(false);
   const history = useHistory();
 
   const onUploadClick = (item) => {
@@ -15,13 +19,40 @@ const BucketCard = ({ item }) => {
       state: { data: item }
     });
   };
+
+  const onDeleteBucketClick = () => {
+    setShowBucketSettings(false);
+    setShowDeleteDialog(true);
+  };
+
   return (
     <div
       key={item.bucket.id}
       className="flex flex-col justify-center w-full max-w-4xl py-4 px-8 bg-white shadow rounded-sm text-gray-600 my-2"
     >
+      {showObjectLockDialog ? (
+        <ObjectLock
+          item={item}
+          authToken={authToken}
+          onCancel={() => {
+            setShowObjectLockDialog(false);
+          }}
+        />
+      ) : null}
+      {showDeleteDialog ? (
+        <DeleteBucket
+          item={item}
+          authToken={authToken}
+          onClose={() => setShowDeleteDialog(false)}
+        />
+      ) : null}
       {showBucketSettings ? (
-        <BucketSetting onCancel={() => setShowBucketSettings(false)} />
+        <BucketSetting
+          item={item}
+          onCancel={() => setShowBucketSettings(false)}
+          onDeleteClick={onDeleteBucketClick}
+          authToken={authToken}
+        />
       ) : null}
       {showLifeCycle ? (
         <LifeCycle onCancel={() => setShowLifeCycle(false)} />
@@ -183,8 +214,11 @@ const BucketCard = ({ item }) => {
                 Lifecycle
               </p>
             </div>
-            <div>
-              <p className="hover:underline">
+            <div className="flex flex-row">
+              <p
+                className="hover:underline cursor-pointer"
+                onClick={() => setShowObjectLockDialog(true)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 inline mr-1 mb-1"
@@ -202,10 +236,18 @@ const BucketCard = ({ item }) => {
                 Object Lock:
               </p>
               <p className="inline ml-1 text-black font-normal">
-                {item.bucket.is_object_lock ? 'Enable' : 'Disable'}
+                {item.bucket.is_object_lock ? (
+                  <>
+                    {item.bucket.hold_duration > 0
+                      ? `Default ${item.bucket.hold_duration} days`
+                      : 'Enable'}
+                  </>
+                ) : (
+                  'Disable'
+                )}
               </p>
             </div>
-            <div>
+            {/* <div>
               <p className="hover:underline">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -223,7 +265,7 @@ const BucketCard = ({ item }) => {
                 </svg>
                 Make Full Buckets Snapshot
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

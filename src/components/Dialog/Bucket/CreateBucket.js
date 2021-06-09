@@ -124,7 +124,9 @@ const CreateBucket = ({ open, onCancel, authToken }) => {
                       name="isEncrypted"
                       value={false}
                       defaultChecked
-                      onChange={() => formik.setFieldValue('isEncrypted', true)}
+                      onChange={() =>
+                        formik.setFieldValue('isEncrypted', false)
+                      }
                     />
                     <label htmlFor="enc-dis"> Disable</label>
                     <br />
