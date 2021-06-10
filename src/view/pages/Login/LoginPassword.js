@@ -72,6 +72,7 @@ const LoginPassword = ({ loginEmail, errMessage, isRejected, isFulfilled }) => {
             class="w-full py-2 text-sm text-white rounded-sm pl-10 border border-gray-300 focus:outline-none focus:bg-white focus:text-gray-900 focus:border-indigo-500"
             placeholder="Password"
             autocomplete="off"
+            autoFocus
           />
         </div>
         <button
