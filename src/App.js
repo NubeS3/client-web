@@ -17,7 +17,11 @@ import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
 import MultipleDownload from './components/Dialog/MultipleDownload';
 import DeleteBucket from './components/Dialog/Delete/DeleteFile';
+<<<<<<< HEAD
 import UserSettings from './components/UserSettings/UserSettings';
+=======
+import Sidebar from './components/Sidebar/Sidebar';
+>>>>>>> 3e581ebafc1b823fdcd15bb79a2c5ec13dba97fb
 
 const App = (props) => {
   const mount = async () => {
@@ -54,7 +58,11 @@ const App = (props) => {
           <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
           <Route exact path={paths.REGISTER} component={Register} />
           <Route exact path={paths.LOGIN} component={Login} />
+<<<<<<< HEAD
           <Route exact path={paths.TEST} component={UserSettings} />
+=======
+          <Route exact path={paths.TEST} component={Sidebar} />
+>>>>>>> 3e581ebafc1b823fdcd15bb79a2c5ec13dba97fb
           {/* <Route exact path={paths.TEST} component={Lifecycle} /> */}
           <Route exact path={paths.STORAGE} component={BucketContainer} />
           <Route
