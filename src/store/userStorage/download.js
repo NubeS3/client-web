@@ -18,7 +18,7 @@ export const downloadSingle = createAsyncThunk(
       api.dispatch(downloadSlice.actions.downloading());
       console.log(data.bucketId);
       const response = await axios.get(
-        endpoints.DOWNLOAD + `${data.full_path}?bucketId=${data.bucketId}`,
+        endpoints.DOWNLOAD + `${data.full_path}`,
         {
           responseType: 'arraybuffer',
           headers: {
@@ -34,7 +34,7 @@ export const downloadSingle = createAsyncThunk(
       link.setAttribute('download', data.fileName);
       document.body.appendChild(link);
       link.click();
-      return response.data.body;
+      return response.data;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
     }
