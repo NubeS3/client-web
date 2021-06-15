@@ -197,7 +197,13 @@ const BucketFileBrowser = ({ authToken, items, uploadDone, uploadFailed }) => {
         />
       ) : null}
       {showItemDetail ? (
-        <ItemDetail item={selectedSingle} onClose={onItemDetailClose} />
+        <ItemDetail
+          item={selectedSingle}
+          bucketId={bucketSelected}
+          breadCrumbStack={breadCrumbStack}
+          authToken={authToken}
+          onClose={onItemDetailClose}
+        />
       ) : null}
       {showCreateFolderDialog ? (
         <CreateFolder

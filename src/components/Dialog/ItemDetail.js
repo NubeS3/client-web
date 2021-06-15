@@ -1,6 +1,24 @@
+import { connect } from 'formik';
 import React from 'react';
+import store from '../../store';
 
-const ItemDetail = ({ item, onClose }, ...props) => {
+import { downloadSingle } from '../../store/userStorage/download';
+
+const ItemDetail = (
+  { item, onClose, bucketId, authToken, breadCrumbStack },
+  ...props
+) => {
+  const handleDownloadClick = () => {
+    let fullPath = `/${breadCrumbStack.join('/')}/${item.name}`;
+    store.dispatch(
+      downloadSingle({
+        full_path: fullPath,
+        bucketId: bucketId,
+        authToken: authToken
+      })
+    );
+  };
+
   return (
     <dialog open={true}>
       <div className="fixed z-10 inset-0 overflow-auto bg-gray-500 bg-opacity-70">
@@ -11,7 +29,7 @@ const ItemDetail = ({ item, onClose }, ...props) => {
                 <h1 className="text-2xl">Details</h1>
               </div>
               <button
-                className="self-end my-2 focus:outline-none"
+                className="self-start my-2 focus:outline-none"
                 onClick={onClose}
               >
                 <svg
@@ -51,7 +69,7 @@ const ItemDetail = ({ item, onClose }, ...props) => {
                 className="col-span-4 w-full text-blue-400 hover:underline"
               >
                 {item.friendlyUrl ||
-                  'https;//f003.backblazeb2.com/file/Test-Nubes3-A/143328610_1011054979404215_3522489706896266467_njpg'}
+                  'https://f003.backblazeb2.com/file/Test-Nubes3-A/143328610_1011054979404215_3522489706896266467_njpg'}
               </a>
               <p className="text-gray-400">S3 URL:</p>
               <a
@@ -103,7 +121,10 @@ const ItemDetail = ({ item, onClose }, ...props) => {
                 </button>
               </div>
               <div className="col-span-5 flex flex-row mt-10 justify-center">
-                <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button
+                  className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={handleDownloadClick}
+                >
                   Download
                 </button>
                 <button
