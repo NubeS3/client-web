@@ -11,7 +11,8 @@ const initialState = {
   accessKeyList: [],
   signedKeyList: [],
   isLoading: false,
-  isFetchingFile: false,
+  fetchingFailed: false,
+  fetchingSucceeded: false,
   progressInfo: [],
   uploadDone: false,
   uploadFailed: false,
@@ -403,8 +404,11 @@ export const bucketSlice = createSlice({
   name: 'bucket',
   initialState: initialState,
   reducers: {
-    loading: (state, action) => {
+    loading: (state) => {
       state.isLoading = true;
+    },
+    fetching: (state) => {
+      state.isFetchingFile = true;
     },
     getBucketList: (state, action) => {
       state.bucketList = action.payload;
@@ -427,6 +431,8 @@ export const bucketSlice = createSlice({
     clearBucketState: (state) => {
       state.uploadFailed = false;
       state.uploadDone = false;
+      state.fetchingFailed = false;
+      state.fetchingSucceeded = false;
     }
   },
 
@@ -528,11 +534,11 @@ export const bucketSlice = createSlice({
 
     [getChildrenByPath.fulfilled]: (state, action) => {
       state.folderChildrenList = action.payload;
-      state.isLoading = false;
+      state.fetchingSucceeded = true;
     },
     [getChildrenByPath.rejected]: (state, action) => {
-      state.isLoading = false;
       state.err = action.payload;
+      state.fetchingFailed = true;
     },
 
     [getBucketAccessKey.fulfilled]: (state, action) => {

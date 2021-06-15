@@ -14,8 +14,17 @@ import { useHistory } from 'react-router';
 import paths from '../../configs/paths';
 import DeleteFile from '../Dialog/Delete/DeleteFile';
 import { connect } from 'react-redux';
+import withLoading from '../../HOC/withLoading';
+import BucketFileTable from './BucketFileTable';
 
-const BucketFileBrowser = ({ authToken, items, uploadDone, uploadFailed }) => {
+const BucketFileBrowser = ({
+  authToken,
+  items,
+  uploadDone,
+  uploadFailed,
+  fetchingFailed,
+  fetchingSucceeded
+}) => {
   const history = useHistory();
   const [selected, setSelected] = useState([]);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
@@ -26,6 +35,7 @@ const BucketFileBrowser = ({ authToken, items, uploadDone, uploadFailed }) => {
   const [breadCrumbStack, setBreadCrumbStack] = useState([
     history.location.state?.data.bucket.name
   ]);
+  const [loading, setLoading] = useState(true);
 
   const [bucketSelected, setBucketSelected] = useState(
     history.location.state?.data.bucket.id
@@ -42,6 +52,17 @@ const BucketFileBrowser = ({ authToken, items, uploadDone, uploadFailed }) => {
     }
     return () => {};
   }, [uploadDone, uploadFailed]);
+
+  useEffect(() => {
+    if (fetchingSucceeded) {
+      setLoading(false);
+      store.dispatch(clearBucketState());
+    }
+    if (fetchingFailed) {
+      setLoading(false);
+      store.dispatch(clearBucketState());
+    }
+  }, [fetchingFailed, fetchingSucceeded]);
 
   const onBucketBrowserClick = () => {
     setBucketSelected(null);
@@ -331,106 +352,13 @@ const BucketFileBrowser = ({ authToken, items, uploadDone, uploadFailed }) => {
                   ></th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {items
-                  ? items.map((item) => {
-                      const isItemSelected = isSelected(item.id);
-                      const labelId = `enhanced-table-checkbox-${item.id}`;
-                      return (
-                        <tr key={item.id}>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <input
-                              aria-labelledby={labelId}
-                              type="checkbox"
-                              checked={isItemSelected}
-                              onChange={(e) => handleItemCheckboxClick(e, item)}
-                            />
-                          </td>
-                          <td>
-                            <div className="flex-shrink-0 h-10 w-10">
-                              <img
-                                className="h-10 w-10 rounded-full"
-                                src={
-                                  item.type === 'file'
-                                    ? 'https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-file.png'
-                                    : 'https://tree-ams5-0000.backblaze.com/pics/b2-browse-icon-folder.png'
-                                }
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div>
-                                <div className="text-sm font-medium text-gray-900">
-                                  <a
-                                    className="text-blue-500 hover:underline"
-                                    onClick={() =>
-                                      handleOnBucketItemClick(item)
-                                    }
-                                  >
-                                    {item.name}
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">
-                              {item.metadata ? (
-                                <>
-                                  {item.metadata.size ? (
-                                    item.metadata.size < 1024 ? (
-                                      <>{item.metadata.size} byte</>
-                                    ) : (
-                                      <>
-                                        {item.metadata.size <
-                                        Math.pow(1024, 2) ? (
-                                          <>
-                                            {Math.ceil(
-                                              item.metadata.size / 1024
-                                            )}{' '}
-                                            KB
-                                          </>
-                                        ) : (
-                                          <>
-                                            {Math.ceil(
-                                              item.metadata.size /
-                                                Math.pow(1024, 2)
-                                            )}{' '}
-                                            MB
-                                          </>
-                                        )}
-                                      </>
-                                    )
-                                  ) : (
-                                    ''
-                                  )}
-                                </>
-                              ) : null}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">
-                              {item.metadata ? item.metadata.upload_date : null}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <a
-                              href="#"
-                              className="text-sm text-gray-900 hover:bg-blue-50"
-                            >
-                              <img
-                                src="https://tree-ams5-0000.backblaze.com/pics/b2-info-icon.png"
-                                className="w-5 h-5"
-                              />
-                            </a>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  : null}
-              </tbody>
+              <BucketFileTable
+                items={items}
+                isSelected={isSelected}
+                handleOnBucketItemClick={handleOnBucketItemClick}
+                handleItemCheckboxClick={handleItemCheckboxClick}
+                isLoading={loading}
+              />
             </table>
           </div>
         </div>
@@ -442,10 +370,14 @@ const BucketFileBrowser = ({ authToken, items, uploadDone, uploadFailed }) => {
 const mapStateToProps = (state) => {
   const uploadDone = state.bucket.uploadDone;
   const uploadFailed = state.bucket.uploadFailed;
+  const fetchingFailed = state.bucket.fetchingFailed;
+  const fetchingSucceeded = state.bucket.fetchingSucceeded;
   return {
     uploadDone,
-    uploadFailed
+    uploadFailed,
+    fetchingFailed,
+    fetchingSucceeded
   };
 };
 
-export default connect(mapStateToProps)(BucketFileBrowser);
+export default withLoading(connect(mapStateToProps)(BucketFileBrowser));

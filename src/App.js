@@ -15,11 +15,8 @@ import BucketContainer from './view/pages/Storage/Buckets';
 import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
-import MultipleDownload from './components/Dialog/MultipleDownload';
-import DeleteBucket from './components/Dialog/Delete/DeleteFile';
 import AdminAppBar from './components/AdminAppBar/AdminAppBar';
-import UserSettings from './components/UserSettings/UserSettings';
-import Sidebar from './components/Sidebar/Sidebar';
+import UserSettings from './view/pages/Storage/UserSettings';
 
 const App = (props) => {
   const mount = async () => {
@@ -70,6 +67,7 @@ const App = (props) => {
             path={paths.STORAGE_REPORT}
             component={ReportContainer}
           />
+          <Route exact path={paths.STORAGE_SETTINGS} component={UserSettings} />
           {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         
