@@ -14,7 +14,7 @@ const SideDrawer = ({
   segmentIncludeTrigger = (
     <>
       <input id="drawer-trigger" type="checkbox" className="drawer-toggle" />
-      <div className="flex flex-col items-center justify-center drawer-content">
+      <div className="flex flex-col items-center justify-center drawer-content ">
         <label
           htmlFor="drawer-trigger"
           className="btn btn-primary drawer-button"
@@ -26,18 +26,16 @@ const SideDrawer = ({
   )
 }) => {
   return (
-    <div className="rounded-lg shadow  drawer h-full">
+    <div className="rounded-lg shadow  drawer h-full ">
       {segmentIncludeTrigger}
       {/* =>> use this for trigger drawer */}
-      <div className="drawer-side">
+      <div className="drawer-side  ">
         <label htmlFor="drawer-trigger" className="drawer-overlay"></label>
-        <div className="menu p-4 overflow-y-auto h-screen w-80 bg-white text-base-content">
+        <div className="menu p-4 overflow-y-auto h-screen w-80 bg-white">
           {children}
         </div>
       </div>
     </div>
-    //   </div>
-    // </div>
   );
 };
 
