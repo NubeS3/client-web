@@ -14,7 +14,8 @@ const ItemDetail = (
       downloadSingle({
         full_path: fullPath,
         bucketId: bucketId,
-        authToken: authToken
+        authToken: authToken,
+        fileName: item.name
       })
     );
   };
