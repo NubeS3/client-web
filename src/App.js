@@ -53,7 +53,7 @@ const App = (props) => {
           <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
           <Route exact path={paths.REGISTER} component={Register} />
           <Route exact path={paths.LOGIN} component={Login} />
-          <Route exact path={paths.TEST} component={AdminAppBar} />
+          <Route exact path={paths.TEST} component={SideDrawer} />
           {/* <Route exact path={paths.TEST} component={Lifecycle} /> */}
           <Route exact path={paths.STORAGE} component={BucketContainer} />
           <Route

@@ -34,7 +34,7 @@ export const downloadSingle = createAsyncThunk(
       link.setAttribute('download', data.fileName);
       document.body.appendChild(link);
       link.click();
-      return response.data;
+      return response.data.body;
     } catch (error) {
       return api.rejectWithValue(error.response.data.error);
     }
