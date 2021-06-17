@@ -20,7 +20,7 @@ const Register = (props) => {
         .min(8, 'Minimum 8 characters')
         .max(32, 'Maximum 32 characters')
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/,
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,32}$/,
           'Must contain at least One Uppercase, One Lowercase, One Number and one special case Character (8-32 characters)'
         )
         .required('Required!')
