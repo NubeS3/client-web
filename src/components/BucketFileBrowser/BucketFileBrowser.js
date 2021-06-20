@@ -14,7 +14,6 @@ import { useHistory } from 'react-router';
 import paths from '../../configs/paths';
 import DeleteFile from '../Dialog/Delete/DeleteFile';
 import { connect } from 'react-redux';
-import withLoading from '../../HOC/withLoading';
 import BucketFileTable from './BucketFileTable';
 
 const BucketFileBrowser = ({
@@ -35,6 +34,7 @@ const BucketFileBrowser = ({
   const [breadCrumbStack, setBreadCrumbStack] = useState([
     history.location.state?.data.bucket.name
   ]);
+
   const [loading, setLoading] = useState(true);
 
   const [bucketSelected, setBucketSelected] = useState(
@@ -71,6 +71,7 @@ const BucketFileBrowser = ({
   };
 
   useEffect(() => {
+    setLoading(true);
     store.dispatch(
       getChildrenByPath({
         authToken: authToken,
@@ -100,11 +101,6 @@ const BucketFileBrowser = ({
     });
     return () => {};
   }, [selected]);
-
-  // const handleCreateFolder = () => {
-
-  //   // setOpenCreateFolderDialog(false);
-  // };
 
   const handleUpload = (acceptedFiles) => {
     var parent_path = '';
@@ -380,4 +376,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withLoading(connect(mapStateToProps)(BucketFileBrowser));
+export default connect(mapStateToProps)(BucketFileBrowser);

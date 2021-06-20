@@ -1,13 +1,21 @@
-import { connect } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import store from '../../store';
+import { getFileDetail } from '../../store/userStorage/bucket';
 
 import { downloadSingle } from '../../store/userStorage/download';
 
 const ItemDetail = (
-  { item, onClose, bucketId, authToken, breadCrumbStack },
+  { item, onClose, bucketId, authToken, breadCrumbStack, fileDetail },
   ...props
 ) => {
+  useEffect(() => {
+    let fullPath = `/${breadCrumbStack.join('/')}/${item.name}`;
+    store.dispatch(
+      getFileDetail({ authToken: authToken, full_path: fullPath })
+    );
+  }, []);
+
   const handleDownloadClick = () => {
     let fullPath = `/${breadCrumbStack.join('/')}/${item.name}`;
     store.dispatch(
@@ -53,72 +61,71 @@ const ItemDetail = (
             <div className="grid grid-cols-5 gap-2 w-10/12 my-12 mx-4 text-sm break-words">
               <p className="text-gray-400">Name:</p>
               <p className="col-span-4 w-full">
-                {item.name ||
+                {fileDetail.name ||
                   '143328610_1011054979404215_3522489706896266467_n.jpg'}
               </p>
-              <p className="text-gray-400">Bucket Name:</p>
+              <p className="text-gray-400">Bucket ID:</p>
               <p className="col-span-4 w-full">
-                {item.bucketName || 'Test-Nubes3-A'}
+                {fileDetail.bucket_id || 'Test-Nubes3-A'}
               </p>
               <p className="text-gray-400">Bucket Type:</p>
               <p className="col-span-4 w-full">
-                {item.is_privated || 'Public'}
+                {fileDetail.is_privated || 'Public'}
               </p>
               <p className="text-gray-400">Friendly URL:</p>
               <a
-                href={item.friendlyUrl}
+                href={fileDetail.friendlyUrl}
                 className="col-span-4 w-full text-blue-400 hover:underline"
               >
-                {item.friendlyUrl ||
-                  'https://f003.backblazeb2.com/file/Test-Nubes3-A/143328610_1011054979404215_3522489706896266467_njpg'}
+                {fileDetail.friendlyUrl || ''}
               </a>
               <p className="text-gray-400">S3 URL:</p>
               <a
-                href={item.s3Url}
+                href={fileDetail.s3Url}
                 className="col-span-4 w-full text-blue-400 hover:underline"
               >
-                {item.s3Url ||
-                  'https://Test-Nubes3-A.53.eu-central-003.backblazeb2.com/143328610_1011054979404215_3522489706896266467_n.jpg'}
+                {fileDetail.s3Url || ''}
               </a>
               <p className="text-gray-400">Native URL:</p>
               <a
-                href={item.nativeUrl}
+                href={fileDetail.nativeUrl}
                 className="col-span-4 w-full text-blue-400 hover:underline"
               >
-                {item.nativeUrl ||
-                  'https://7003.backblazeb2.com/b2api/v1/b2_download_file_by_id/fileld=4_24e993f3c88e0d96273800713_f104b28cf38faSec1_d20210416_m164154_c003_v0312004_t0003'}
+                {fileDetail.nativeUrl || ''}
               </a>
               <p className="text-gray-400">Kind:</p>
-              <p className="col-span-4 w-full">{item.kind || 'image/jpeg'}</p>
+              <p className="col-span-4 w-full">
+                {fileDetail.kind || 'image/jpeg'}
+              </p>
               <p className="text-gray-400">Size:</p>
-              <p className="col-span-4 w-full">{item.size || '16.7 KB'}</p>
+              <p className="col-span-4 w-full">{fileDetail.size || ''}</p>
               <p className="text-gray-400">Uploaded:</p>
               <p className="col-span-4 w-full">
-                {item.uploadedAt || '04/16/2021 23:41'}
+                {fileDetail.upload_date
+                  ? new Date(fileDetail.upload_date).toISOString()
+                  : ''}
               </p>
               <p className="text-gray-400">Fguid:</p>
-              <p className="col-span-4 w-full">
-                {item.fguid ||
-                  '4_24e993f3c88e0d96273800713_f104628df38fa5ec1_d20210416_m164154_c003_v0312004_t0003'}
-              </p>
+              <p className="col-span-4 w-full">{fileDetail.fid || ''}</p>
               <p className="text-gray-400">Sha1:</p>
               <p className="col-span-4 w-full">
-                {item.sha1 || 'cle5d0bf768a670626a37562095ac571052a75fe'}
+                {fileDetail.sha1 || 'cle5d0bf768a670626a37562095ac571052a75fe'}
               </p>
               <p className="text-gray-400">File Info:</p>
-              <p className="col-span-4 w-full">
-                {item.info ||
-                  'src_last_modified_millis: 1611895044894 (01/29/2021 11:37)'}
-              </p>
+              <p className="col-span-4 w-full">{fileDetail.info || ''}</p>
               <p className="text-gray-400">Encryption:</p>
-              <p className="col-span-4 w-full">{item.encryption || 'none'}</p>
+              <p className="col-span-4 w-full">
+                {fileDetail.encryption || 'none'}
+              </p>
               <p className="text-gray-400">Object Lock:</p>
-              <p className="col-span-4 w-full">{item.objLock || 'Disabled'}</p>
+              <p className="col-span-4 w-full">
+                {fileDetail.objLock || 'Disabled'}
+              </p>
               <p className="text-gray-400">Legal Hold:</p>
               <div className="flex flex-row col-span-4 w-full">
-                <p>{item.legalHold || 'Disabled'}</p>
+                <p>{fileDetail.legalHold || 'Disabled'}</p>
                 <button className="mx-2 px-2 rounded-sm text-indigo-400 border border-indigo-400 hover:border-indigo-700 hover:text-indigo-700">
-                  {item.legalHold || 'Enable'}
+                  {fileDetail.legalHold || 'Enable'}
                 </button>
               </div>
               <div className="col-span-5 flex flex-row mt-10 justify-center">
@@ -143,4 +150,9 @@ const ItemDetail = (
   );
 };
 
-export default ItemDetail;
+const mapStateToProps = (state) => {
+  const fileDetail = state.bucket.fileDetail;
+  return { fileDetail };
+};
+
+export default connect(mapStateToProps)(ItemDetail);

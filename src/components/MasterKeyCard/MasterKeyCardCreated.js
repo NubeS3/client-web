@@ -1,7 +1,16 @@
 import React from 'react';
+import { useSnackbar } from 'react-simple-snackbar';
 
 const MasterKeyCardCreated = ({ appKey }) => {
-  const [toggleHidden, setToggleHidden] = React.useState(false);
+  const [openSnackbar, closeSnackbar] = useSnackbar();
+
+  const copyKeyToClipboard = (key) => {
+    if (key) {
+      navigator.clipboard.writeText(key);
+      openSnackbar('Copied to clipboard');
+    }
+  };
+
   return (
     <div className="flex flex-col mx-auto justify-center max-w-4xl py-4 px-8 bg-gray-100 shadow rounded-sm w-full text-gray-600">
       <p className="mx-auto">
@@ -36,6 +45,7 @@ const MasterKeyCardCreated = ({ appKey }) => {
         <div />
         <div className="col-span-2 mt-3">
           <button
+            onClick={() => copyKeyToClipboard(appKey?.key)}
             type="button"
             class="py-2 px-4 border border-gray-600 bg-gray-100 focus:outline-none hover:bg-gray-200 text-black transition ease-in duration-200 text-center text-base rounded-sm"
           >

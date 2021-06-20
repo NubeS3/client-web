@@ -39,6 +39,7 @@ const DeleteFile = ({
         );
       }
     });
+    onClose();
   };
 
   return (

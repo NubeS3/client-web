@@ -15,7 +15,7 @@ const BrowserContainer = ({
   fetchingSucceeded
 }) => {
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const match = useRouteMatch();
   useEffect(() => {
     // if (bucketList.length === 0) {
@@ -25,11 +25,11 @@ const BrowserContainer = ({
 
   useEffect(() => {
     if (fetchingSucceeded) {
-      setLoading(false);
+      // setLoading(false);
       clearBucketState();
     }
     if (fetchingFailed) {
-      setLoading(false);
+      // setLoading(false);
       clearBucketState();
     }
   }, [fetchingFailed, fetchingSucceeded]);
@@ -72,7 +72,6 @@ const BrowserContainer = ({
               <BucketFileBrowser
                 authToken={authToken}
                 items={folderChildrenList}
-                isLoading={loading}
                 // breadCrumbStack={breadCrumbStack}
                 // setBreadCrumbStack={setBreadCrumbStack}
                 // onBucketBrowserClick={onBucketBrowserClick}
