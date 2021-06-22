@@ -14,6 +14,7 @@ import { userManageSlice } from './admin/user';
 import { adminManageSlice } from './admin/admin';
 import { requestLogManageSlice } from './admin/requestLog';
 import { bandwidthReportSlice } from './user/bandwidthReport';
+import { reportSlice } from './user/report';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -44,6 +45,7 @@ const persistedReducer = combineReducers({
   bucket: persistReducer(bucketPersistConfig, bucketSlice.reducer),
   appKey: persistReducer(appKeyPersistConfig, appKeySlice.reducer),
   bandwidthReport: bandwidthReportSlice.reducer,
+  report: reportSlice.reducer,
 
   adminManage: adminManageSlice.reducer,
   userManage: userManageSlice.reducer,
