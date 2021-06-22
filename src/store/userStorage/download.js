@@ -47,6 +47,15 @@ export const downloadSlice = createSlice({
   reducers: {
     downloading: (state, action) => {
       state.isLoading = true;
+    },
+    updateProgress: (state, action) => {
+      state.progressInfos = state.progressInfos.map((item) => {
+        // find the item with the same name
+        if (item.fileName === action.payload.fileName) {
+          return action.payload;
+        }
+        return item;
+      });
     }
   },
   extraReducers: {

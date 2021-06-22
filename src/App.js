@@ -22,6 +22,8 @@ import UserSettings from './components/UserSettings/UserSettings';
 import Sidebar from './components/Sidebar/Sidebar';
 import SideDrawer from './components/Drawer/SideDrawer';
 import ReportChart from './components/Charts/ReportChart';
+import UserSettings from './view/pages/Storage/UserSettings';
+import SnackbarProvider from 'react-simple-snackbar';
 
 const App = (props) => {
   const mount = async () => {
@@ -52,27 +54,32 @@ const App = (props) => {
   return (
     <>
       {/* <PageFrame> */}
-      <Router basename="/">
-        <Switch>
-          <Route exact path={paths.BASE} component={Landing} />
-          <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
-          <Route exact path={paths.REGISTER} component={Register} />
-          <Route exact path={paths.LOGIN} component={Login} />
-          {/* <Route exact path={paths.TEST} component={ReportChart} /> */}
-          {/* <Route exact path={paths.TEST} component={Lifecycle} /> */}
-          <Route exact path={paths.STORAGE} component={BucketContainer} />
-          <Route
-            exact
-            path={paths.STORAGE_APPKEY}
-            component={AppKeyContainer}
-          />
-          <Route path={paths.STORAGE_BROWSER} component={BrowserContainer} />
-          <Route
-            exact
-            path={paths.STORAGE_REPORT}
-            component={ReportContainer}
-          />
-          {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
+      <SnackbarProvider>
+        <Router basename="/">
+          <Switch>
+            <Route exact path={paths.BASE} component={Landing} />
+            <Route exact path={paths.BASE_STORAGE} component={StorageLanding} />
+            <Route exact path={paths.REGISTER} component={Register} />
+            <Route exact path={paths.LOGIN} component={Login} />
+            {/* <Route exact path={paths.TEST} component={Lifecycle} /> */}
+            <Route exact path={paths.STORAGE} component={BucketContainer} />
+            <Route
+              exact
+              path={paths.STORAGE_APPKEY}
+              component={AppKeyContainer}
+            />
+            <Route path={paths.STORAGE_BROWSER} component={BrowserContainer} />
+            <Route
+              exact
+              path={paths.STORAGE_REPORT}
+              component={ReportContainer}
+            />
+            <Route
+              exact
+              path={paths.STORAGE_SETTINGS}
+              component={UserSettings}
+            />
+            {/* <Route exact path={paths.BASE_ADMIN} component={AdminLanding} />
         <Route exact path={paths.REGISTER} component={SignUp} />
         
         <Route exact path={paths.OTP} component={ConfirmedOTP} />
@@ -94,8 +101,9 @@ const App = (props) => {
         path={paths.ADMIN_MANAGE}
         component={AdminManageBoard}
       /> */}
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </SnackbarProvider>
       {/* </PageFrame> */}
     </>
   );

@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
 import endpoints from '../../configs/endpoints';
 
 const initialState = {
   selectedBucket: {},
+  fileDetail: {},
   bucketFileList: [],
   bucketFolderList: [],
   folderChildrenList: [],
@@ -11,8 +12,9 @@ const initialState = {
   accessKeyList: [],
   signedKeyList: [],
   isLoading: false,
-  isFetchingFile: false,
-  progressInfo: [],
+  fetchingFailed: false,
+  fetchingSucceeded: false,
+  progressInfos: [],
   uploadDone: false,
   uploadFailed: false,
   err: null
@@ -229,6 +231,26 @@ export const getChildrenByPath = createAsyncThunk(
   }
 );
 
+export const getFileDetail = createAsyncThunk(
+  'bucket/getFileDetail',
+  async (data, api) => {
+    try {
+      api.dispatch(bucketSlice.actions.loading());
+      const response = await axios.get(
+        endpoints.GET_FILE_DETAILS + `${data.full_path}`,
+        {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return api.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
 //data payload: authToken, limit, offset, bucketId
 export const createBucketFolder = createAsyncThunk(
   'bucket/createBucketFolder',
@@ -315,6 +337,12 @@ export const uploadFile = createAsyncThunk(
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
+      api.dispatch(
+        bucketSlice.actions.initProgress({
+          fileName: data.file.name,
+          percentage: 0
+        })
+      );
       var bodyFormData = new FormData();
       bodyFormData.append('file', data.file);
       bodyFormData.append('path', data.full_path);
@@ -366,22 +394,38 @@ export const uploadFileMultiple = createAsyncThunk(
         bodyFormData.append('name', file.name);
         bodyFormData.append('bucket_id', data.bucketId);
 
-        const response = await axios.post(endpoints.UPLOAD, bodyFormData, {
-          headers: {
-            Authorization: `Bearer ${data.authToken}`
-          },
-          onUploadProgress: (progressEvent) => {
-            let percentCompleted = Math.floor(
-              (progressEvent.loaded / progressEvent.total) * 100
-            );
-            api.dispatch(
-              bucketSlice.actions.updateProgress({
-                fileName: file.name,
-                percentage: percentCompleted
-              })
-            );
-          }
-        });
+        const response = await axios
+          .post(endpoints.UPLOAD, bodyFormData, {
+            headers: {
+              Authorization: `Bearer ${data.authToken}`
+            },
+            onUploadProgress: (progressEvent) => {
+              let percentCompleted = Math.floor(
+                (progressEvent.loaded / progressEvent.total) * 100
+              );
+              console.log(percentCompleted);
+              api.dispatch(
+                bucketSlice.actions.updateProgress({
+                  fileName: file.name,
+                  percentage: percentCompleted
+                })
+              );
+            }
+          })
+          .catch(() => {
+            // _progressInfos[idx].percentage = 0;
+            this.setState((prev) => {
+              let nextMessage = [
+                ...prev.message,
+                'Could not upload the file: ' + file.name
+              ];
+              api.dispatch(
+                bucketSlice.actions.updateProgress({
+                  fileName: file.name
+                })
+              );
+            });
+          });
         responseData.push({
           ...response.data,
           type: 'file',
@@ -403,30 +447,33 @@ export const bucketSlice = createSlice({
   name: 'bucket',
   initialState: initialState,
   reducers: {
-    loading: (state, action) => {
+    loading: (state) => {
       state.isLoading = true;
+    },
+    fetching: (state) => {
+      state.isFetchingFile = true;
     },
     getBucketList: (state, action) => {
       state.bucketList = action.payload;
     },
+    initProgress: (state, action) => {
+      state.progressInfos = [...state.progressInfos, action.payload];
+    },
     updateProgress: (state, action) => {
-      let fileToUpload = {};
-      // for (let i = 0; i < files.length; i++) {
-      //   const id = size(existingFiles) + i + 1;
-      //   fileToUpload = {
-      //     ...fileToUpload,
-      //     [id]: {
-      //       id,
-      //       file: files[i],
-      //       progress: 0
-      //     }
-      //   };
-      // }
-      // state.progressInfo = [...state.progressInfo, action.payload];
+      state.progressInfos = state.progressInfos.map((item) => {
+        // find the item with the same name
+        if (item.fileName === action.payload.fileName) {
+          return action.payload;
+        }
+        return item;
+      });
     },
     clearBucketState: (state) => {
       state.uploadFailed = false;
       state.uploadDone = false;
+      state.fetchingFailed = false;
+      state.fetchingSucceeded = false;
+      state.progressInfos = [];
     }
   },
 
@@ -528,10 +575,18 @@ export const bucketSlice = createSlice({
 
     [getChildrenByPath.fulfilled]: (state, action) => {
       state.folderChildrenList = action.payload;
-      state.isLoading = false;
+      state.fetchingSucceeded = true;
     },
     [getChildrenByPath.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.err = action.payload;
+      state.fetchingFailed = true;
+    },
+
+    [getFileDetail.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      // state.fileDetail = action.payload
+    },
+    [getFileDetail.rejected]: (state, action) => {
       state.err = action.payload;
     },
 
@@ -554,10 +609,12 @@ export const bucketSlice = createSlice({
     },
 
     [uploadFile.fulfilled]: (state, action) => {
+      state.uploadDone = true;
       state.folderChildrenList = [...state.folderChildrenList, action.payload];
       state.isLoading = false;
     },
     [uploadFile.rejected]: (state, action) => {
+      state.uploadFailed = true;
       state.err = action.payload;
       state.isLoading = false;
       alert(action.payload);

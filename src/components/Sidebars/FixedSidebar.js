@@ -66,7 +66,7 @@ const FixedSidedbar = (props) => {
                 Browser Files
               </span>
             </a>
-            <a className="flex mt-1" href={paths.STORAGE_SNAPSHOTS}>
+            {/* <a className="flex mt-1" href={paths.STORAGE_SNAPSHOTS}>
               <span
                 className={
                   appBarState.snapshot
@@ -76,7 +76,7 @@ const FixedSidedbar = (props) => {
               >
                 Snapshots
               </span>
-            </a>
+            </a> */}
             <a className="flex mt-1" href={paths.STORAGE_REPORT}>
               <span
                 className={
@@ -88,7 +88,7 @@ const FixedSidedbar = (props) => {
                 Reports
               </span>
             </a>
-            <a className="flex mt-1" href={paths.STORAGE_CAPS}>
+            {/* <a className="flex mt-1" href={paths.STORAGE_CAPS}>
               <span
                 className={
                   appBarState.caps
@@ -109,7 +109,7 @@ const FixedSidedbar = (props) => {
               >
                 Fireball
               </span>
-            </a>
+            </a> */}
           </nav>
         </div>
       </div>

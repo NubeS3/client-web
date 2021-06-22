@@ -1,25 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, useHistory, useRouteMatch } from 'react-router';
 import BucketBrowser from '../../../components/BrowserFile/BucketBrowser';
 import BucketFileBrowser from '../../../components/BucketFileBrowser/BucketFileBrowser';
 import paths from '../../../configs/paths';
+import { clearBucketState } from '../../../store/userStorage/bucket';
 import StorageFrame from './StorageFrame';
 
 const BrowserContainer = ({
   authToken,
-  email,
   bucketList,
-  folderChildrenList
+  folderChildrenList,
+  fetchingFailed,
+  fetchingSucceeded
 }) => {
   const history = useHistory();
-
+  // const [loading, setLoading] = useState(true);
   const match = useRouteMatch();
   useEffect(() => {
     // if (bucketList.length === 0) {
     //   store.dispatch(getAllBucket({ authToken, limit: 10, offset: 0 }));
     // }
   }, []);
+
+  useEffect(() => {
+    if (fetchingSucceeded) {
+      // setLoading(false);
+      clearBucketState();
+    }
+    if (fetchingFailed) {
+      // setLoading(false);
+      clearBucketState();
+    }
+  }, [fetchingFailed, fetchingSucceeded]);
 
   const onSelectBucket = (item) => {
     // setBucketSelected(bucketId);
@@ -46,23 +59,6 @@ const BrowserContainer = ({
           </div>
         </header>
         <div className="flex flex-col justify-between items-center px-2 bg-transparent">
-          {/* {bucketSelected ? (
-            <BucketFileBrowser
-              authToken={authToken}
-              items={folderChildrenList}
-              breadCrumbStack={breadCrumbStack}
-              setBreadCrumbStack={setBreadCrumbStack}
-              onBucketBrowserClick={onBucketBrowserClick}
-              bucketSelected={bucketSelected}
-            />
-          ) : (
-            <BrowserFile
-              bucketList={bucketList}
-              onClick={onSelectBucket}
-              breadCrumbStack={breadCrumbStack}
-              setBreadCrumbStack={setBreadCrumbStack}
-            />
-          )} */}
           <Switch>
             <Route exact path={match.url}>
               <BucketBrowser
@@ -94,12 +90,15 @@ const mapStateToProps = (state) => {
   const email = state.authen.loginEmail;
   const bucketList = state.bucket.bucketList;
   const folderChildrenList = state.bucket.folderChildrenList;
-  console.log(email);
+  const fetchingFailed = state.bucket.fetchingFailed;
+  const fetchingSucceeded = state.bucket.fetchingSucceeded;
   return {
     authToken,
     email,
     bucketList,
-    folderChildrenList
+    folderChildrenList,
+    fetchingFailed,
+    fetchingSucceeded
   };
 };
 export default connect(mapStateToProps)(BrowserContainer);

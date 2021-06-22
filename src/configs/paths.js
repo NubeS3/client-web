@@ -22,7 +22,9 @@ const paths = {
   LOGIN_ADMIN: '/admin/sign-in',
   DASHBOARD_ADMIN: '/admin/dashboard',
   USER_MANAGE: '/admin/manage-user',
-  ADMIN_MANAGE: '/admin/manage-admin'
+  ADMIN_MANAGE: '/admin/manage-admin',
+
+  STORAGE_SETTINGS: '/storage/settings'
 };
 
 export default paths;
