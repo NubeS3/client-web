@@ -16,7 +16,6 @@ const Storage = ({ email, active, ...props }) => {
     history.push(paths.LOGIN);
   };
   useEffect(() => {
-    console.log('Storage Frame');
     return () => {};
   }, []);
 

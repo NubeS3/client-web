@@ -3,6 +3,7 @@ import store from '../../store';
 import {
   clearBucketState,
   getChildrenByPath,
+  updateTotalUpload,
   uploadFile,
   uploadFileMultiple
 } from '../../store/userStorage/bucket';
@@ -21,6 +22,7 @@ const BucketFileBrowser = ({
   items,
   uploadDone,
   uploadFailed,
+  totalUpload,
   fetchingFailed,
   fetchingSucceeded
 }) => {
@@ -42,13 +44,17 @@ const BucketFileBrowser = ({
   );
 
   useEffect(() => {
-    if (uploadDone) {
+    if (uploadDone && totalUpload === 0) {
       setShowUploadDialog(false);
       store.dispatch(clearBucketState());
+    } else if (uploadDone) {
+      store.dispatch(updateTotalUpload());
     }
-    if (uploadFailed) {
+    if (uploadFailed && totalUpload === 0) {
       setShowUploadDialog(false);
       store.dispatch(clearBucketState());
+    } else if (uploadFailed) {
+      store.dispatch(updateTotalUpload());
     }
     return () => {};
   }, [uploadDone, uploadFailed]);
@@ -137,6 +143,11 @@ const BucketFileBrowser = ({
         full_path: parent_path
       })
     );
+  };
+
+  const onUploadDialogClose = () => {
+    setShowUploadDialog(false);
+    store.dispatch(clearBucketState());
   };
 
   const handleOnBucketItemClick = (item) => {
@@ -231,7 +242,7 @@ const BucketFileBrowser = ({
       ) : null}
       {showUploadDialog ? (
         <UploadFile
-          onClose={() => setShowUploadDialog(false)}
+          onClose={onUploadDialogClose}
           handleUpload={handleUpload}
           handleUploadMultiple={handleUploadMultiple}
         />
@@ -366,11 +377,13 @@ const BucketFileBrowser = ({
 const mapStateToProps = (state) => {
   const uploadDone = state.bucket.uploadDone;
   const uploadFailed = state.bucket.uploadFailed;
+  const totalUpload = state.bucket.totalUpload;
   const fetchingFailed = state.bucket.fetchingFailed;
   const fetchingSucceeded = state.bucket.fetchingSucceeded;
   return {
     uploadDone,
     uploadFailed,
+    totalUpload,
     fetchingFailed,
     fetchingSucceeded
   };

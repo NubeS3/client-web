@@ -15,6 +15,7 @@ const initialState = {
   fetchingFailed: false,
   fetchingSucceeded: false,
   progressInfos: [],
+  totalUpload: 0,
   uploadDone: false,
   uploadFailed: false,
   err: null
@@ -457,6 +458,7 @@ export const bucketSlice = createSlice({
       state.bucketList = action.payload;
     },
     initProgress: (state, action) => {
+      state.totalUpload = state.totalUpload + 1;
       state.progressInfos = [...state.progressInfos, action.payload];
     },
     updateProgress: (state, action) => {
@@ -468,12 +470,16 @@ export const bucketSlice = createSlice({
         return item;
       });
     },
+    updateTotalUpload: (state) => {
+      state.totalUpload = state.totalUpload - 1;
+    },
     clearBucketState: (state) => {
       state.uploadFailed = false;
       state.uploadDone = false;
       state.fetchingFailed = false;
       state.fetchingSucceeded = false;
       state.progressInfos = [];
+      state.totalUpload = 0;
     }
   },
 
@@ -617,7 +623,6 @@ export const bucketSlice = createSlice({
       state.uploadFailed = true;
       state.err = action.payload;
       state.isLoading = false;
-      alert(action.payload);
     },
 
     [uploadFileMultiple.fulfilled]: (state, action) => {
@@ -633,4 +638,4 @@ export const bucketSlice = createSlice({
   }
 });
 
-export const { clearBucketState } = bucketSlice.actions;
+export const { clearBucketState, updateTotalUpload } = bucketSlice.actions;
