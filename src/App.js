@@ -15,13 +15,6 @@ import BucketContainer from './view/pages/Storage/Buckets';
 import AppKeyContainer from './view/pages/Storage/AppKey';
 import BrowserContainer from './view/pages/Storage/Browser';
 import ReportContainer from './view/pages/Storage/Reports';
-import MultipleDownload from './components/Dialog/MultipleDownload';
-import DeleteBucket from './components/Dialog/Delete/DeleteFile';
-import AdminAppBar from './components/AdminAppBar/AdminAppBar';
-import UserSettings from './components/UserSettings/UserSettings';
-import Sidebar from './components/Sidebar/Sidebar';
-import SideDrawer from './components/Drawer/SideDrawer';
-import ReportChart from './components/Charts/ReportChart';
 import UserSettings from './view/pages/Storage/UserSettings';
 import SnackbarProvider from 'react-simple-snackbar';
 
