@@ -41,6 +41,7 @@ const endpoints = {
   GET_TOTAL_BANDWIDTH: `${BASE}/users/bandwidth-report`,
   GET_AVG_OBJECT_COUNT: `${BASE}/users/report/object-count`,
   GET_AVG_GB_STORED: `${BASE}/users/report/size`,
+  GET_REPORT: `${BASE}/users/request-report`,
 
   LOGIN_ADMIN: `${BASE}/admin/signin`,
   GET_ALL_USER: `${BASE}/admin/auth/users-list`,

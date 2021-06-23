@@ -3,24 +3,27 @@ import { connect } from 'react-redux';
 import StorageFrame from './StorageFrame';
 import MonthlyTransaction from '../../../components/Charts/MonthlyTransaction';
 import LineChartCard from '../../../components/Charts/LineChartCard';
+import ReportChart from '../../../components/Charts/ReportChart';
 import store from '../../../store';
 import {
   getAverageStoredFiles,
   getAvgGBStored,
   getMonthUsageBandwidth
 } from '../../../store/user/bandwidthReport';
+import { getReportCurrentMonth } from '../../../store/user/report';
 
 const ReportContainer = ({
   authToken,
   monthlyBandwidth,
   avgStoredFiles,
-  avgGBStored
+  avgGBStored,
+  report
 }) => {
   useEffect(() => {
-    store.dispatch(getMonthUsageBandwidth({ authToken: authToken }));
-    store.dispatch(getAverageStoredFiles({ authToken: authToken }));
-    store.dispatch(getAvgGBStored({ authToken: authToken }));
-    return () => {};
+    // store.dispatch(getMonthUsageBandwidth({ authToken: authToken }));
+    // store.dispatch(getAverageStoredFiles({ authToken: authToken }));
+    // store.dispatch(getAvgGBStored({ authToken: authToken }));
+    store.dispatch(getReportCurrentMonth({ authToken: authToken }));
   }, []);
   return (
     <StorageFrame active="report">
@@ -39,6 +42,7 @@ const ReportContainer = ({
         </p>
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
           {/* <MonthlyTransaction /> */}
+          <ReportChart title="REQUEST COUNTING" data={report} />
           <LineChartCard title="AVG GB STORED" data={avgGBStored} />
           <LineChartCard title="GB DOWNLOADED" data={monthlyBandwidth} />
           <LineChartCard title="AVG STORED FILES" data={avgStoredFiles} />
@@ -53,11 +57,13 @@ const mapStateToProps = (state) => {
   const monthlyBandwidth = state.bandwidthReport.monthlyBandwidth;
   const avgStoredFiles = state.bandwidthReport.avgStoredFiles;
   const avgGBStored = state.bandwidthReport.avgGBStored;
+  const report = state.report.report;
   return {
     authToken,
     monthlyBandwidth,
     avgStoredFiles,
-    avgGBStored
+    avgGBStored,
+    report
   };
 };
 
