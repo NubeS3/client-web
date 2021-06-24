@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { signUp } from '../../../store/user/signUp';
+import React, { useEffect, useState } from 'react';
+import { signUp, signUpActions } from '../../../store/user/signUp';
 import store from '../../../store';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import PageFrame from '../../../components/PageFrame';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import paths from '../../../configs/paths';
+import Greeting from '../../../components/Dialog/Greeting';
 
-const Register = (props) => {
+const Register = ({ isDone }) => {
+  const history = useHistory();
+  const [showGreeting, setShowGreeting] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -38,12 +45,24 @@ const Register = (props) => {
           email: values.email
         })
       );
-      props.history.push('/');
     }
   });
 
+  useEffect(() => {
+    if (isDone) {
+      store.dispatch(signUpActions.reset());
+      setShowGreeting(true);
+    }
+    return () => {};
+  }, [isDone]);
+
+  const handleSignUpDone = () => {
+    history.push(paths.BASE);
+  };
+
   return (
     <PageFrame>
+      <Greeting open={showGreeting} onClick={handleSignUpDone} />
       <div className="mx-auto flex items-center justify-center max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
         <div className="max-w-md w-full space-y-8 bg-white">
           <div>
@@ -134,4 +153,10 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+const mapStateToProps = (state) => {
+  return {
+    isDone: state.signUp.done
+  };
+};
+
+export default connect(mapStateToProps)(Register);

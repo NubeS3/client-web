@@ -1,9 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import StorageFrame from './StorageFrame';
+import VerifyEmail from '../../../components/Dialog/EmailVerification/VerifyEmail';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useSnackbar } from 'react-simple-snackbar';
 
-const UserSettings = () => {
+const UserSettings = ({ userEmail, isVerified }) => {
+  const history = useHistory();
+  const [openSnackbar, closeSnackbar] = useSnackbar();
+  const [showVerifyEmail, setShowVerifyEmail] = useState(
+    history.location.search
+  );
+
+  useEffect(() => {
+    if (isVerified) {
+      setShowVerifyEmail(false);
+      openSnackbar('Email Verified!');
+    }
+    return () => {};
+  }, [isVerified]);
+
   return (
     <StorageFrame active="settings">
+      <VerifyEmail
+        email={userEmail}
+        open={showVerifyEmail}
+        onCancel={() => setShowVerifyEmail(false)}
+      />
       <div className="flex flex-col w-full mx-auto">
         <p className="text-3xl text-gray-600">My Settings</p>
         <hr className="mt-3 mb-5" />
@@ -18,7 +41,7 @@ const UserSettings = () => {
           <div className="flex-grow">
             <p className="font-bold text-lg">Contact:</p>
             <label className="font-bold text-md text-gray-400">Email:</label>
-            <span className="ml-2 text-gray-600">nguyenvana@gmail.com</span>
+            <span className="ml-2 text-gray-600">{userEmail}</span>
           </div>
           <div className="w-auto flex-none">
             <div className="mt-6">
@@ -58,4 +81,11 @@ const UserSettings = () => {
   );
 };
 
-export default UserSettings;
+const mapStateToProps = (state) => {
+  return {
+    userEmail: state.authen.loginEmail,
+    isVerified: state.signUp.isVerified
+  };
+};
+
+export default connect(mapStateToProps)(UserSettings);

@@ -92,7 +92,6 @@ const LoginPassword = ({ loginEmail, errMessage, isRejected, isFulfilled }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.authen.err);
   return {
     errMessage: state.authen.err,
     loginEmail: state.authen.loginEmail,

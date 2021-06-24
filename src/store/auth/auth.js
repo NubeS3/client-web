@@ -13,6 +13,7 @@ const initialState = {
   isLoggingIn: false,
   isFulfilled: false,
   isRejected: false,
+  activeStatus: 200,
   err: { error: '' }
 };
 
@@ -46,6 +47,38 @@ export const login = createAsyncThunk('authen/login', async (data, api) => {
     return api.rejectWithValue(err.response.data.error);
   }
 });
+
+export const getActiveStatus = createAsyncThunk(
+  'authen/getActiveStatus',
+  async (data, api) => {
+    try {
+      api.dispatch(authenSlice.actions.loggingIn());
+      const response = await axios.get(endpoints.GET_ACTIVE_STATUS, undefined, {
+        authToken: data.authToken
+      });
+      return response.data;
+    } catch (err) {
+      console.log(err.response.data.error);
+      return api.rejectWithValue(err.response.data.error);
+    }
+  }
+);
+
+export const verifyEmail = createAsyncThunk(
+  'authen/verifyEmail',
+  async (data, api) => {
+    try {
+      api.dispatch(authenSlice.actions.loggingIn());
+      const response = await axios.get(
+        endpoints.VERIFY_EMAIL + `/${data.email}`
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return api.rejectWithValue(err.response.data.error);
+    }
+  }
+);
 
 export const verifyAuthentication = createAsyncThunk(
   'authen/verifyAuthentication',
@@ -126,7 +159,6 @@ export const authenSlice = createSlice({
       state.err = null;
     },
     [login.rejected]: (state, action) => {
-      console.log(action.payload);
       state.isLoggingIn = false;
       state.isRejected = true;
       state.err = { error: action.payload };
@@ -179,6 +211,15 @@ export const authenSlice = createSlice({
     },
     [changeLoginEmail.rejected]: (state, action) => {
       state.err = { error: action.payload };
+    },
+    [getActiveStatus.fulfilled]: (state, action) => {
+      state.activeStatus = 200;
+    },
+    [getActiveStatus.rejected]: (state, action) => {
+      if (action.payload === 'unauthorized') {
+        state.activeStatus = 401;
+      }
+      state.err = action.payload;
     }
   }
 });

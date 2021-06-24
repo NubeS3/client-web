@@ -7,7 +7,8 @@ const initialState = {
   done: false,
   err: null,
   username: '',
-  message: ''
+  message: '',
+  isVerified: false
 };
 
 export const signUp = createAsyncThunk('signUp/signUp', async (data, api) => {
@@ -34,7 +35,7 @@ export const confirmOTP = createAsyncThunk(
   async (data, api) => {
     try {
       const response = await axios.post(endpoints.CONFIRM_OTP, {
-        username: data.username,
+        email: data.email,
         otp: data.otp
       });
 
@@ -49,12 +50,11 @@ export const confirmOTP = createAsyncThunk(
 );
 
 export const resendOTP = createAsyncThunk(
-  'authen/resendOTP',
+  'signUp/resendOTP',
   async (data, api) => {
     try {
-      api.dispatch(signUpSlice.actions.loggingIn());
-      const response = await axios.post(endpoints.RESEND_OTP, {
-        username: data.username
+      const response = await axios.put(endpoints.RESEND_OTP, {
+        email: data.email
       });
       return response.data;
     } catch (err) {
@@ -90,6 +90,18 @@ export const signUpSlice = createSlice({
       state.err = action.payload;
     },
 
+    [confirmOTP.fulfilled]: (state, action) => {
+      state.isVerified = true;
+      state.message = action.payload;
+      state.loading = false;
+      state.done = true;
+      state.err = null;
+    },
+    [confirmOTP.rejected]: (state, action) => {
+      state.loading = false;
+      state.err = action.payload;
+    },
+
     [resendOTP.fulfilled]: (state, action) => {
       state.message = action.payload;
       state.loading = false;
@@ -102,3 +114,5 @@ export const signUpSlice = createSlice({
     }
   }
 });
+
+export const signUpActions = signUpSlice.actions;
