@@ -4,6 +4,7 @@ import StorageFrame from './StorageFrame';
 import MonthlyTransaction from '../../../components/Charts/MonthlyTransaction';
 import LineChartCard from '../../../components/Charts/LineChartCard';
 import ReportChart from '../../../components/Charts/ReportChart';
+import TotalSection from '../../../components/Charts/TotalSection';
 import store from '../../../store';
 import {
   getAverageStoredFiles,
@@ -23,7 +24,7 @@ const ReportContainer = ({
     // store.dispatch(getMonthUsageBandwidth({ authToken: authToken }));
     // store.dispatch(getAverageStoredFiles({ authToken: authToken }));
     // store.dispatch(getAvgGBStored({ authToken: authToken }));
-    store.dispatch(getReportCurrentMonth({ authToken: authToken }));
+    // store.dispatch(getReportCurrentMonth({ authToken: authToken }));
   }, []);
   return (
     <StorageFrame active="report">
@@ -42,6 +43,14 @@ const ReportContainer = ({
         </p>
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
           {/* <MonthlyTransaction /> */}
+          <TotalSection
+            title="TOTALS"
+            data={{
+              avgGBStored: avgGBStored,
+              monthlyBandwidth: monthlyBandwidth,
+              avgStoredFiles: avgStoredFiles
+            }}
+          />
           <ReportChart title="REQUEST COUNTING" data={report} />
           <LineChartCard title="AVG GB STORED" data={avgGBStored} />
           <LineChartCard title="GB DOWNLOADED" data={monthlyBandwidth} />
