@@ -60,7 +60,7 @@ export const getActiveStatus = createAsyncThunk(
       });
       return response.data;
     } catch (err) {
-      return api.rejectWithValue(err.response.data.error);
+      return api.rejectWithValue(err.response.status);
     }
   }
 );
@@ -216,9 +216,7 @@ export const authenSlice = createSlice({
       state.activeStatus = 200;
     },
     [getActiveStatus.rejected]: (state, action) => {
-      if (action.payload === 'unauthorized') {
-        state.activeStatus = 401;
-      }
+      state.activeStatus = action.payload;
       state.err = action.payload;
     }
   }

@@ -44,11 +44,11 @@ const ReportContainer = ({
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
           {/* <MonthlyTransaction /> */}
           <TotalSection
-            title="TOTALS"
+            title="MONTHLY TOTALS"
             data={{
               avgGBStored: avgGBStored,
               monthlyBandwidth: monthlyBandwidth,
-              avgStoredFiles: avgStoredFiles
+              transaction: report
             }}
           />
           <ReportChart title="REQUEST COUNTING" data={report} />

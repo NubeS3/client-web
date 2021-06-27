@@ -62,9 +62,9 @@ const BucketContainer = ({
         <CreateBucketButton authToken={authToken} />
         <div className="flex flex-col justify-between items-center py-2 px-2 bg-gray-100">
           {bucketList
-            ? bucketList.map(
-                (item) => <BucketCard item={item} authToken={authToken} />
-              )
+            ? bucketList.map((item) => (
+                <BucketCard item={item} authToken={authToken} />
+              ))
             : null}
         </div>
       </div>
