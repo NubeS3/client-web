@@ -285,7 +285,6 @@ const LogContainer = ({
         );
         break;
       case 'signed':
-        console.log(requestBy);
         store.dispatch(
           getSignedKeyLog({
             authToken: authToken,
@@ -394,7 +393,6 @@ const LogContainer = ({
                     size="small"
                     onChange={(e) => {
                       setRequestBy(e.target.value);
-                      console.log(requestBy);
                     }}
                   />
                 </div>

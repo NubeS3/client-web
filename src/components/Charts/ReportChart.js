@@ -10,8 +10,7 @@ const ReportChart = ({ width = 800, height = 400, data, title }) => {
 
   const renderLegend = (props) => {
     const { payload } = props;
-
-    console.log(payload);
+	
     return (
       // <ul>
       //   {payload.map((entry, index) => (

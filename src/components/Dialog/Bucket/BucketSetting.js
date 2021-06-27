@@ -12,7 +12,6 @@ const BucketSetting = ({ item, onCancel, onDeleteClick, authToken }) => {
     },
     validationSchema: Yup.object({}),
     onSubmit: (values) => {
-      // console.log(item.bucket.is_public);
       store.dispatch(
         updateBucketSettings({
           authToken: authToken,

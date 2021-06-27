@@ -48,7 +48,6 @@ export const createBucket = createAsyncThunk(
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
-      //console.log(data.authToken)
       const response = await axios.post(
         endpoints.CREATE_BUCKET,
         {
@@ -80,7 +79,6 @@ export const updateBucketSettings = createAsyncThunk(
   async (data, api) => {
     try {
       api.dispatch(bucketSlice.actions.loading());
-      //console.log(data.authToken)
       const response = await axios.put(
         endpoints.UPDATE_BUCKET_SETTINGS + `/${data.bucketId}`,
         {
@@ -404,7 +402,6 @@ export const uploadFileMultiple = createAsyncThunk(
               let percentCompleted = Math.floor(
                 (progressEvent.loaded / progressEvent.total) * 100
               );
-              console.log(percentCompleted);
               api.dispatch(
                 bucketSlice.actions.updateProgress({
                   fileName: file.name,
@@ -493,7 +490,6 @@ export const bucketSlice = createSlice({
       state.err = action.payload;
     },
     [createBucket.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.bucketList = [...state.bucketList, action.payload];
       alert('Bucket added!');
       state.isLoading = false;
@@ -504,7 +500,6 @@ export const bucketSlice = createSlice({
     },
 
     [updateBucketSettings.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.bucketList = state.bucketList.map((item) => {
         // Find the item with the matching id
         if (item.bucket.id === action.payload.id) {
@@ -588,10 +583,7 @@ export const bucketSlice = createSlice({
       state.fetchingFailed = true;
     },
 
-    [getFileDetail.fulfilled]: (state, action) => {
-      console.log(action.payload);
-      // state.fileDetail = action.payload
-    },
+    [getFileDetail.fulfilled]: (state, action) => {},
     [getFileDetail.rejected]: (state, action) => {
       state.err = action.payload;
     },
@@ -605,7 +597,6 @@ export const bucketSlice = createSlice({
       state.err = action.payload;
     },
     [createBucketKey.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.accessKeyList = [...state.accessKeyList, action.payload];
       state.isLoading = false;
     },

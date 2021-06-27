@@ -16,7 +16,6 @@ export const downloadSingle = createAsyncThunk(
   async (data, api) => {
     try {
       api.dispatch(downloadSlice.actions.downloading());
-      console.log(data.bucketId);
       const response = await axios.get(
         endpoints.DOWNLOAD + `${data.full_path}`,
         {
@@ -63,7 +62,6 @@ export const downloadSlice = createSlice({
       state.isLoading = false;
     },
     [downloadSingle.rejected]: (state, action) => {
-      console.log(action.payload);
       state.err = action.payload;
       state.isLoading = false;
     }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import paths from '../../configs/paths';
 const AuthAppBar = (props) => {
   useEffect(() => {
-    console.log('AuthAppbar');
     return () => {};
   }, []);
   return (

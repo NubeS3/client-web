@@ -35,7 +35,6 @@ export const verifyAdminAuthentication = createAsyncThunk(
   async (data, api) => {
     try {
       api.dispatch(adminAuthenSlice.actions.validating());
-      //   console.log(localStorage.getItem(localStorageKeys.TOKEN_ADMIN));
       if (data.adminToken) {
         return true;
       }

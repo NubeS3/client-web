@@ -53,12 +53,13 @@ export const getActiveStatus = createAsyncThunk(
   async (data, api) => {
     try {
       api.dispatch(authenSlice.actions.loggingIn());
-      const response = await axios.get(endpoints.GET_ACTIVE_STATUS, undefined, {
-        authToken: data.authToken
+      const response = await axios.get(endpoints.GET_ACTIVE_STATUS, {
+        headers: {
+          Authorization: `Bearer ${data.authToken}`
+        }
       });
       return response.data;
     } catch (err) {
-      console.log(err.response.data.error);
       return api.rejectWithValue(err.response.data.error);
     }
   }
@@ -74,7 +75,6 @@ export const verifyEmail = createAsyncThunk(
       );
       return response.data;
     } catch (err) {
-      console.log(err);
       return api.rejectWithValue(err.response.data.error);
     }
   }

@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import paths from '../../../configs/paths';
 import Greeting from '../../../components/Dialog/Greeting';
 
-const Register = ({ isDone }) => {
+const Register = ({ isDone, errMessage }) => {
   const history = useHistory();
   const [showGreeting, setShowGreeting] = useState(false);
 
@@ -33,12 +33,6 @@ const Register = ({ isDone }) => {
         .required('Required!')
     }),
     onSubmit: (values) => {
-      // const error = preValidateRegisterData(values);
-      // // if (error) {
-      // //   return setError(error);
-      // // }
-      // setError("");
-      console.log(values.password);
       store.dispatch(
         signUp({
           password: values.password,
@@ -131,6 +125,7 @@ const Register = ({ isDone }) => {
                 ) : null}
               </div>
             </div>
+            <p className="text-red-500 my-3 text-center">{errMessage}</p>
 
             <div>
               <button
@@ -155,7 +150,8 @@ const Register = ({ isDone }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isDone: state.signUp.done
+    isDone: state.signUp.done,
+    errMessage: state.signUp.err
   };
 };
 

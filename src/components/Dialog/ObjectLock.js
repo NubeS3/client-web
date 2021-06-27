@@ -16,7 +16,6 @@ const ObjectLock = ({ item, onCancel, authToken }) => {
         .max(3000, 'Retention must be between 0 and 3000 days')
     }),
     onSubmit: (values) => {
-      console.log(values.holdDuration);
       store.dispatch(
         updateBucketSettings({
           authToken: authToken,

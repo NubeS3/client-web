@@ -5,7 +5,6 @@ import GeneralAppBar from './GeneralAppBar';
 
 const AppBar = (props) => {
   useEffect(() => {
-    console.log('Appbar');
     return () => {};
   }, []);
   if (props.isValidAuthentication) {

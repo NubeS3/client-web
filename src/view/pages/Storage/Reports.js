@@ -21,10 +21,10 @@ const ReportContainer = ({
   report
 }) => {
   useEffect(() => {
-    // store.dispatch(getMonthUsageBandwidth({ authToken: authToken }));
-    // store.dispatch(getAverageStoredFiles({ authToken: authToken }));
-    // store.dispatch(getAvgGBStored({ authToken: authToken }));
-    // store.dispatch(getReportCurrentMonth({ authToken: authToken }));
+    store.dispatch(getMonthUsageBandwidth({ authToken: authToken }));
+    store.dispatch(getAverageStoredFiles({ authToken: authToken }));
+    store.dispatch(getAvgGBStored({ authToken: authToken }));
+    store.dispatch(getReportCurrentMonth({ authToken: authToken }));
   }, []);
   return (
     <StorageFrame active="report">

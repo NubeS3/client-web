@@ -90,7 +90,6 @@ const MasterKeyCard = ({ masterKey, authToken, setShowCard }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.appKey.masterKey);
   return {
     masterKey: state.appKey.masterKey
   };

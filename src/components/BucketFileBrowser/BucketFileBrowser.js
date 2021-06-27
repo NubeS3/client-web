@@ -84,7 +84,6 @@ const BucketFileBrowser = ({
         full_path: '/' + breadCrumbStack.join('/')
       })
     );
-    console.log('/' + breadCrumbStack.join('/'));
   }, [breadCrumbStack]);
 
   const handleBreadCrumbStack = (link, index) => {
@@ -115,7 +114,6 @@ const BucketFileBrowser = ({
     } else {
       parent_path = '/' + breadCrumbStack.slice(1).join('/');
     }
-    console.log(acceptedFiles);
     acceptedFiles.forEach((file) => {
       store.dispatch(
         uploadFile({
@@ -161,7 +159,6 @@ const BucketFileBrowser = ({
   };
 
   const findWithProperty = (arr, prop, value) => {
-    // console.log(value);
     for (var i = 0; i < arr.length; i += 1) {
       if (arr[i][prop] === value) {
         return i;
@@ -172,13 +169,7 @@ const BucketFileBrowser = ({
 
   const handleSelectAllClick = (e) => {
     if (e.target.checked) {
-      // const newSelecteds = items.map((n) => ({
-      //   id: n.id,
-      //   name: n.name,
-      //   size: n.size
-      // }));
       const newSelecteds = items.map((n) => n);
-      // console.log(newSelecteds);
       setSelected(newSelecteds);
       return;
     }
@@ -196,17 +187,11 @@ const BucketFileBrowser = ({
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      console.log(
-        selected,
-        selected.slice(selectedIndex + 1),
-        selected.slice(0, selectedIndex)
-      );
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1, selected.length + 1)
       );
     }
-    // console.log(newSelected);
     setSelected(newSelected);
   };
 

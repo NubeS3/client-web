@@ -67,7 +67,6 @@ const Storage = ({ email, active, ...props }) => {
 
 const mapStateToProps = (state) => {
   const email = state.authen.loginEmail;
-  console.log(email);
   return {
     email
   };

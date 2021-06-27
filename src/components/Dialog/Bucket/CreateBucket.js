@@ -37,16 +37,14 @@ const CreateBucket = ({ open, onCancel, authToken }) => {
       //     objectLock: values.objectLock
       //   })
       // );
-      console.log(
-        store.dispatch(
-          createBucket({
-            authToken: authToken,
-            bucketName: values.bucketName,
-            isPublic: values.isPublic,
-            isEncrypted: values.isEncrypted,
-            isObjectLock: values.objectLock
-          })
-        )
+      store.dispatch(
+        createBucket({
+          authToken: authToken,
+          bucketName: values.bucketName,
+          isPublic: values.isPublic,
+          isEncrypted: values.isEncrypted,
+          isObjectLock: values.objectLock
+        })
       );
       history.push(paths.STORAGE);
       onCancel();

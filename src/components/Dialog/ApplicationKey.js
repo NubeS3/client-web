@@ -67,18 +67,6 @@ const AddApplicationKey = ({
     }),
     onSubmit: (values) => {
       const nullDate = '0001-01-01T00:00:00Z';
-      // console.log('appkey data', {
-      //   authToken: authToken,
-      //   name: values.name,
-      //   bucket_id: values.bucket_id,
-      //   expired_date: !values.expired_date
-      //     ? nullDate
-      //     : DateTime.fromSeconds(
-      //         new Date().getTime() / 1000 + values.expired_date
-      //       ).toISO(),
-      //   firename_prefix_restrict: values.firename_prefix_restrict,
-      //   permissions: values.permissions
-      // });
       store.dispatch(
         createAppKey({
           authToken: authToken,

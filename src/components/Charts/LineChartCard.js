@@ -45,7 +45,6 @@ const months = [
 const LineChartCard = ({ width = 800, height = 400, title, data, yLabel }) => {
   const CustomTooltip = ({ payload, active }, ...props) => {
     if (active && payload && payload.length) {
-      console.log(payload);
       return <p>{`${payload[0].value} MB`}</p>;
     }
     return null;

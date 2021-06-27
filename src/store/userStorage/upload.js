@@ -16,8 +16,6 @@ export const uploadFile = createAsyncThunk(
   async (data, api) => {
     try {
       api.dispatch(uploadSlice.actions.loading());
-
-      console.log(data.file);
       var bodyFormData = new FormData();
       bodyFormData.append('file', data.file);
       bodyFormData.append('path', data.full_path);
@@ -34,11 +32,9 @@ export const uploadFile = createAsyncThunk(
             let percentCompleted = Math.floor(
               (progressEvent.loaded / progressEvent.total) * 100
             );
-            console.log('completed: ', percentCompleted);
           }
         })
         .then((res) => {
-          console.log('All DONE: ', res.headers);
           return res.data;
         });
       return response.data;

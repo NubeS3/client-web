@@ -25,7 +25,6 @@ const AdminGuardRoute = ({
 );
 
 const mapStateToProps = (state) => {
-  console.log(state.adminAuthen.isAdminValidAuthentication);
   return {
     isValidAuthentication: state.adminAuthen.isAdminValidAuthentication
   };

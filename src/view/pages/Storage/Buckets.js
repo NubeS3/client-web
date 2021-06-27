@@ -64,7 +64,6 @@ const BucketContainer = ({
           {bucketList
             ? bucketList.map(
                 (item) => <BucketCard item={item} authToken={authToken} />
-                // console.log(item.bucket)
               )
             : null}
         </div>

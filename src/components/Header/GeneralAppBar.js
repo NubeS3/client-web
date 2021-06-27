@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import paths from '../../configs/paths';
 const GeneralAppBar = (props) => {
   useEffect(() => {
-    console.log('GenAppbar');
     return () => {};
   }, []);
   return (
