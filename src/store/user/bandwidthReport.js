@@ -8,7 +8,9 @@ const initialState = {
   monthlyBandwidth: [],
   avgStoredFiles: [],
   avgGBStored: [],
-  total: 0.0
+  report: [],
+  total: 0.0,
+  reportLoadProgress: 0
 };
 
 const months = [
@@ -110,6 +112,28 @@ export const getMonthUsageBandwidth = createAsyncThunk(
   }
 );
 
+export const getReportCurrentMonth = createAsyncThunk(
+  'report/getReportCurrentMonth',
+  async (data, api) => {
+    let curDate = new Date();
+    try {
+      api.dispatch(bandwidthReportSlice.actions.loading());
+      let firstMilestone =
+        new Date(curDate.getFullYear(), curDate.getMonth(), 1).getTime() / 1000;
+      let curMilestone = Math.floor(curDate.getTime() / 1000);
+      const response = await axios.get(
+        endpoints.GET_REPORT + `?from=${firstMilestone}&to=${curMilestone}`,
+        {
+          headers: { Authorization: `Bearer ${data.authToken}` }
+        }
+      );
+      return response.data;
+    } catch (e) {
+      return api.rejectWithValue(e.response.data.error);
+    }
+  }
+);
+
 export const getAvgGBStored = createAsyncThunk(
   'bandwidthReport/getAvgGBStored',
   async (data, api) => {
@@ -204,7 +228,7 @@ export const getAverageStoredFiles = createAsyncThunk(
         );
         temp.push({
           month: months[i].name.toString(),
-          unit: 'KB',
+          unit: 'files',
           usage: response.data
         });
       }
@@ -222,55 +246,65 @@ export const bandwidthReportSlice = createSlice({
     loading: (state, action) => {
       state.loading = true;
     },
-    reset: (state, action) => {
+    clearReportState: (state, action) => {
       state.loading = false;
       state.err = null;
-      state.monthlyBandwidth = 0;
+      state.reportLoadProgress = 0;
     }
   },
   extraReducers: {
     [getMonthUsageBandwidth.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.reportLoadProgress = state.reportLoadProgress + 1;
       state.err = null;
       state.monthlyBandwidth = action.payload;
     },
     [getMonthUsageBandwidth.rejected]: (state, action) => {
-      state.loading = false;
+      state.reportLoadProgress = state.reportLoadProgress + 1;
       state.err = action.payload;
       state.monthlyBandwidth = [];
     },
 
     [getAverageStoredFiles.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.reportLoadProgress = state.reportLoadProgress + 1;
       state.err = null;
       state.avgStoredFiles = action.payload;
     },
     [getAverageStoredFiles.rejected]: (state, action) => {
-      state.loading = false;
+      state.reportLoadProgress = state.reportLoadProgress + 1;
       state.err = action.payload;
       state.avgStoredFiles = [];
     },
 
     [getAvgGBStored.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.reportLoadProgress = state.reportLoadProgress + 1;
       state.err = null;
       state.avgGBStored = action.payload;
     },
     [getAvgGBStored.rejected]: (state, action) => {
-      state.loading = false;
+      state.reportLoadProgress = state.reportLoadProgress + 1;
       state.err = action.payload;
       state.avgGBStored = [];
     },
 
     [getTotalUsageBandwidth.fulfilled]: (state, action) => {
-      state.loading = false;
       state.err = null;
       state.total = action.payload;
     },
     [getTotalUsageBandwidth.rejected]: (state, action) => {
-      state.loading = false;
       state.err = action.payload;
       state.total = 0.0;
+    },
+    [getReportCurrentMonth.fulfilled]: (state, action) => {
+      state.reportLoadProgress = state.reportLoadProgress + 1;
+      state.err = null;
+      state.report = action.payload;
+    },
+    [getReportCurrentMonth.rejected]: (state, action) => {
+      state.reportLoadProgress = state.reportLoadProgress + 1;
+      state.err = action.payload;
+      state.report = [];
     }
   }
 });
+
+export const reportActions = bandwidthReportSlice.actions;

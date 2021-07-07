@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import paths from '../../../configs/paths';
 import Greeting from '../../../components/Dialog/Greeting';
+import logoNubes3 from '../../../assets/logo.png';
 
 const Register = ({ isDone, errMessage }) => {
   const history = useHistory();
@@ -60,11 +61,7 @@ const Register = ({ isDone, errMessage }) => {
       <div className="mx-auto flex items-center justify-center max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
         <div className="max-w-md w-full space-y-8 bg-white">
           <div>
-            <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Logo"
-            />
+            <img className="mx-auto h-12 w-auto" src={logoNubes3} alt="Logo" />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign Up NubeS3 Cloud
             </h2>

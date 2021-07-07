@@ -8,7 +8,8 @@ const UploadFile = ({
   onClose,
   handleUpload,
   handleUploadMultiple,
-  progressInfos = [{ fileName: '', percentage: 0 }]
+  progressInfos
+  //  = [{ fileName: '', percentage: 0, message: '' }]
 }) => {
   const [fileNames, setFileNames] = useState([]);
   const handleDrop = (acceptedFiles) => {
@@ -60,7 +61,7 @@ const UploadFile = ({
                       <h1>click to select a file</h1>
                     </div>
                   </div>
-                  {fileNames.length > 0 ? (
+                  {progressInfos && (
                     <aside>
                       <div className="bg-white w-full rounded-none overflow-hidden">
                         <div className="px-4 py-5 sm:px-6">
@@ -82,6 +83,11 @@ const UploadFile = ({
                                       ? progressInfos[index]?.percentage
                                       : null
                                   }
+                                  message={
+                                    progressInfos
+                                      ? progressInfos[index]?.message
+                                      : null
+                                  }
                                 />
                               </dd>
                             ))}
@@ -89,7 +95,7 @@ const UploadFile = ({
                         </div>
                       </div>
                     </aside>
-                  ) : null}
+                  )}
                 </section>
               )}
             </Dropzone>

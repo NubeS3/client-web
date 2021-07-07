@@ -1,4 +1,4 @@
-import withLoading from '../../HOC/withLoading';
+import withLocalSpinner from '../../HOC/withLocalSpinner';
 
 const BucketFileTable = ({
   items,
@@ -101,4 +101,4 @@ const BucketFileTable = ({
   );
 };
 
-export default withLoading(BucketFileTable);
+export default withLocalSpinner(BucketFileTable);

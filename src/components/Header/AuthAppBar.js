@@ -1,37 +1,29 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import paths from '../../configs/paths';
+import logoNubes3 from '../../assets/logo.png';
+
 const AuthAppBar = (props) => {
   useEffect(() => {
     return () => {};
   }, []);
   return (
     // <div className="absolute">
-    <nav className="bg-white dark:bg-gray-800 shadow z-9 mb-1">
+    <nav className="bg-white dark:bg-gray-800 shadow z-9">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex items-center justify-between h-16">
           <div className="w-full justify-between flex items-center">
-            <a className="flex-shrink-0" href="/">
-              <img
-                className="h-8 w-8"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                alt="Workflow"
-              />
+            <a
+              className="flex flex-shrink-0 flex-row items-center justify-center"
+              href="/"
+            >
+              <img className="h-12 w-12" src={logoNubes3} alt="Workflow" />
+              <h1 className="ml-2 text-center text-xl font-bold text-blue-900">
+                NubeS3
+              </h1>
             </a>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <a
-                  className="text-gray-600  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  href="/#"
-                >
-                  Personal Backup
-                </a>
-                <a
-                  className="text-gray-600 dark:text-white  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  href="/#"
-                >
-                  Business Backup
-                </a>
                 <a
                   className="text-gray-600  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   href={paths.STORAGE}
@@ -40,13 +32,7 @@ const AuthAppBar = (props) => {
                 </a>
                 <a
                   className="text-gray-600  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  href="/#"
-                >
-                  Blog
-                </a>
-                <a
-                  className="text-gray-600  hover:text-blue-400 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  href="/#"
+                  href="/"
                 >
                   Help
                 </a>
@@ -87,12 +73,6 @@ const AuthAppBar = (props) => {
             N3 Cloud Storage
           </a>
           <a
-            className="text-gray-800 dark:text-white block px-3 py-2 rounded-md text-base font-medium"
-            href="/"
-          >
-            Blog
-          </a>
-          <a
             className="text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             href="/"
           >
@@ -100,7 +80,7 @@ const AuthAppBar = (props) => {
           </a>
           <a
             className="text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            href="/console"
+            href={paths.STORAGE}
           >
             My Account
           </a>

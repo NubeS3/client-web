@@ -26,22 +26,6 @@ const months = [
   'Dec'
 ];
 
-// uv: value => change to whatever
-// const data = [
-//   { name: months[7], uv: 600 },
-//   { name: months[8], uv: 700 },
-//   { name: months[9], uv: 400 },
-//   { name: months[10], uv: 300 },
-//   { name: months[11], uv: 500 },
-//   { name: months[12], uv: 100 },
-//   { name: months[1], uv: 700 },
-//   { name: months[2], uv: 100 },
-//   { name: months[3], uv: 200 },
-//   { name: months[4], uv: 300 },
-//   { name: months[5], uv: 400 },
-//   { name: months[6], uv: 600 }
-// ];
-
 const LineChartCard = ({ width = 800, height = 400, title, data, yLabel }) => {
   const CustomTooltip = ({ payload, active }, ...props) => {
     if (active && payload && payload.length) {

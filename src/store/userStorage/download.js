@@ -8,7 +8,9 @@ const initialState = {
   name: '',
   ttl: 0,
   err: null,
-  isLoading: false
+  isLoading: false,
+  downloadDone: false,
+  downloadFailed: false
 };
 
 export const downloadSingle = createAsyncThunk(
@@ -47,6 +49,11 @@ export const downloadSlice = createSlice({
     downloading: (state, action) => {
       state.isLoading = true;
     },
+    clearDownloadState: (state, action) => {
+      state.isLoading = false;
+      state.downloadDone = false;
+      state.downloadFailed = false;
+    },
     updateProgress: (state, action) => {
       state.progressInfos = state.progressInfos.map((item) => {
         // find the item with the same name
@@ -59,11 +66,15 @@ export const downloadSlice = createSlice({
   },
   extraReducers: {
     [downloadSingle.fulfilled]: (state, action) => {
+      state.downloadDone = true;
       state.isLoading = false;
     },
     [downloadSingle.rejected]: (state, action) => {
+      state.downloadFailed = true;
       state.err = action.payload;
       state.isLoading = false;
     }
   }
 });
+
+export const downloadActions = downloadSlice.actions;

@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import StorageFrame from './StorageFrame';
-import MonthlyTransaction from '../../../components/Charts/MonthlyTransaction';
 import LineChartCard from '../../../components/Charts/LineChartCard';
 import ReportChart from '../../../components/Charts/ReportChart';
 import TotalSection from '../../../components/Charts/TotalSection';
@@ -9,16 +8,21 @@ import store from '../../../store';
 import {
   getAverageStoredFiles,
   getAvgGBStored,
-  getMonthUsageBandwidth
+  getMonthUsageBandwidth,
+  reportActions
 } from '../../../store/user/bandwidthReport';
-import { getReportCurrentMonth } from '../../../store/user/report';
+import { getReportCurrentMonth } from '../../../store/user/bandwidthReport';
+import ProgressBar from '@ramonak/react-progress-bar';
+import Spinner from '../../../components/Spinner';
 
 const ReportContainer = ({
   authToken,
   monthlyBandwidth,
   avgStoredFiles,
   avgGBStored,
-  report
+  report,
+  reportLoadProgress,
+  loading
 }) => {
   useEffect(() => {
     store.dispatch(getMonthUsageBandwidth({ authToken: authToken }));
@@ -26,6 +30,14 @@ const ReportContainer = ({
     store.dispatch(getAvgGBStored({ authToken: authToken }));
     store.dispatch(getReportCurrentMonth({ authToken: authToken }));
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      store.dispatch(reportActions.clearReportState());
+    }
+    return () => {};
+  }, [loading]);
+
   return (
     <StorageFrame active="report">
       <div className="h-screen lg:block relative w-full">
@@ -42,6 +54,11 @@ const ReportContainer = ({
           Reports are updated once a day at midnight GMT.
         </p>
         <div className="flex flex-col justify-between items-center px-2 bg-gray-100">
+          {reportLoadProgress < 8 ? (
+            <div className="w-full h-20 my-2">
+              <Spinner />
+            </div>
+          ) : null}
           {/* <MonthlyTransaction /> */}
           <TotalSection
             title="MONTHLY TOTALS"
@@ -66,13 +83,15 @@ const mapStateToProps = (state) => {
   const monthlyBandwidth = state.bandwidthReport.monthlyBandwidth;
   const avgStoredFiles = state.bandwidthReport.avgStoredFiles;
   const avgGBStored = state.bandwidthReport.avgGBStored;
-  const report = state.report.report;
+  const report = state.bandwidthReport.report;
+  const reportLoadProgress = state.bandwidthReport.reportLoadProgress;
   return {
     authToken,
     monthlyBandwidth,
     avgStoredFiles,
     avgGBStored,
-    report
+    report,
+    reportLoadProgress
   };
 };
 

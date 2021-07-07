@@ -338,8 +338,7 @@ export const uploadFile = createAsyncThunk(
       api.dispatch(bucketSlice.actions.loading());
       api.dispatch(
         bucketSlice.actions.initProgress({
-          fileName: data.file.name,
-          percentage: 0
+          fileName: data.file.name
         })
       );
       var bodyFormData = new FormData();
@@ -348,22 +347,34 @@ export const uploadFile = createAsyncThunk(
       bodyFormData.append('name', data.file.name);
       bodyFormData.append('bucket_id', data.bucketId);
 
-      const response = await axios.post(endpoints.UPLOAD, bodyFormData, {
-        headers: {
-          Authorization: `Bearer ${data.authToken}`
-        },
-        onUploadProgress: (progressEvent) => {
-          let percentCompleted = Math.floor(
-            (progressEvent.loaded / progressEvent.total) * 100
-          );
+      const response = await axios
+        .post(endpoints.UPLOAD, bodyFormData, {
+          headers: {
+            Authorization: `Bearer ${data.authToken}`
+          },
+          onUploadProgress: (progressEvent) => {
+            let percentCompleted = Math.floor(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            api.dispatch(
+              bucketSlice.actions.updateProgress({
+                fileName: data.file.name,
+                percentage: percentCompleted,
+                message: ''
+              })
+            );
+          }
+        })
+        .catch((error) => {
+          //  alert(error);
           api.dispatch(
             bucketSlice.actions.updateProgress({
               fileName: data.file.name,
-              percentage: percentCompleted
+              percentage: 100,
+              message: 'Could not upload!'
             })
           );
-        }
-      });
+        });
 
       const responseData = await {
         ...response.data,
@@ -384,13 +395,19 @@ export const uploadFileMultiple = createAsyncThunk(
   'bucket/uploadFileMultiple',
   async (data, api) => {
     try {
-      api.dispatch(bucketSlice.actions.loading());
+      api.dispatch(
+        bucketSlice.actions.initProgress({
+          files: data.acceptedFiles
+        })
+      );
       let responseData = [];
-      for (var file in data.acceptedFiles) {
+      for (var i = 0; i < data.acceptedFiles.length; i++) {
+        console.log(data.acceptedFiles[i]);
+        responseData = [];
         var bodyFormData = new FormData();
-        bodyFormData.append('file', file);
+        bodyFormData.append('file', data.acceptedFiles[i]);
         bodyFormData.append('path', data.full_path);
-        bodyFormData.append('name', file.name);
+        bodyFormData.append('name', data.acceptedFiles[i].name);
         bodyFormData.append('bucket_id', data.bucketId);
 
         const response = await axios
@@ -404,34 +421,33 @@ export const uploadFileMultiple = createAsyncThunk(
               );
               api.dispatch(
                 bucketSlice.actions.updateProgress({
-                  fileName: file.name,
-                  percentage: percentCompleted
+                  fileName: data.acceptedFiles[i].name,
+                  percentage: percentCompleted,
+                  message: ''
                 })
               );
             }
           })
           .catch(() => {
-            // _progressInfos[idx].percentage = 0;
-            this.setState((prev) => {
-              let nextMessage = [
-                ...prev.message,
-                'Could not upload the file: ' + file.name
-              ];
-              api.dispatch(
-                bucketSlice.actions.updateProgress({
-                  fileName: file.name
-                })
-              );
-            });
+            api.dispatch(
+              bucketSlice.actions.updateProgress({
+                fileName: data.acceptedFiles[i].name,
+                percentage: 100,
+                message: 'Could not upload!'
+              })
+            );
           });
-        responseData.push({
-          ...response.data,
-          type: 'file',
-          metadata: {
-            content_type: response.data.content_type,
-            size: response.data.size
+        responseData.push([
+          ...responseData,
+          {
+            ...response.data,
+            type: 'file',
+            metadata: {
+              content_type: response.data.content_type,
+              size: response.data.size
+            }
           }
-        });
+        ]);
       }
 
       return responseData;
@@ -456,7 +472,14 @@ export const bucketSlice = createSlice({
     },
     initProgress: (state, action) => {
       state.totalUpload = state.totalUpload + 1;
-      state.progressInfos = [...state.progressInfos, action.payload];
+      state.progressInfos = [
+        ...state.progressInfos,
+        {
+          fileName: action.payload.fileName,
+          percentage: 0,
+          message: ''
+        }
+      ];
     },
     updateProgress: (state, action) => {
       state.progressInfos = state.progressInfos.map((item) => {
@@ -583,8 +606,11 @@ export const bucketSlice = createSlice({
       state.fetchingFailed = true;
     },
 
-    [getFileDetail.fulfilled]: (state, action) => {},
+    [getFileDetail.fulfilled]: (state, action) => {
+      state.fileDetail = action.payload;
+    },
     [getFileDetail.rejected]: (state, action) => {
+      state.fileDetail = {};
       state.err = action.payload;
     },
 

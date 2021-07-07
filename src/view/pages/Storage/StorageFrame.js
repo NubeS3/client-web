@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import AuthPageFrame from '../../../components/AuthPageFrame';
@@ -7,20 +7,31 @@ import OptionalSidebar from '../../../components/Sidebars/OptionalSidebar';
 import paths from '../../../configs/paths';
 import store from '../../../store';
 import { clearAuthentication } from '../../../store/auth/auth';
+import RequireEmailVerification from '../../../components/Dialog/EmailVerification/RequireEmailVerification';
 
-const Storage = ({ email, active, ...props }) => {
+const Storage = ({ email, active, activeStatus, ...props }) => {
+  const [showRequireEmail, setShowRequireEmail] = useState(false);
   const history = useHistory();
 
   const handleSignOut = () => {
     store.dispatch(clearAuthentication());
     history.push(paths.LOGIN);
   };
+
   useEffect(() => {
+    if (activeStatus === 401) {
+      setShowRequireEmail(true);
+    }
+    if (activeStatus !== 200 && activeStatus !== 401) {
+      store.dispatch(clearAuthentication());
+      history.push(paths.LOGIN);
+    }
     return () => {};
-  }, []);
+  }, [activeStatus]);
 
   return (
     <AuthPageFrame>
+      <RequireEmailVerification open={showRequireEmail} />
       <div className="bg-transparent dark:bg-gray-800 relative h-screen 2xl:mx-80 xl:mx-40 lg:mx-12">
         <div className="flex items-start justify-between">
           <div className="h-screen hidden mt-16 lg:block relative w-65">
@@ -67,8 +78,10 @@ const Storage = ({ email, active, ...props }) => {
 
 const mapStateToProps = (state) => {
   const email = state.authen.loginEmail;
+  const activeStatus = state.authen.activeStatus;
   return {
-    email
+    email,
+    activeStatus
   };
 };
 export default connect(mapStateToProps)(Storage);

@@ -5,20 +5,9 @@ import CreateBucketButton from '../../../components/CreateBucketButton';
 import StorageFrame from './StorageFrame';
 import { getAllBucket } from '../../../store/userStorage/bucket';
 import store from '../../../store';
-import { clearAuthentication, getActiveStatus } from '../../../store/auth/auth';
-import RequireEmailVerification from '../../../components/Dialog/EmailVerification/RequireEmailVerification';
-import { useHistory } from 'react-router-dom';
-import paths from '../../../configs/paths';
+import { getActiveStatus } from '../../../store/auth/auth';
 
-const BucketContainer = ({
-  bucketList = [],
-  authToken,
-  email,
-  activeStatus
-}) => {
-  const [showRequireEmail, setShowRequireEmail] = useState(false);
-  const history = useHistory();
-
+const BucketContainer = ({ bucketList = [], authToken, email }) => {
   useEffect(() => {
     store.dispatch(getActiveStatus({ authToken: authToken }));
     store.dispatch(
@@ -27,21 +16,8 @@ const BucketContainer = ({
     return () => {};
   }, []);
 
-  useEffect(() => {
-    if (activeStatus === 401) {
-      setShowRequireEmail(true);
-    }
-    if (activeStatus === 403) {
-      alert('this account has been banned');
-      store.dispatch(clearAuthentication());
-      history.push(paths.LOGIN);
-    }
-    return () => {};
-  }, [activeStatus]);
-
   return (
     <StorageFrame active="bucket">
-      <RequireEmailVerification open={showRequireEmail} />
       <div className="h-screen lg:block relative w-full">
         <header className="w-full h-16 flex items-center justify-between">
           <div className="relative flex flex-col justify-start h-full md:w-full">
@@ -74,7 +50,7 @@ const BucketContainer = ({
 
 const mapStateToProps = (state) => {
   const email = state.authen.loginEmail;
-  const activeStatus = state.authen.activeStatus;
+
   const bucketList = state.bucket.bucketList;
   const authToken = state.authen.authToken;
   const isLoading = state.bucket.isLoading;
@@ -83,8 +59,7 @@ const mapStateToProps = (state) => {
     isLoading,
     email,
     bucketList,
-    authToken,
-    activeStatus
+    authToken
   };
 };
 export default connect(mapStateToProps)(BucketContainer);

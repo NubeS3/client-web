@@ -43,16 +43,6 @@ const UserSettings = ({ userEmail, isVerified }) => {
             <label className="font-bold text-md text-gray-400">Email:</label>
             <span className="ml-2 text-gray-600">{userEmail}</span>
           </div>
-          <div className="w-auto flex-none">
-            <div className="mt-6">
-              <a className="block text-blue-500 hover:underline" href="#">
-                Change Email Address
-              </a>
-              <a href="#" className="block text-blue-500 hover:underline">
-                Delete Account
-              </a>
-            </div>
-          </div>
         </div>
         <hr className="mt-3 mb-5" />
         <div className="flex flex-grow">

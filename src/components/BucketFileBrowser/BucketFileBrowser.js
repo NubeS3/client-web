@@ -47,6 +47,7 @@ const BucketFileBrowser = ({
     if (uploadDone && totalUpload === 0) {
       setShowUploadDialog(false);
       store.dispatch(clearBucketState());
+      setSelected([]);
     } else if (uploadDone) {
       store.dispatch(updateTotalUpload());
     }
@@ -114,6 +115,7 @@ const BucketFileBrowser = ({
     } else {
       parent_path = '/' + breadCrumbStack.slice(1).join('/');
     }
+    console.log(acceptedFiles);
     acceptedFiles.forEach((file) => {
       store.dispatch(
         uploadFile({
@@ -212,6 +214,7 @@ const BucketFileBrowser = ({
       {showItemDetail ? (
         <ItemDetail
           item={selectedSingle}
+          bucket={history.location.state?.data.bucket}
           bucketId={bucketSelected}
           breadCrumbStack={breadCrumbStack}
           authToken={authToken}
