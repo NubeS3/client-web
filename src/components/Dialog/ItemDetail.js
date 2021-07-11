@@ -39,7 +39,6 @@ const ItemDetail = (
     store.dispatch(
       getFileDetail({ authToken: authToken, full_path: fullPath })
     );
-    console.log(bucket);
   }, []);
 
   const handleDownloadClick = () => {

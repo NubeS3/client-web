@@ -16,7 +16,7 @@ const UploadButton = ({ onUploadClick }) => {
   );
 };
 
-const DownloadButton = ({ selected }) => {
+const DownloadButton = ({ selected, onDownloadClick }) => {
   const [showDownloadDialog, setShowDownloadDialog] = useState(false);
 
   return (
@@ -28,6 +28,7 @@ const DownloadButton = ({ selected }) => {
           : 'download bg-transparent hover:bg-transparent text-gray-200 hover:text-blue-300 py-2 px-3 ml-1 border border-gray-100-500 rounded cursor-not-allowed'
       }
       disabled={selected.length > 0 ? false : true}
+      onClick={onDownloadClick}
     >
       Download
     </button>
@@ -83,13 +84,14 @@ const ListButtonFile = ({
   selected,
   onNewFolderClick,
   onUploadClick,
-  onDeleteClick
+  onDeleteClick,
+  onDownloadClick
 }) => {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row flex-1">
         <UploadButton onUploadClick={onUploadClick} />
-        <DownloadButton selected={selected} />
+        <DownloadButton onDownloadClick={onDownloadClick} selected={selected} />
         <NewFolderButton onNewFolderClick={onNewFolderClick} />
         <DeleteButton onDeleteClick={onDeleteClick} selected={selected} />
         <SnapshotButton />

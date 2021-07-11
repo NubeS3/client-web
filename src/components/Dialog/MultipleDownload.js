@@ -3,8 +3,9 @@ import React from 'react';
 const MultipleDownload = ({
   open,
   onCancel,
-  numOfFiles = 0,
-  totalSize = 0
+  numOfFiles,
+  totalSize,
+  onDownload
 }) => {
   return (
     <dialog open={true}>
@@ -15,11 +16,14 @@ const MultipleDownload = ({
           <div className="flex flex-row justify-center mt-10 mb-5">
             <p>You are downloading&nbsp;</p>
             <p>
-              {numOfFiles} Files {totalSize}
+              {numOfFiles} Files of {totalSize} bytes
             </p>
           </div>
           <div className="flex flex-row justify-center mt-5 mb-10">
-            <button className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button
+              onClick={onDownload}
+              className="rounded-sm py-2 px-4 mr-2 border border-transparent text-sm font-medium text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
               I'm Sure. Download Files!
             </button>
             <button

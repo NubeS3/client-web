@@ -16,6 +16,8 @@ import paths from '../../configs/paths';
 import DeleteFile from '../Dialog/Delete/DeleteFile';
 import { connect } from 'react-redux';
 import BucketFileTable from './BucketFileTable';
+import MultipleDownload from '../Dialog/MultipleDownload';
+import { downloadSingle } from '../../store/userStorage/download';
 
 const BucketFileBrowser = ({
   authToken,
@@ -32,10 +34,28 @@ const BucketFileBrowser = ({
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showItemDetail, setShowItemDetail] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDownloadDialog, setShowDownloadDialog] = useState(false);
   const [selectedSingle, setSelectedSingle] = useState();
   const [breadCrumbStack, setBreadCrumbStack] = useState([
     history.location.state?.data.bucket.name
   ]);
+  const [totalSize, setTotalSize] = useState(0);
+
+  useEffect(() => {
+    let result = 0;
+    let traversed = 0;
+    selected.forEach((file) => {
+      if (file.type === 'file') {
+        result += file.metadata.size;
+        console.log(file);
+      }
+      traversed++;
+      if (traversed === selected.length) {
+        console.log('totalSize', result);
+        setTotalSize(result);
+      }
+    });
+  }, [selected]);
 
   const [loading, setLoading] = useState(true);
 
@@ -96,7 +116,6 @@ const BucketFileBrowser = ({
     setSelectedSingle(null);
   };
 
-  const [totalSize, setTotalSize] = useState(0);
   useEffect(() => {
     if (selected.length === 0) setTotalSize(0);
     let result = 0;
@@ -115,7 +134,7 @@ const BucketFileBrowser = ({
     } else {
       parent_path = '/' + breadCrumbStack.slice(1).join('/');
     }
-    console.log(acceptedFiles);
+
     acceptedFiles.forEach((file) => {
       store.dispatch(
         uploadFile({
@@ -125,6 +144,22 @@ const BucketFileBrowser = ({
           full_path: parent_path
         })
       );
+    });
+  };
+
+  const handleDownloadMultiple = () => {
+    selected.forEach((file) => {
+      let fullPath = `/${breadCrumbStack.join('/')}/${file.name}`;
+      if (file.type === 'file') {
+        store.dispatch(
+          downloadSingle({
+            authToken: authToken,
+            full_path: fullPath,
+            bucketId: bucketSelected,
+            fileName: file.name
+          })
+        );
+      }
     });
   };
 
@@ -235,6 +270,18 @@ const BucketFileBrowser = ({
           handleUploadMultiple={handleUploadMultiple}
         />
       ) : null}
+      {showDownloadDialog ? (
+        <MultipleDownload
+          onCancel={() => {
+            setShowDownloadDialog(false);
+          }}
+          onDownload={() => {
+            handleDownloadMultiple();
+          }}
+          numOfFiles={selected.length}
+          totalSize={totalSize}
+        />
+      ) : null}
       {/* // <p className="text-3xl text-gray-600">Browse Files</p> */}
       <div className="mt-8 mb-8">
         <a href="#">
@@ -280,6 +327,7 @@ const BucketFileBrowser = ({
           onNewFolderClick={() => setShowCreateFolderDialog(true)}
           onUploadClick={() => setShowUploadDialog(true)}
           onDeleteClick={() => setShowDeleteDialog(true)}
+          onDownloadClick={() => setShowDownloadDialog(true)}
         />
       </div>
       <div className="flex justify-end mb-3">
