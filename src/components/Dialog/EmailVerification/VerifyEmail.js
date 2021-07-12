@@ -117,7 +117,8 @@ const VerifyEmail = ({ open, onCancel, email, errMessage }) => {
 
 const mapStateToProps = (state) => {
   return {
-    errMessage: state.signUp.err
+    errMessage: state.signUp.err,
+    isVerified: state.signUp.isVerified
   };
 };
 

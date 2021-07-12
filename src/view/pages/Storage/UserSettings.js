@@ -4,6 +4,7 @@ import VerifyEmail from '../../../components/Dialog/EmailVerification/VerifyEmai
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'react-simple-snackbar';
+import paths from '../../../configs/paths';
 
 const UserSettings = ({ userEmail, isVerified }) => {
   const history = useHistory();
@@ -16,6 +17,7 @@ const UserSettings = ({ userEmail, isVerified }) => {
     if (isVerified) {
       setShowVerifyEmail(false);
       openSnackbar('Email Verified!');
+      history.push(paths.STORAGE);
     }
     return () => {};
   }, [isVerified]);
